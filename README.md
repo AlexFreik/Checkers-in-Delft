@@ -1,5 +1,6 @@
 # TUD-2Q-DB
 
+```
      name      |     planet     | count 
 ---------------+----------------+-------
  Chewbacca     | Bespin         |     1
@@ -18,3 +19,4 @@
  Princess Leia | Star Destroyer |     1
  Princess Leia | Tatooine       |     1
 (15 rows)
+```
