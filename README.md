@@ -13,9 +13,6 @@
 
   FROM movies;
   ```
-  
-  ```
-  ```
 
 2. List all planets of gas type.
 ```
@@ -29,6 +26,24 @@ WHERE type='gas';
  Bespin
 (1 row)
 ```
+3. List all characters whose names contain the letter 's'.
+  ```
+  SELECT *
+  FROM characters
+  WHERE name ILIKE '%s%'
+  ```
+  
+  ```
+    starwars-# ;
+         name       | race  | homeworld | affiliation 
+  ------------------+-------+-----------+-------------
+   Han Solo         | Human | Corellia  | rebels
+   Luke Skywalker   | Human | Tatooine  | rebels
+   Owen Lars        | Human | Tatooine  | neutral
+   Princess Leia    | Human | Alderaan  | rebels
+   Lando Calrissian | Human |           | rebels
+  (5 rows)
+  ```
 
 4. List the names of all characters that appeared on planet ‘Tatooine’ (duplicates should be eliminated).
 ```
@@ -52,6 +67,25 @@ WHERE planet='Tatooine';
  Luke Skywalker
 (11 rows)
 ```
+5. List the name and affiliation of all characters that don’t have a homeworld.
+  ```
+  SELECT name, affiliation
+  FROM characters
+  WHERE homeworld IS NULL;
+  ```
+  
+  ```
+         name       | affiliation 
+  ------------------+-------------
+   C-3 PO           | rebels
+   Darth Vader      | empire
+   Jabba the Hutt   | neutral
+   Lando Calrissian | rebels
+   R2-D2            | rebels
+   Rancor           | neutral
+   Yoda             | neutral
+  (7 rows)
+  ```
 
 6. List all distinct races represented by at least two characters. 
 ```
@@ -66,6 +100,18 @@ HAVING COUNT(name) >= 2;
  Droid |     2
  Human |     7
 (2 rows)
+```
+7. List the average time spent by Chewbacca over all planets where he appeared.
+```
+SELECT ROUND(AVG(departure_time - arrival_time), 2) AS average_time_chewbacca_spent_on_planets 
+FROM timetable 
+WHERE character='Chewbacca';
+```
+```
+ average_time_chewbacca_spent_on_planets 
+-----------------------------------------
+                                    3.00
+(1 row)
 ```
 
 8. For each movie, list the number of different planets where the characters appeared. 
