@@ -2,7 +2,7 @@
 
 1. List the titles of all movies. (1 point)
 
-  ```
+  ```sql
     SELECT title 
                    title                
   ------------------------------------
