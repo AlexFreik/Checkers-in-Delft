@@ -222,28 +222,28 @@
 
 12. Find the planet where characters spent the most amount of time (time spent in total by all characters in the planet) during Episode IV: A New Hope and:
 
-   - The characters have an affiliation different than the planet’s one.
-   - The characters belong to any race containing rebel characters. (3 points)
-   ```sql
-   SELECT planets.name, SUM(timetable.departure_time - timetable.arrival_time)
-   FROM characters
-     JOIN timetable ON characters.name = timetable.character
-     JOIN planets ON timetable.planet = planets.name
-     JOIN movies ON timetable.movie = movies.id
-   WHERE movies.title = 'Episode IV: A New Hope'
-     AND characters.affiliation <> planets.affiliation
-     AND characters.race IN (
-       SELECT DISTINCT race
-       FROM characters
-       WHERE characters.affiliation = 'rebels'
-     )
-   GROUP BY planets.name
-   ORDER BY SUM(timetable.departure_time - timetable.arrival_time)
-   LIMIT 1;
-   ```
-   ```
-       name    | sum 
-   ------------+-----
-    Death Star |   2
-   (1 row)
-   ```
+    - The characters have an affiliation different than the planet’s one.
+    - The characters belong to any race containing rebel characters. (3 points)
+    ```sql
+    SELECT planets.name, SUM(timetable.departure_time - timetable.arrival_time)
+    FROM characters
+      JOIN timetable ON characters.name = timetable.character
+      JOIN planets ON timetable.planet = planets.name
+      JOIN movies ON timetable.movie = movies.id
+    WHERE movies.title = 'Episode IV: A New Hope'
+      AND characters.affiliation <> planets.affiliation
+      AND characters.race IN (
+        SELECT DISTINCT race
+        FROM characters
+        WHERE characters.affiliation = 'rebels'
+      )
+    GROUP BY planets.name
+    ORDER BY SUM(timetable.departure_time - timetable.arrival_time)
+    LIMIT 1;
+    ```
+    ```
+        name    | sum 
+    ------------+-----
+     Death Star |   2
+    (1 row)
+    ```
