@@ -168,13 +168,13 @@
    ```sql
    SELECT characters.name
    FROM characters
-       JOIN timetable ON characters.name=timetable.character
-       JOIN planets ON timetable.planet=planets.name
+     JOIN timetable ON characters.name = timetable.character
+     JOIN planets ON timetable.planet = planets.name
    GROUP BY characters.name
-   HAVING COUNT(DISTINCT planets.type)=(
-       SELECT COUNT(DISTINCT type)
-       FROM planets
-           JOIN timetable ON planets.name=timetable.planet
+   HAVING COUNT(DISTINCT planets.type) = (
+     SELECT COUNT(DISTINCT type)
+     FROM planets
+       JOIN timetable ON planets.name = timetable.planet
    );
    ```
    ```
@@ -186,15 +186,17 @@
 
 11. For each planet, list the second longest time a character spent on it. (3 points)
     *PS*: We assume, that second longest means the time of the second element in a sorted array. I.e. if the times is  5, 7, 7 the answer should be 7, not 5.
+    PS2: IF `dur` is `NULL`, it means planet was visited less then 2 times.
 
     ```sql
     SELECT p.name, dur
     FROM planets p 
     	LEFT OUTER JOIN (
-      SELECT t.planet, t.departure_time - t.arrival_time AS dur, ROW_NUMBER() 
-        OVER (PARTITION BY planet ORDER BY (t.departure_time - t.arrival_time) DESC) AS rnk
-      FROM timetable t
-    ) AS t ON p.name = t.planet
+      	SELECT t.planet, t.departure_time - t.arrival_time AS dur, ROW_NUMBER() 
+        	OVER (PARTITION BY planet 
+                ORDER BY (t.departure_time - t.arrival_time) DESC) AS rnk
+      	FROM timetable t
+    	) AS t ON p.name = t.planet
     WHERE rnk = 2 OR rnk IS NULL
     ORDER BY p.name;
     ```
@@ -223,20 +225,20 @@
    - The characters have an affiliation different than the planet’s one.
    - The characters belong to any race containing rebel characters. (3 points)
    ```sql
-   SELECT planets.name, SUM(timetable.departure_time-timetable.arrival_time)
+   SELECT planets.name, SUM(timetable.departure_time - timetable.arrival_time)
    FROM characters
-       JOIN timetable ON characters.name=timetable.character
-       JOIN planets ON timetable.planet=planets.name
-       JOIN movies ON timetable.movie=movies.id
-   WHERE movies.title='Episode IV: A New Hope'
-       AND characters.affiliation<>planets.affiliation
-       AND characters.race IN (
-           SELECT DISTINCT race
-           FROM characters
-           WHERE characters.affiliation='rebels'
-       )
+     JOIN timetable ON characters.name = timetable.character
+     JOIN planets ON timetable.planet = planets.name
+     JOIN movies ON timetable.movie = movies.id
+   WHERE movies.title = 'Episode IV: A New Hope'
+     AND characters.affiliation <> planets.affiliation
+     AND characters.race IN (
+       SELECT DISTINCT race
+       FROM characters
+       WHERE characters.affiliation = 'rebels'
+     )
    GROUP BY planets.name
-   ORDER BY SUM(timetable.departure_time-timetable.arrival_time)
+   ORDER BY SUM(timetable.departure_time - timetable.arrival_time)
    LIMIT 1;
    ```
    ```
