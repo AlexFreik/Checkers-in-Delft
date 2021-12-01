@@ -19,7 +19,7 @@
   ```
 
 2. List all planets of gas type.
-```
+```sql
 SELECT name
 FROM planets
 WHERE type='gas';
