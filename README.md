@@ -129,6 +129,35 @@ GROUP BY movies.title;
  Episode V: The Empire Strikes Back |     4
 (3 rows)
 ```
+9. For the characters that have the same affiliation as their home planet, list the number of appearances for each planet they have visited (ordered by character name). 
+```
+SELECT c.name, t.planet, COUNT(*)
+FROM characters c
+  JOIN timetable t ON c.name = t.character
+  JOIN planets p ON c.affiliation = p.affiliation AND c.homeworld = p.name
+GROUP BY c.name, t.planet
+ORDER BY c.name;
+```
+```
+     name      |     planet     | count 
+---------------+----------------+-------
+ Chewbacca     | Bespin         |     1
+ Chewbacca     | Endor          |     1
+ Chewbacca     | Hoth           |     1
+ Chewbacca     | Tatooine       |     2
+ Han Solo      | Bespin         |     1
+ Han Solo      | Endor          |     1
+ Han Solo      | Hoth           |     1
+ Han Solo      | Star Destroyer |     1
+ Han Solo      | Tatooine       |     2
+ Owen Lars     | Tatooine       |     1
+ Princess Leia | Bespin         |     1
+ Princess Leia | Endor          |     1
+ Princess Leia | Hoth           |     1
+ Princess Leia | Star Destroyer |     1
+ Princess Leia | Tatooine       |     1
+(15 rows)
+```
 
 10. List the names of the characters that have visited all types of planets (excluding planets that no character has visited).
 ```
@@ -152,26 +181,7 @@ HAVING COUNT(DISTINCT planets.type)=(
 
 11. For each planet, list the second longest time a character spent on it. (3 points)
 
-```
-     name      |     planet     | count 
----------------+----------------+-------
- Chewbacca     | Bespin         |     1
- Chewbacca     | Endor          |     1
- Chewbacca     | Hoth           |     1
- Chewbacca     | Tatooine       |     2
- Han Solo      | Bespin         |     1
- Han Solo      | Endor          |     1
- Han Solo      | Hoth           |     1
- Han Solo      | Star Destroyer |     1
- Han Solo      | Tatooine       |     2
- Owen Lars     | Tatooine       |     1
- Princess Leia | Bespin         |     1
- Princess Leia | Endor          |     1
- Princess Leia | Hoth           |     1
- Princess Leia | Star Destroyer |     1
- Princess Leia | Tatooine       |     1
-(15 rows)
-```
+
 
 12. Find the planet where characters spent the most amount of time (time spent in total by all characters in the planet) during Episode IV: A New Hope and:
 
