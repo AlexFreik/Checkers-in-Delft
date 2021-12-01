@@ -21,7 +21,7 @@
    ```sql
    SELECT name
    FROM planets
-   WHERE type='gas';
+   WHERE type = 'gas';
    ```
 
    ```
@@ -32,9 +32,9 @@
    ```
 
 3. List all characters whose names contain the letter 's'. 
-   It is not specified, so we consider  the task is to find letter 's' case-insensetive, so we use `ILIKE` instead of `LIKE`.
+   *PS*: It is not specified, so we consider  the task is to find letter 's' case-insensetive, so we use `ILIKE` instead of `LIKE`.
 
-   ```
+   ```sql
    SELECT *
    FROM characters
    WHERE name ILIKE '%s%';
@@ -50,11 +50,11 @@
    (5 rows)
    ```
 
-4. List the names of all characters that appeared on planet ‘Tatooine’ (duplicates should be eliminated).
+4. List the names of all characters that appeared on planet 'Tatooine' (duplicates should be eliminated).
    ```sql
    SELECT DISTINCT character
    FROM timetable
-   WHERE planet='Tatooine';
+   WHERE planet = 'Tatooine';
    ```
    ```
        character     
@@ -78,7 +78,7 @@
    FROM characters
    WHERE homeworld IS NULL;
    ```
- 
+
    ```
           name       | affiliation 
    ------------------+-------------
@@ -108,12 +108,12 @@
    ```
 7. List the average time spent by Chewbacca over all planets where he appeared.
    ```sql
-   SELECT ROUND(AVG(departure_time - arrival_time), 2) AS average_time_chewbacca_spent_on_planets 
+   SELECT ROUND(AVG(departure_time - arrival_time), 2) AS avg_time_chewbacca_spent 
    FROM timetable 
-   WHERE character='Chewbacca';
+   WHERE character = 'Chewbacca';
    ```
    ```
-    average_time_chewbacca_spent_on_planets 
+           avg_time_chewbacca_spent
    -----------------------------------------
                                        3.00
    (1 row)
@@ -123,7 +123,7 @@
    ```sql
    SELECT movies.title, COUNT(DISTINCT planet)
    FROM timetable
-     JOIN movies ON timetable.movie=movies.id
+     JOIN movies ON timetable.movie = movies.id
    GROUP BY movies.title;
    ```
       ```
@@ -131,9 +131,9 @@
       ------------------------------------+-------
        Episode IV: A New Hope             |     4
        Episode VI: Return of the Jedi     |     4
-    Episode V: The Empire Strikes Back |     4
+       Episode V: The Empire Strikes Back |     4
    (3 rows)
-   ```
+      ```
 9. For the characters that have the same affiliation as their home planet, list the number of appearances for each planet they have visited (ordered by character name). 
    ```sql
    SELECT c.name, t.planet, COUNT(*)
@@ -185,8 +185,38 @@
    ```
 
 11. For each planet, list the second longest time a character spent on it. (3 points)
+    *PS*: We assume, that second longest means the time of the second element in a sorted array. I.e. if the times is  5, 7, 7 the answer should be 7, not 5.
 
+    ```sql
+    SELECT p.name, dur
+    FROM planets p 
+    	LEFT OUTER JOIN (
+      SELECT t.planet, t.departure_time - t.arrival_time AS dur, ROW_NUMBER() 
+        OVER (PARTITION BY planet ORDER BY (t.departure_time - t.arrival_time) DESC) AS rnk
+      FROM timetable t
+    ) AS t ON p.name = t.planet
+    WHERE rnk = 2 OR rnk IS NULL
+    ORDER BY p.name;
+    ```
 
+    ```
+          name      | dur 
+    ----------------+-----
+     Alderaan       |    
+     Bespin         |   5
+     Corellia       |    
+     Dagobah        |  10
+     Death Star     |   2
+     Endor          |   5
+     Hoth           |   4
+     Kashyyyk       |    
+     Star Destroyer |   4
+     Tatooine       |  10
+     Unknown        |    
+    (11 rows)
+    ```
+
+    
 
 12. Find the planet where characters spent the most amount of time (time spent in total by all characters in the planet) during Episode IV: A New Hope and:
 
