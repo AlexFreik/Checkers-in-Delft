@@ -108,17 +108,21 @@
    ```
 7. List the average time spent by Chewbacca over all planets where he appeared.
    ```sql
-   SELECT ROUND(AVG(departure_time - arrival_time), 2) AS avg_time_chewbacca_spent 
-   FROM timetable 
-   WHERE character = 'Chewbacca';
+   SELECT ROUND(AVG(sum), 3) AS avg_time_chewbacca_spent 
+   FROM (
+     SELECT SUM(departure_time - arrival_time)
+     FROM timetable
+     WHERE character = 'Chewbacca'
+     GROUP BY planet
+   ) AS planets_time;
    ```
    ```
-           avg_time_chewbacca_spent
-   -----------------------------------------
-                                       3.00
+    avg_time_chewbacca_spent 
+   --------------------------
+                        3.750
    (1 row)
    ```
-
+   
 8. For each movie, list the number of different planets where the characters appeared. 
    ```sql
    SELECT movies.title, COUNT(DISTINCT planet)
