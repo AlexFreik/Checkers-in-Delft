@@ -31,14 +31,13 @@ WHERE type='gas';
 (1 row)
 ```
 3. List all characters whose names contain the letter 's'.
-  ```
+  ```sql
   SELECT *
   FROM characters
-  WHERE name ILIKE '%s%'
+  WHERE name ILIKE '%s%';
   ```
   
   ```
-    starwars-# ;
          name       | race  | homeworld | affiliation 
   ------------------+-------+-----------+-------------
    Han Solo         | Human | Corellia  | rebels
@@ -50,7 +49,7 @@ WHERE type='gas';
   ```
 
 4. List the names of all characters that appeared on planet ‘Tatooine’ (duplicates should be eliminated).
-```
+```sql
 SELECT DISTINCT character
 FROM timetable
 WHERE planet='Tatooine';
@@ -72,7 +71,7 @@ WHERE planet='Tatooine';
 (11 rows)
 ```
 5. List the name and affiliation of all characters that don’t have a homeworld.
-  ```
+  ```sql
   SELECT name, affiliation
   FROM characters
   WHERE homeworld IS NULL;
@@ -92,7 +91,7 @@ WHERE planet='Tatooine';
   ```
 
 6. List all distinct races represented by at least two characters. 
-```
+```sql
 SELECT race, COUNT(name)
 FROM characters
 GROUP BY race 
@@ -106,7 +105,7 @@ HAVING COUNT(name) >= 2;
 (2 rows)
 ```
 7. List the average time spent by Chewbacca over all planets where he appeared.
-```
+```sql
 SELECT ROUND(AVG(departure_time - arrival_time), 2) AS average_time_chewbacca_spent_on_planets 
 FROM timetable 
 WHERE character='Chewbacca';
@@ -119,7 +118,7 @@ WHERE character='Chewbacca';
 ```
 
 8. For each movie, list the number of different planets where the characters appeared. 
-```
+```sql
 SELECT movies.title, COUNT(DISTINCT planet)
 FROM timetable
   JOIN movies ON timetable.movie=movies.id
@@ -134,7 +133,7 @@ GROUP BY movies.title;
 (3 rows)
 ```
 9. For the characters that have the same affiliation as their home planet, list the number of appearances for each planet they have visited (ordered by character name). 
-```
+```sql
 SELECT c.name, t.planet, COUNT(*)
 FROM characters c
   JOIN timetable t ON c.name = t.character
@@ -164,7 +163,7 @@ ORDER BY c.name;
 ```
 
 10. List the names of the characters that have visited all types of planets (excluding planets that no character has visited).
-```
+```sql
 SELECT characters.name
 FROM characters
     JOIN timetable ON characters.name=timetable.character
@@ -190,7 +189,7 @@ HAVING COUNT(DISTINCT planets.type)=(
 12. Find the planet where characters spent the most amount of time (time spent in total by all characters in the planet) during Episode IV: A New Hope and:
 
 - The characters have an affiliation different than the planet’s one.
-```
+```sql
 SELECT planets.name
 FROM characters
     JOIN timetable ON characters.name=timetable.character
@@ -210,7 +209,7 @@ LIMIT 1;
 ```
 
 - The characters belong to any race containing rebel characters. (3 points)
-```
+```sql
 SELECT planets.name
 FROM characters
     JOIN timetable ON characters.name=timetable.character
