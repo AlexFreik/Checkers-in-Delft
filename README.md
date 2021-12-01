@@ -29,3 +29,6 @@
  Princess Leia | Tatooine       |     1
 (15 rows)
 ```
+
+11. For each planet, list the second longest time a character spent on it. (3 points)
+
