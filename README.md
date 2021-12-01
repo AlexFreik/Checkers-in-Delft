@@ -1,5 +1,11 @@
 # TUD-2Q-DB
 
+1. List the titles of all movies. (1 point)
+
+  ```
+  SELECT title 
+  FROM movies;
+  ```
 
 
 
