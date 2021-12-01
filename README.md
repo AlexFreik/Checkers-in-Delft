@@ -1,17 +1,21 @@
 # TUD-2Q-DB
 
 1. List the titles of all movies. (1 point)
+  
 
   ```sql
-    SELECT title 
-                   title                
+  SELECT title 
+  FROM movies;
+  ```
+  ```
+               title                
   ------------------------------------
    Episode IV: A New Hope
    Episode V: The Empire Strikes Back
    Episode VI: Return of the Jedi
   (3 rows)
 
-  FROM movies;
+  
   ```
 
 2. List all planets of gas type.
