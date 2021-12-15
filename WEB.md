@@ -127,9 +127,6 @@ Accept-Encoding: gzip, deflate, br
 Supported encodings: `gzip`, `deflate`, `br`.
 
 
-
-
-
 ### 2.1
 
 We are not allowd to create new resource so the request fails with 404 error.
@@ -171,3 +168,64 @@ When we changed `Content-length:12` to `Content-length:10` it have readed only f
 
 When we tried to put bigger `Content-length:18` it were threating new line inputs as just two byte `\r\n` and we were able to enter new data until all 18 bytes were filled. Therefore request waits to the point when all `Content-length` bytes is filled.
 
+
+## 3.1
+Having initially provided the credentials, subsequent page reloads do not cause the authentication pop-up to appear again.
+The reason for it is the browser remembering the provided username and password and sending it as a part of the subsequent
+requests to the same page, as `Authorization` header.
+```
+Authorization: Basic dXNlcjpwYXNzd2Q=
+```
+
+## 3.2
+```
+telnet httpbin.org 80
+> HEAD /basic-auth/user/passwd HTTP/1.1
+> host:httpbin.org
+```
+```
+< HTTP/1.1 401 UNAUTHORIZED
+< Date: Wed, 15 Dec 2021 15:09:39 GMT
+< Content-Length: 0
+< Connection: keep-alive
+< Server: gunicorn/19.9.0
+< WWW-Authenticate: Basic realm="Fake Realm"
+< Access-Control-Allow-Origin: *
+< Access-Control-Allow-Credentials: true
+```
+The server responded with code 401 because of lack of the `Authorization` header in the request.
+
+```
+> HEAD /basic-auth/user/passwd HTTP/1.1
+> host:httpbin.org
+> Authorization: Basic dXNlcjpwYXNzd2Q=
+```
+```
+< HTTP/1.1 200 OK
+< Date: Wed, 15 Dec 2021 15:13:13 GMT
+< Content-Type: application/json
+< Content-Length: 47
+< Connection: keep-alive
+< Server: gunicorn/19.9.0
+< Access-Control-Allow-Origin: *
+< Access-Control-Allow-Credentials: true
+```
+Worked correctly
+
+```
+> HEAD /basic-auth/user/passwd HTTP/1.1
+> host:httpbin.org
+```
+```
+< HTTP/1.1 401 UNAUTHORIZED
+< Date: Wed, 15 Dec 2021 15:15:02 GMT
+< Content-Length: 0
+< Connection: keep-alive
+< Server: gunicorn/19.9.0
+< WWW-Authenticate: Basic realm="Fake Realm"
+< Access-Control-Allow-Origin: *
+< Access-Control-Allow-Credentials: true
+```
+Again, the server responded with 401, because the request was missing the `Authorization` header.
+Hence, it did not behave the same way as in the browser, since it is browser's and not server's responsibility to remember
+the credentials, server expects it to be provided every time.
