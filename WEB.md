@@ -1,15 +1,20 @@
-# Assignment 1
+# Web Assignment!!!
+
+## Assignment 1
+
+[TOC]
+
 Team ID: CSE3 32
 
 Teams:
 - Aleksandr Freik - 
 - Karol Jurski - 5540429
 
-## Notation
+### Notation
 `> ...` indicates a request.\
 `< ...` indicates a response.
 
-## 1.1
+### 1.1
 ```
 telnet reddit.com 80
 > HEAD / HTTP/1.1
@@ -99,8 +104,9 @@ openssl s_client -crlf -connect reddit.com:443
 ## 1.2
 Yes
 
-## 1.3
+### 1.3
 `cache-control` from the response header
+
 ```
 cache-control: private, s-maxage=0, max-age=0, must-revalidate, no-store
 ```
@@ -113,9 +119,55 @@ Explanation:
   it must be validated with the origin server before reuse.
 - `no-store` - indicates that any caches of any kind (private or shared) should not store this response.
 
-## 1.4
+### 1.4
 We can check it by looking at the `Accept-Encoding` request header.
 ```
 Accept-Encoding: gzip, deflate, br
 ```
 Supported encodings: `gzip`, `deflate`, `br`.
+
+
+
+
+
+### 2.1
+
+We are not allowd to create new resource so the request fails with 404 error.
+
+```
+HTTP/1.1 404 NOT FOUND
+Date: Wed, 15 Dec 2021 14:50:20 GMT
+Content-Type: text/html
+Content-Length: 233
+Connection: keep-alive
+Server: gunicorn/19.9.0
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.</p>
+Connection closed by foreign host.
+```
+
+### 2.2
+
+We tried to modify the request
+
+```
+telnet httpbin.org 80
+
+PUT /put HTTP/1.1
+host:httpbin.org
+Content-type:text/plain
+Content-length:12
+
+Hello World!
+
+```
+
+When we changed `Content-length:12` to `Content-length:10` it have readed only first 10 characters `Hello Worl`, and the remaining part `d!`  was threated as new request. Therefore request stops at the point when all `Content-length` bytes is filled.
+
+When we tried to put bigger `Content-length:18` it were threating new line inputs as just two byte `\r\n` and we were able to enter new data until all 18 bytes were filled. Therefore request waits to the point when all `Content-length` bytes is filled.
+
