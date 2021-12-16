@@ -1,3 +1,6 @@
+Assignment 1
+
+
 # Web Assignment!!!
 
 ## Assignment 1
@@ -113,13 +116,13 @@ Yes
 cache-control: private, s-maxage=0, max-age=0, must-revalidate, no-store
 ```
 Explanation:
-- `private` - indicates that the response should only be stored in private caches (e.g. browser caches)
-- `max-age=0` - indicates that the response remains fresh until N seconds after the response is generated
-- `s-maxage=0` - also indicates how long the response is fresh for (similar to max-age) — but it is specific to shared caches,
+- `private` --- indicates that the response should only be stored in private caches (e.g. browser caches)
+- `max-age=0` --- indicates that the response remains fresh until N seconds after the response is generated
+- `s-maxage=0` --- also indicates how long the response is fresh for (similar to max-age) — but it is specific to shared caches,
   and they will ignore max-age when it is present.
-- `must-revalidate` - indicates that the response can be stored in caches and can be reused while fresh. Once it becomes stale,
+- `must-revalidate` --- indicates that the response can be stored in caches and can be reused while fresh. Once it becomes stale,
   it must be validated with the origin server before reuse.
-- `no-store` - indicates that any caches of any kind (private or shared) should not store this response.
+- `no-store` --- indicates that any caches of any kind (private or shared) should not store this response.
 
 #### 1.4
 We can check it by looking at the `Accept-Encoding` request header.
@@ -131,7 +134,7 @@ Supported encodings: `gzip`, `deflate`, `br`.
 ### 2
 #### 2.1
 
-We are not allowd to create new resource so the request fails with 404 error.
+We are not allowed to create a new resource, so the request fails with a 404 error.
 
 ```
 HTTP/1.1 404 NOT FOUND
@@ -166,15 +169,15 @@ Hello World!
 
 ```
 
-When we changed `Content-length:12` to `Content-length:10` it have readed only first 10 characters `Hello Worl`, and the remaining part `d!`  was threated as new request. Therefore request stops at the point when all `Content-length` bytes is filled.
+When we changed `Content-length:12` to `Content-length:10` the server has read only the first 10 characters `Hello Worl`. The remaining part `d!`  was treated as a new request. Therefore request stops at the point when all `Content-length` bytes is filled.
 
-When we tried to put bigger `Content-length:18` it were threating new line inputs as just two byte `\r\n` and we were able to enter new data until all 18 bytes were filled. Therefore request waits to the point when all `Content-length` bytes is filled.
+When we tried to put bigger `Content-length:18` server was threatening new line inputs as just two bytes `\r\n`. We were required to enter new data until all 18 bytes were filled. Therefore request waits to the point when all `Content-length` bytes are filled.
 
 ### 3
 #### 3.1
-Having initially provided the credentials, subsequent page reloads do not cause the authentication pop-up to appear again.
-The reason for it is the browser remembering the provided username and password and sending it as a part of the subsequent
-requests to the same page, as `Authorization` header.
+Having initially provided the credentials, the subsequent page reloads do not cause the authentication pop-up to appear again.
+The reason for it is the browser remembers the provided username and password and sends it as a part of the subsequent
+requests to the same page as the `Authorization` header.
 ```
 Authorization: Basic dXNlcjpwYXNzd2Q=
 ```
@@ -195,7 +198,7 @@ telnet httpbin.org 80
 < Access-Control-Allow-Origin: *
 < Access-Control-Allow-Credentials: true
 ```
-The server responded with code 401 because of lack of the `Authorization` header in the request.
+The server responded with code 401 because of the lack of the `Authorization` header in the request.
 
 ```
 > HEAD /basic-auth/user/passwd HTTP/1.1
@@ -228,13 +231,13 @@ Worked correctly
 < Access-Control-Allow-Origin: *
 < Access-Control-Allow-Credentials: true
 ```
-Again, the server responded with 401, because the request was missing the `Authorization` header.
-Hence, it did not behave the same way as in the browser, since it is browser's and not server's responsibility to remember
-the credentials, server expects it to be provided every time.
+Again, the server responded with 401 because the request was missing the `Authorization` header.
+Hence, it did not behave the same way as in the browser since it is the browser's and not the server's responsibility to remember
+the credentials. The server expects it to be provided every time.
 
 ### 4
 #### 4.1
-We will try to implement the standard Draughts game for 2 player. 
+We will try to implement the standard Draughts game for 2 players. 
 
 
 #### 4.2
@@ -251,61 +254,62 @@ We will try to implement the standard Draughts game for 2 player.
 1. https://draughts.github.io  
    ![image](img/checkers.webp)
    Pros:
-      - **aesthetics**: overall design looks modern and minimalistic
+      - **Aesthetics**: the overall design looks modern and minimalistic.
 
    Cons:
-      - **features**: no catomistions at all
-      - **features**: doesn't show any statistics (number off killed pieces, timer, movements, etc)
-      - **experience**: too bright, unplesent eyes experience at night
-      - **aesthetics**: board looks a bit ugly (imo)
-      - **organising**: a lot of *a bit messy* information below the board without any table of content
-      - **aesthetics**: almost no animations at all
+      - **Features**: no customizations at all.
+      - **Features**: doesn't show any statistics (number of killed pieces, timer, movements, etc).
+      - **Experience**: too bright, unpleasant eyes experience at night.
+      - **Aesthetics**: board looks a bit ugly (IMO).
+      - **Organising**: a lot of *a bit messy* information below the board without any table of content.
+      - **Aesthetics**: almost no animations at all.
 
 1. https://gametable.org/games/checkers/
    ![image](img/gametable.webp)
 
    Pros:
-      - **features**: sounds effect and force moves can be turned on / off
-      - **aesthetics**: overall design looks modern and stylish
-      - **below the board usefull information about rules and history of the game
-      - **aesthetics**: beautiful animations when you click on the piece, highlitnings of the avaliable moves.
+      - **Features**: sound effects and force moves can be turned on / off.
+      - **Aesthetics**: the overall design looks modern and stylish.
+      - **Features**: below the board is useful information about the rules and history of the game.
+      - **Aesthetics**: beautiful animations when you click on the piece, highlining of the available moves.
 
    Cons:
-      - **features**: doesn't show any statistics (number off killed pieces, timer, movements, etc)
+      - **Features**: doesn't show any statistics (number of killed pieces, timer, movements, etc).
 
-Also all three sites above share:
+All three sites above share:
 
 Pros:
-   - design **doesn't make you think**
-   - no **hapily talk**
-   - easy to distinguish **different parts of a site**
-   - no **noise & clutter**
-   - all buttns eather **self-evident or self-explanatory** if you click on them
-   - Essential questions, like "What is this?", "What can I do here?" "Why should I be here?" "What do they have here?" don't arrise
+   - Design **does not make you think**.
+   - No **happily talk**.
+   - Easy to distinguish **different parts of a site**.
+   - No **noise & clutter**.
+   - All buttons are either **self-evident or self-explanatory** if you click on them.
+   - Essential questions, like "What is this?", "What can I do here?", "Why should I be here?", "What do they have here?" don't arise.
 
 Cons:
-   - features: no color-related catomistions
+   - **Features**: no color-related customizations.
+
 #### 4.3
-> Which game features in the game examples of 4.2) stand out positively and which stand out negatively (e.g. particular animations, sounds, information conveyed about the game to the players …)? Why? Discuss three positive and three negative features.
+> Which game features in the game examples of 4.2) stand out positively and which stand out negatively (e.g. particular animations, sounds, the information conveyed about the game to the players …)? Why? Discuss three positive and three negative features.
 
 Positive:
    - Sounds effect and force moves can be turned on / off.  
     Why? --- because it is nice to be able to turn them off.
-   - Below the board usefull information about rules and history of the game.  
-   Why? --- because it can be usefull to have them for reference.
-   - Beautiful animations when you click on the piece, highlitnings of the avaliable moves.  
-   Why? --- because it make game experience more enjoyable.
+   - Below the board is useful information about rules and the history of the game.  
+   Why? --- because it can be useful to have them for reference.
+   - Beautiful animations when you click on the piece and highlight the available moves.  
+   Why? --- because it makes the game experience more enjoyable.
 
 Negative:
-   - No color-related catomistions.  
+   - No color-related customizations.  
    Why? --- because some users may not like your pieces design choice and 
-   it is nice to choose between dark & light theme.
-   - Doesn't show any statistics (number off killed pieces, timer, movements, etc).  
+   it is nice to choose between dark & light themes.
+   - Doesn't show any statistics (number of killed pieces, timer, movements, etc).  
    Why? --- because it is nice to have this kind of information.
    - No TOC for the long text with a lot of information.  
-   Why? -- because it make it hard to navigate and search for necessary info. 
+   Why? -- because it makes it hard to navigate and search for necessary info. 
 
-### 5 Design your own board game app
+### 5 Design your board game app
 
 #### 5.1
 > Create a design for the splash screen (also known as entry page): think of a name for your application, a short description & a logo. Feel free to use media (images, sound) with a Creative Commons license. The noun project can be a useful resource for game pieces.
@@ -320,7 +324,9 @@ Splash screen: design can be found below
 
 ![image](img/game_draft.svg)
 
+#### 5.3
 Connection to the Delft Theme:
    - Pieces design resembles a bike weel
    - King Pieces design resembles the TU Library
+
 
