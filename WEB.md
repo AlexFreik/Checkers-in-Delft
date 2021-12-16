@@ -235,13 +235,71 @@ the credentials, server expects it to be provided every time.
 We will try to implement the standard Draughts game for 2 player. 
 
 
+### 4.2
 > Find three examples of your chosen board game (in 2D) that can be played online in a modern browser (laptop or desktop, not a mobile device). Consider the web application’s design (focus on the game screen) based on the web design principles covered in class: to what extent do they fulfill them? Record the game URLs.
 
 1. https://www.247checkers.com
+   ![image](img/247checkers.webp)
+   Pros:
+      - **features**: can turn on/off sounds and movements advices
+  
+   Cons:
+      - **aesthetics**: design looks a bit old
 
-![image](img/247checkers.webp)
-![image](https://github.com/AlexFreik/TUD-2Q-WDB/blob/master/img/247checkers.webp?raw=true)
+1. https://draughts.github.io  
+   ![image](img/checkers.webp)
+   Pros:
+      - **aesthetics**: overall design looks modern and minimalistic
 
-ddd
+   Cons:
+      - **features**: no catomistions at all
+      - **features**: doesn't show any statistics (number off killed pieces, timer, movements, etc)
+      - **experience**: too bright, unplesent eyes experience at night
+      - **aesthetics**: board looks a bit ugly (imo)
+      - **organising**: a lot of *a bit messy* information below the board without any table of content
+      - **aesthetics**: almost no animations at all
 
+1. https://gametable.org/games/checkers/
+   ![image](img/gametable.webp)
+
+   Pros:
+      - **features**: sounds effect and force moves can be turned on / off
+      - **aesthetics**: overall design looks modern and stylish
+      - **below the board usefull information about rules and history of the game
+      - **aesthetics**: beautiful animations when you click on the piece, highlitnings of the avaliable moves.
+
+   Cons:
+      - **features**: doesn't show any statistics (number off killed pieces, timer, movements, etc)
+
+Also all three sites above share:
+
+Pros:
+   - design **doesn't make you think**
+   - no **hapily talk**
+   - easy to distinguish **different parts of a site**
+   - no **noise & clutter**
+   - all buttns eather **self-evident or self-explanatory** if you click on them
+   - Essential questions, like "What is this?", "What can I do here?" "Why should I be here?" "What do they have here?" don't arrise
+
+Cons:
+   - features: no color-related catomistions
+### 4.3
+> Which game features in the game examples of 4.2) stand out positively and which stand out negatively (e.g. particular animations, sounds, information conveyed about the game to the players …)? Why? Discuss three positive and three negative features.
+
+Positive:
+   - Sounds effect and force moves can be turned on / off.  
+    Why? --- because it is nice to be able to turn them offi
+   - Below the board usefull information about rules and history of the game.  
+   Why? --- because it can be usefull to have them for reference.
+   - Beautiful animations when you click on the piece, highlitnings of the avaliable moves.  
+   Why? --- because it make game experience more enjoyable.
+
+Negative:
+   - No color-related catomistions.  
+   Why? --- because some users may not like your pieces design choice and 
+   it is nice to choose between dark & light theme.
+   - Doesn't show any statistics (number off killed pieces, timer, movements, etc).  
+   Why? --- because it is nice to have this kind of information.
+   - No TOC for the long text with a lot of information.  
+   Why? -- because it make it hard to navigate and search for necessary info. 
 
