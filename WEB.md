@@ -7,8 +7,8 @@
 Team ID: CSE3 32
 
 Teams:
-- Aleksandr Freik - 
-- Karol Jurski - 5540429
+- Aleksandr Freik - 5470536 
+- Karol Jurski    - 5540429
 
 ### Notation
 `> ...` indicates a request.\
@@ -169,7 +169,7 @@ When we changed `Content-length:12` to `Content-length:10` it have readed only f
 When we tried to put bigger `Content-length:18` it were threating new line inputs as just two byte `\r\n` and we were able to enter new data until all 18 bytes were filled. Therefore request waits to the point when all `Content-length` bytes is filled.
 
 
-## 3.1
+### 3.1
 Having initially provided the credentials, subsequent page reloads do not cause the authentication pop-up to appear again.
 The reason for it is the browser remembering the provided username and password and sending it as a part of the subsequent
 requests to the same page, as `Authorization` header.
@@ -177,7 +177,7 @@ requests to the same page, as `Authorization` header.
 Authorization: Basic dXNlcjpwYXNzd2Q=
 ```
 
-## 3.2
+### 3.2
 ```
 telnet httpbin.org 80
 > HEAD /basic-auth/user/passwd HTTP/1.1
@@ -229,3 +229,18 @@ Worked correctly
 Again, the server responded with 401, because the request was missing the `Authorization` header.
 Hence, it did not behave the same way as in the browser, since it is browser's and not server's responsibility to remember
 the credentials, server expects it to be provided every time.
+
+
+### 4.1
+We will try to implement the standard Draughts game for 2 player. 
+
+
+> Find three examples of your chosen board game (in 2D) that can be played online in a modern browser (laptop or desktop, not a mobile device). Consider the web application’s design (focus on the game screen) based on the web design principles covered in class: to what extent do they fulfill them? Record the game URLs.
+
+1. https://www.247checkers.com
+
+![image](/img/247checkers.webpm)
+
+ddd
+
+
