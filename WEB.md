@@ -14,7 +14,9 @@ Teams:
 `> ...` indicates a request.\
 `< ...` indicates a response.
 
-### 1.1
+### 1
+
+#### 1.1
 ```
 telnet reddit.com 80
 > HEAD / HTTP/1.1
@@ -101,10 +103,10 @@ openssl s_client -crlf -connect reddit.com:443
 <     var __firstPostLoaded = false;
 ```
 
-## 1.2
+#### 1.2
 Yes
 
-### 1.3
+#### 1.3
 `cache-control` from the response header
 
 ```
@@ -119,15 +121,15 @@ Explanation:
   it must be validated with the origin server before reuse.
 - `no-store` - indicates that any caches of any kind (private or shared) should not store this response.
 
-### 1.4
+#### 1.4
 We can check it by looking at the `Accept-Encoding` request header.
 ```
 Accept-Encoding: gzip, deflate, br
 ```
 Supported encodings: `gzip`, `deflate`, `br`.
 
-
-### 2.1
+### 2
+#### 2.1
 
 We are not allowd to create new resource so the request fails with 404 error.
 
@@ -148,7 +150,7 @@ Access-Control-Allow-Credentials: true
 Connection closed by foreign host.
 ```
 
-### 2.2
+#### 2.2
 
 We tried to modify the request
 
@@ -168,8 +170,8 @@ When we changed `Content-length:12` to `Content-length:10` it have readed only f
 
 When we tried to put bigger `Content-length:18` it were threating new line inputs as just two byte `\r\n` and we were able to enter new data until all 18 bytes were filled. Therefore request waits to the point when all `Content-length` bytes is filled.
 
-
-### 3.1
+### 3
+#### 3.1
 Having initially provided the credentials, subsequent page reloads do not cause the authentication pop-up to appear again.
 The reason for it is the browser remembering the provided username and password and sending it as a part of the subsequent
 requests to the same page, as `Authorization` header.
@@ -177,7 +179,7 @@ requests to the same page, as `Authorization` header.
 Authorization: Basic dXNlcjpwYXNzd2Q=
 ```
 
-### 3.2
+#### 3.2
 ```
 telnet httpbin.org 80
 > HEAD /basic-auth/user/passwd HTTP/1.1
@@ -230,12 +232,12 @@ Again, the server responded with 401, because the request was missing the `Autho
 Hence, it did not behave the same way as in the browser, since it is browser's and not server's responsibility to remember
 the credentials, server expects it to be provided every time.
 
-
-### 4.1
+### 4
+#### 4.1
 We will try to implement the standard Draughts game for 2 player. 
 
 
-### 4.2
+#### 4.2
 > Find three examples of your chosen board game (in 2D) that can be played online in a modern browser (laptop or desktop, not a mobile device). Consider the web application’s design (focus on the game screen) based on the web design principles covered in class: to what extent do they fulfill them? Record the game URLs.
 
 1. https://www.247checkers.com
@@ -283,7 +285,7 @@ Pros:
 
 Cons:
    - features: no color-related catomistions
-### 4.3
+#### 4.3
 > Which game features in the game examples of 4.2) stand out positively and which stand out negatively (e.g. particular animations, sounds, information conveyed about the game to the players …)? Why? Discuss three positive and three negative features.
 
 Positive:
