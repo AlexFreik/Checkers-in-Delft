@@ -290,7 +290,7 @@ Cons:
 
 Positive:
    - Sounds effect and force moves can be turned on / off.  
-    Why? --- because it is nice to be able to turn them offi
+    Why? --- because it is nice to be able to turn them off.
    - Below the board usefull information about rules and history of the game.  
    Why? --- because it can be usefull to have them for reference.
    - Beautiful animations when you click on the piece, highlitnings of the avaliable moves.  
@@ -304,4 +304,23 @@ Negative:
    Why? --- because it is nice to have this kind of information.
    - No TOC for the long text with a lot of information.  
    Why? -- because it make it hard to navigate and search for necessary info. 
+
+### 5 Design your own board game app
+
+#### 5.1
+> Create a design for the splash screen (also known as entry page): think of a name for your application, a short description & a logo. Feel free to use media (images, sound) with a Creative Commons license. The noun project can be a useful resource for game pieces.
+
+Name: Checkers in Delft  
+Logo: Checkers `in Delft`  
+Splash screen: design can be found below
+
+#### 5.2
+
+> Create a design for the game screen, keeping the requirements listed above in mind as well as your findings in Exercise 4.3). You have a lot of artistic freedom in designing the board and game information.
+
+![image](img/game_draft.svg)
+
+Connection to the Delft Theme:
+   - Pieces design resembles a bike weel
+   - King Pieces design resembles the TU Library
 
