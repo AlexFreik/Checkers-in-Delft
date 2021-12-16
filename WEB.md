@@ -239,8 +239,8 @@ We will try to implement the standard Draughts game for 2 player.
 
 1. https://www.247checkers.com
 
-![image](https://github.com/AlexFreik/TUD-2Q-WDB/img/247checkers.webpm)
-![img](https://github.com/AlexFreik/TUD-2Q-WDB/blob/master/img/247checkers.webp)
+![image](img/247checkers.webp)
+![image](https://github.com/AlexFreik/TUD-2Q-WDB/blob/master/img/247checkers.webp?raw=true)
 
 ddd
 
