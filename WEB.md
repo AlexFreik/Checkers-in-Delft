@@ -329,4 +329,6 @@ Connection to the Delft Theme:
    - Pieces design resembles a bike weel
    - King Pieces design resembles the TU Library
 
-
+### 6 Your own board game app: HTML
+- [Menu](html/menu.html)
+- [Game](html/game.html)
