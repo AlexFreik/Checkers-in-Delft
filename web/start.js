@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-const createServer = require('../app')
+const createServer = require('./app')
 const debug = require('debug')('web:server')
 
 /**

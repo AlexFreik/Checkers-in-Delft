@@ -41,9 +41,9 @@ function createApp(port) {
 }
 
 function createWebsocketServer(httpServer) {
-    const wss = new websocket.Server({ httpServer })
+    const wss = new websocket.Server({ server: httpServer })
     wss.on('connection', function (ws) {
-        ws.on('message', function incoming(message) {})
+        ws.on('message', function (message) {})
     })
 }
 
