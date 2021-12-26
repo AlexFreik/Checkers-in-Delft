@@ -7,6 +7,7 @@ const http = require('http')
 const websocket = require('ws')
 
 const indexRouter = require('./routes/index')
+const { route } = require('express/lib/router')
 
 function createApp(port) {
     const app = express()
@@ -26,24 +27,39 @@ function createApp(port) {
         next(createError(404))
     })
 
-    // error handler
-    app.use(function (err, req, res, next) {
-        // set locals, only providing error in development
-        res.locals.message = err.message
-        res.locals.error = req.app.get('env') === 'development' ? err : {}
-
-        // render the error page
-        res.status(err.status || 500)
-        res.render('error')
-    })
+    // error handler TODO
+    // app.use(function (err, req, res, next) {
+    //     // set locals, only providing error in development
+    //     res.locals.message = err.message
+    //     res.locals.error = req.app.get('env') === 'development' ? err : {}
+    //
+    //     // render the error page
+    //     res.status(err.status || 500)
+    //     res.render('error')
+    // })
 
     return app
 }
 
 function createWebsocketServer(httpServer) {
     const wss = new websocket.Server({ server: httpServer })
+
     wss.on('connection', function (ws) {
-        ws.on('message', function (message) {})
+        /*
+         * let's slow down the server response time a bit to
+         * make the change visible on the client side
+         */
+        console.log('Connection log')
+        setTimeout(function () {
+            console.log('Connection state: ' + ws.readyState)
+            ws.send('Thanks for the message. --Your server.')
+            ws.close()
+            console.log('Connection state: ' + ws.readyState)
+        }, 2000)
+
+        ws.on('message', function incoming(message) {
+            console.log('[LOG] ' + message)
+        })
     })
 }
 
