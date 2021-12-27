@@ -1,7 +1,7 @@
 # API
 
 ## Notes
-1. Coordinate system: x(0-7), y(0-7)
+1. Coordinate system: `x: (0-7), y: (0-7)`
 
 ## Websocket API
 

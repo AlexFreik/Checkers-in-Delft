@@ -49,16 +49,16 @@ function createWebsocketServer(httpServer) {
          * let's slow down the server response time a bit to
          * make the change visible on the client side
          */
-        console.log('Connection log')
-        setTimeout(function () {
-            console.log('Connection state: ' + ws.readyState)
-            ws.send('Thanks for the message. --Your server.')
-            ws.close()
-            console.log('Connection state: ' + ws.readyState)
-        }, 2000)
+        console.log('Connection state: ' + ws.readyState)
 
         ws.on('message', function incoming(message) {
             console.log('[LOG] ' + message)
+            let inMsg = JSON.parse(message)
+            if (inMsg.type === 'MOVE') {
+                let x = parseInt(inMsg.x)
+                ws.send(JSON.stringify({type: 'MOVE', x: x + 1}))
+            }
+
         })
     })
 }

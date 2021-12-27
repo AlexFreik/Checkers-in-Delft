@@ -1,20 +1,27 @@
 //set up WebSocket
-;(function initFrontendWS() {
-    const target = document.getElementById('hello')
-    console.log(target)
+const websocket = (function initFrontendWS() {
+    const target = document.getElementById('x')
 
-    const socket = new WebSocket(consts.WEB_SOCKET_URL)
+    const socket = new WebSocket(Setup.WEB_SOCKET_URL)
 
     socket.onmessage = function (event) {
-        target.innerHTML = event.data
-        // let incomingMsg = JSON.parse(event.data)
+        console.log(event)
+        let inMsg = JSON.parse(event.data)
+        if (inMsg.type === 'MOVE') {
+            target.innerHTML = inMsg.x
+        }
+
+        // target.innerHTML = parseInt(event.data)
+        // let inMsg = JSON.parse(event.data)
         // let outgoingMsg = { success: true, data: 'hello world' }
         // socket.send(JSON.stringify(outgoingMsg))
     }
 
     socket.onopen = function () {
-        socket.send('Hello from the client!')
-        target.innerHTML = 'Sending a first message to the server ...'
+        socket.send(
+            JSON.stringify({ type: 'HELLO', data: 'Hello from the client!' })
+        )
+        console.log('frontend connection log')
     }
 
     // server sends a close event only if the game was aborted from some side
@@ -23,4 +30,6 @@
     }
 
     socket.onerror = function () {}
+
+    return socket
 })() //execute immediately
