@@ -13,78 +13,30 @@ function setupCanvas(canvas) {
     ctx.scale(dpr, dpr)
     return ctx
 }
-
-function convert(ratio) {
-    return canvasHeight * ratio
+function drawHomeScreen() {
+    drawRect(ctx, elems.background)
+    drawRect(ctx, elems.createGameBtn)
+    drawRect(ctx, elems.joinGameBtn)
+    drawRect(ctx, elems.titleDesc)
 }
-const SPLASH_DESK_WIDTH_RATIO = 0.7
-const SPLASH_DESK_HEIGHT_RATIO = 0.3
 
-let canvasWidth = 500
-let canvasHeight = 500
+function drawGameScreen() {
+    drawRect(ctx, elems.background)
+}
+
+function drawScreen() {
+    if (game.screen === SCREEN_STATES.HOME) {
+        drawHomeScreen()
+    } else if (game.screen === SCREEN_STATES.INSIDE_GAME) {
+        drawGameScreen()
+    }
+}
+
+let unifiedSize = 500
 const canvas = document.getElementById('canvas-game')
-canvas.style.width = canvasWidth + 'px'
-canvas.style.height = canvasHeight + 'px'
+canvas.style.width = WIDTH_RATIO * unifiedSize + 'px'
+canvas.style.height = unifiedSize + 'px'
 
 const ctx = setupCanvas(canvas)
-ctx.fillStyle = 'rgb(40, 40, 40)'
-ctx.fillStyle = '#333333'
-ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-
-// ctx.beginPath()
-// ctx.rect(canvasWidth / 2, canvasHeight / 2, 100, 100)
-// ctx.lineWidth = 10
-// ctx.strokeStyle = '#3c3f41'
-// ctx.stroke()
-
-ctx.fillStyle = '#3c3f41'
-ctx.fillRect(
-    (canvasWidth - convert(SPLASH_DESK_WIDTH_RATIO)) / 2,
-    canvasHeight  * 2 / 10,
-    convert(SPLASH_DESK_WIDTH_RATIO),
-    convert(SPLASH_DESK_HEIGHT_RATIO)
-)
-
-ctx.fillStyle = 'white'
-ctx.font = '30px Arial'
-ctx.fillText(
-    'The Best Checkers',
-    (canvasWidth - convert(SPLASH_DESK_WIDTH_RATIO)) / 2,
-    canvasHeight  * 3 / 10
-)
-ctx.fillText(
-    'in Whole Dleft!!!',
-    (canvasWidth - convert(SPLASH_DESK_WIDTH_RATIO)) / 2,
-    canvasHeight  * 4 / 10
-)
-
-
-ctx.fillStyle = '#3c3f41'
-ctx.fillRect(
-    (canvasWidth - convert(0.7)) / 2,
-    canvasHeight  * 6 / 10,
-    convert(0.7),
-    convert(0.1)
-)
-ctx.fillRect(
-    (canvasWidth - convert(0.7)) / 2,
-    canvasHeight  * 8 / 10,
-    convert(0.7),
-    convert(0.1)
-)
-ctx.fillStyle = '#eee'
-ctx.fillText(
-    'Create New Game',
-    (canvasWidth - convert(0.7)) / 2,
-    canvasHeight  * 7 / 10
-)
-ctx.fillText(
-    'Join Existing Game',
-    (canvasWidth - convert(0.7)) / 2,
-    canvasHeight  * 9 / 10
-)
-
-window.addEventListener('click', function (event) {
-    console.log(event)
-})
+drawScreen()
