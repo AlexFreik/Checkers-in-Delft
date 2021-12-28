@@ -66,8 +66,39 @@ const elems = {
         0.01,
         '#a9abad',
         (text = new Text('THE BEST CHECKERS IN DELFT', '#fff', '25px Arial'))
-    )
-
+    ),
+    settingsBtn: new Elem(
+        new Pos(WIDTH_RATIO - 0.13, 0.03, 0.1, 0.1),
+        'OFF',
+        '#3c3f41',
+        0.01,
+        '#a9abad',
+        (text = new Text('\uf013', '#fff', '25px FontAwesome'))
+    ),
+    adviceBtn: new Elem(
+        new Pos(WIDTH_RATIO - 0.13, 1 - 0.13, 0.1, 0.1),
+        'OFF',
+        '#3c3f41',
+        0.01,
+        '#a9abad',
+        (text = new Text('\uf0eb', '#fff', '25px FontAwesome'))
+    ),
+    homeBtn: new Elem(
+        new Pos(0.03, 0.03, 0.1, 0.1),
+        'OFF',
+        '#3c3f41',
+        0.01,
+        '#a9abad',
+        (text = new Text('\uf015', '#fff', '25px FontAwesome'))
+    ),
+    undoBtn: new Elem(
+        new Pos(0.03, 1 - 0.13, 0.1, 0.1),
+        'OFF',
+        '#3c3f41',
+        0.01,
+        '#a9abad',
+        (text = new Text('\uf0e2', '#fff', '25px FontAwesome'))
+    ),
 }
 
 function drawRect(ctx, elem) {

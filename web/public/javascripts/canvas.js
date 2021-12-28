@@ -22,6 +22,10 @@ function drawHomeScreen() {
 
 function drawGameScreen() {
     drawRect(ctx, elems.background)
+    drawRect(ctx, elems.settingsBtn)
+    drawRect(ctx, elems.adviceBtn)
+    drawRect(ctx, elems.undoBtn)
+    drawRect(ctx, elems.homeBtn)
 }
 
 function drawScreen() {
