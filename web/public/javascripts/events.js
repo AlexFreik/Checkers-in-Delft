@@ -29,26 +29,22 @@ function isPosInRect(pos, rect) {
 
 window.addEventListener('click', function (event) {
     const clickPos = getMousePos(canvas, event)
-    if (game.screen === SCREEN_STATES.HOME)
+    if (elems.joinGameBtn)
         if (isPosInRect(clickPos, elems.joinGameBtn.pos.toAbsCord())) {
-            game.screen = SCREEN_STATES.INSIDE_GAME
+            elems = gameScreenElems
         }
     requestAnimationFrame(drawScreen)
 })
 window.addEventListener('mousemove', function (event) {
     const clickPos = getMousePos(canvas, event)
-    if (game.screen === SCREEN_STATES.HOME) {
-        if (isPosInRect(clickPos, elems.joinGameBtn.pos.toAbsCord())) {
-            elems.joinGameBtn.state = 'ON'
-        } else {
-            elems.joinGameBtn.state = 'OFF'
-        }
-        if (isPosInRect(clickPos, elems.createGameBtn.pos.toAbsCord())) {
-            elems.createGameBtn.state = 'ON'
-        } else {
-            elems.createGameBtn.state = 'OFF'
+    for (const [name, elem] of Object.entries(elems)) {
+        if (elem.state) {
+            if (isPosInRect(clickPos, elem.pos.toAbsCord())) {
+                elem.state = 'ON'
+            } else {
+                elem.state = 'OFF'
+            }
         }
     }
     requestAnimationFrame(drawScreen)
 })
-

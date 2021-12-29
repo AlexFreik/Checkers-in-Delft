@@ -3,8 +3,8 @@ const SCREEN_STATES = {
     INSIDE_GAME: 1,
 }
 function Game() {
-    //this.screen = SCREEN_STATES.HOME
-    this.screen = SCREEN_STATES.INSIDE_GAME
+    this.screen = SCREEN_STATES.HOME
+    //this.screen = SCREEN_STATES.INSIDE_GAME
 }
 
 const game = new Game()

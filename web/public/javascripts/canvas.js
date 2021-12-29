@@ -13,26 +13,10 @@ function setupCanvas(canvas) {
     ctx.scale(dpr, dpr)
     return ctx
 }
-function drawHomeScreen() {
-    drawRect(ctx, elems.background)
-    drawRect(ctx, elems.createGameBtn)
-    drawRect(ctx, elems.joinGameBtn)
-    drawRect(ctx, elems.titleDesc)
-}
-
-function drawGameScreen() {
-    drawRect(ctx, elems.background)
-    drawRect(ctx, elems.settingsBtn)
-    drawRect(ctx, elems.adviceBtn)
-    drawRect(ctx, elems.undoBtn)
-    drawRect(ctx, elems.homeBtn)
-}
 
 function drawScreen() {
-    if (game.screen === SCREEN_STATES.HOME) {
-        drawHomeScreen()
-    } else if (game.screen === SCREEN_STATES.INSIDE_GAME) {
-        drawGameScreen()
+    for (const [name, elem] of Object.entries(elems)) {
+        elem.draw()
     }
 }
 
