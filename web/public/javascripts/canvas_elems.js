@@ -38,8 +38,8 @@ function Button(pos, fillStyle, lineWidth, strokeStyle) {
     this.rect = new Rect(pos, fillStyle, lineWidth, strokeStyle)
     this.fillStyle = fillStyle
     this.draw = function (state) {
-         this.rect.fillStyle = state === 'ON' ? 'rgba(0,0,0,0)' : this.fillStyle;
-         this.rect.draw()
+        this.rect.fillStyle = state === 'ON' ? 'rgba(0,0,0,0)' : this.fillStyle
+        this.rect.draw()
     }
 }
 function Text(pos, val, fillStyle, font) {
@@ -60,6 +60,30 @@ function Text(pos, val, fillStyle, font) {
             absPos.y + absPos.h / 2,
             absPos.w
         )
+    }
+}
+function Grid(pos, n, lineWidth, strokeStyle) {
+    this.pos = pos
+    this.n = n // n -- number of rows & columns
+    this.lineWidth = lineWidth
+    this.strokeStyle = strokeStyle
+
+    this.draw = function () {
+        const absPos = this.pos.toAbsCord()
+
+        for (let x = 0; x <= absPos.w; x += absPos.w / this.n) {
+            ctx.moveTo(absPos.x + x, absPos.y)
+            ctx.lineTo(absPos.x + x, absPos.y + absPos.h)
+        }
+
+        for (let y = 0; y <= absPos.h; y += 40) {
+            ctx.moveTo(absPos.x, absPos.y + y)
+            ctx.lineTo(absPos.x + absPos.w, absPos.y + y)
+        }
+
+        ctx.lineWidth = this.lineWidth
+        ctx.strokeStyle = this.strokeStyle
+        ctx.stroke()
     }
 }
 function Elem(pos, figs, draw, state = 'OFF') {
@@ -86,14 +110,14 @@ const homeScreenElems = {
         [
             new Button(pos, '#3c3f41', 0.01, '#a9abad'),
             new Text(pos, 'Create New Game', '#fff', '20px Arial'),
-        ],
+        ]
     ),
     joinGameBtn: new Elem(
         (pos = new Pos(0.35 * WIDTH_RATIO, 0.75, 0.3 * WIDTH_RATIO, 0.1)),
         [
             new Button(pos, '#3c3f41', 0.01, '#a9abad'),
             new Text(pos, 'Join Existing Game', '#fff', '20px Arial'),
-        ],
+        ]
     ),
     titleDesc: new Elem(
         (pos = new Pos(0.15 * WIDTH_RATIO, 0.1, 0.7 * WIDTH_RATIO, 0.45)),
@@ -108,33 +132,35 @@ const gameScreenElems = {
         (pos = new Pos(0 * WIDTH_RATIO, 0, 1 * WIDTH_RATIO, 1)),
         [new Rect(pos, '#333333', 0.01, '#a9abad')]
     ),
-    settingsBtn: new Elem(
-        (pos = new Pos(WIDTH_RATIO - 0.13, 0.03, 0.1, 0.1)),
-        [
-            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
-            new Text(pos, '\uf013', '#fff', '25px FontAwesome'),
-        ],
-    ),
+
+    settingsBtn: new Elem((pos = new Pos(WIDTH_RATIO - 0.13, 0.03, 0.1, 0.1)), [
+        new Button(pos, '#3c3f41', 0.01, '#a9abad'),
+        new Text(pos, '\uf013', '#fff', '25px FontAwesome'),
+    ]),
     adviceBtn: new Elem(
         (pos = new Pos(WIDTH_RATIO - 0.13, 1 - 0.13, 0.1, 0.1)),
         [
             new Button(pos, '#3c3f41', 0.01, '#a9abad'),
             new Text(pos, '\uf0eb', '#fff', '25px FontAwesome'),
-        ],
+        ]
     ),
-    homeBtn: new Elem(
-        (pos = new Pos(0.03, 0.03, 0.1, 0.1)),
-        [
-            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
-            new Text(pos, '\uf015', '#fff', '25px FontAwesome'),
-        ],
-    ),
-    undoBtn: new Elem(
-        (pos = new Pos(0.03, 1 - 0.13, 0.1, 0.1)),
-        [
-            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
-            new Text(pos, '\uf0e2', '#fff', '25px FontAwesome'),
-        ],
+    homeBtn: new Elem((pos = new Pos(0.03, 0.03, 0.1, 0.1)), [
+        new Button(pos, '#3c3f41', 0.01, '#a9abad'),
+        new Text(pos, '\uf015', '#fff', '25px FontAwesome'),
+    ]),
+    undoBtn: new Elem((pos = new Pos(0.03, 1 - 0.13, 0.1, 0.1)), [
+        new Button(pos, '#3c3f41', 0.01, '#a9abad'),
+        new Text(pos, '\uf0e2', '#fff', '25px FontAwesome'),
+    ]),
+
+    descGrid: new Elem(
+        (pos = new Pos(
+            (WIDTH_RATIO - (1 - 0.1 * 2)) / 2,
+            0.1,
+            1 - 0.1 * 2,
+            1 - 0.1 * 2
+        )),
+        [new Grid(pos, 8, 3, '#ddd')]
     ),
 }
 
