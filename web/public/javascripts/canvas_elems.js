@@ -21,18 +21,25 @@ function Rect(pos, fillStyle, lineWidth, strokeStyle) {
     this.fillStyle = fillStyle
     this.lineWidth = lineWidth
     this.strokeStyle = strokeStyle
-    this.draw = function (state = 'OFF') {
+    this.draw = function () {
         const absPos = this.pos.toAbsCord()
 
-        if (state !== 'ON') {
-            ctx.fillStyle = this.fillStyle
-            ctx.fillRect(absPos.x, absPos.y, absPos.w, absPos.h)
-        }
+        ctx.fillStyle = this.fillStyle
+        ctx.fillRect(absPos.x, absPos.y, absPos.w, absPos.h)
+
         ctx.beginPath()
         ctx.rect(absPos.x, absPos.y, absPos.w, absPos.h)
         ctx.lineWidth = convert(this.lineWidth)
         ctx.strokeStyle = this.strokeStyle
         ctx.stroke()
+    }
+}
+function Button(pos, fillStyle, lineWidth, strokeStyle) {
+    this.rect = new Rect(pos, fillStyle, lineWidth, strokeStyle)
+    this.fillStyle = fillStyle
+    this.draw = function (state) {
+         this.rect.fillStyle = state === 'ON' ? 'rgba(0,0,0,0)' : this.fillStyle;
+         this.rect.draw()
     }
 }
 function Text(pos, val, fillStyle, font) {
@@ -55,7 +62,7 @@ function Text(pos, val, fillStyle, font) {
         )
     }
 }
-function Elem(pos, figs, state, draw) {
+function Elem(pos, figs, draw, state = 'OFF') {
     this.pos = pos
     this.figs = figs
     this.state = state
@@ -69,7 +76,6 @@ function Elem(pos, figs, state, draw) {
 }
 
 // pos vals is ratios is related to unifiedSize (canvas height)
-
 const homeScreenElems = {
     background: new Elem(
         (pos = new Pos(0 * WIDTH_RATIO, 0, 1 * WIDTH_RATIO, 1)),
@@ -78,18 +84,16 @@ const homeScreenElems = {
     createGameBtn: new Elem(
         (pos = new Pos(0.35 * WIDTH_RATIO, 0.6, 0.3 * WIDTH_RATIO, 0.1)),
         [
-            new Rect(pos, '#3c3f41', 0.01, '#a9abad'),
+            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
             new Text(pos, 'Create New Game', '#fff', '20px Arial'),
         ],
-        'OFF'
     ),
     joinGameBtn: new Elem(
         (pos = new Pos(0.35 * WIDTH_RATIO, 0.75, 0.3 * WIDTH_RATIO, 0.1)),
         [
-            new Rect(pos, '#3c3f41', 0.01, '#a9abad'),
+            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
             new Text(pos, 'Join Existing Game', '#fff', '20px Arial'),
         ],
-        'OFF'
     ),
     titleDesc: new Elem(
         (pos = new Pos(0.15 * WIDTH_RATIO, 0.1, 0.7 * WIDTH_RATIO, 0.45)),
@@ -107,34 +111,30 @@ const gameScreenElems = {
     settingsBtn: new Elem(
         (pos = new Pos(WIDTH_RATIO - 0.13, 0.03, 0.1, 0.1)),
         [
-            new Rect(pos, '#3c3f41', 0.01, '#a9abad'),
+            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
             new Text(pos, '\uf013', '#fff', '25px FontAwesome'),
         ],
-        'OFF'
     ),
     adviceBtn: new Elem(
         (pos = new Pos(WIDTH_RATIO - 0.13, 1 - 0.13, 0.1, 0.1)),
         [
-            new Rect(pos, '#3c3f41', 0.01, '#a9abad'),
+            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
             new Text(pos, '\uf0eb', '#fff', '25px FontAwesome'),
         ],
-        'OFF'
     ),
     homeBtn: new Elem(
         (pos = new Pos(0.03, 0.03, 0.1, 0.1)),
         [
-            new Rect(pos, '#3c3f41', 0.01, '#a9abad'),
+            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
             new Text(pos, '\uf015', '#fff', '25px FontAwesome'),
         ],
-        'OFF'
     ),
     undoBtn: new Elem(
         (pos = new Pos(0.03, 1 - 0.13, 0.1, 0.1)),
         [
-            new Rect(pos, '#3c3f41', 0.01, '#a9abad'),
+            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
             new Text(pos, '\uf0e2', '#fff', '25px FontAwesome'),
         ],
-        'OFF'
     ),
 }
 
