@@ -62,15 +62,44 @@ function Text(pos, val, fillStyle, font) {
         )
     }
 }
-function Grid(pos, n, lineWidth, strokeStyle) {
+function Grid(pos, lineWidth, strokeStyle) {
     this.pos = pos
-    this.n = n // n -- number of rows & columns
+    this.n = ROW_COL_NUM // n -- number of rows & columns
     this.lineWidth = lineWidth
     this.strokeStyle = strokeStyle
 
+    this._toAbsPiecePos = function (coords) {
+        const d = this.pos.w / this.n
+        const x = this.pos.x + coords.x * d
+        const y = this.pos.y + this.pos.h - (coords.y + 1) * d
+        return new Pos(x, y, d, d).toAbsCord()
+    }
+    this._drawPiece = function (piece) {
+        const absPos = this._toAbsPiecePos(piece.coords)
+        ctx.fillStyle = piece.color[piece.player]
+        ctx.beginPath()
+        ctx.arc(
+            absPos.x + absPos.w / 2,
+            absPos.y + absPos.w / 2,
+            absPos.w / 2 / 1.5,
+            0,
+            2 * Math.PI
+        )
+        ctx.closePath()
+        ctx.strokeStyle = piece.player === Setup.PLAYER_0 ? "#333" : "#eee"
+        ctx.lineWidth = 5
+        ctx.stroke()
+        ctx.fill()
+    }
+    this._drawPieces = function () {
+        for (const piece of game.pieces) {
+            this._drawPiece(piece)
+        }
+    }
     this.draw = function () {
         const absPos = this.pos.toAbsCord()
 
+        ctx.beginPath()
         for (let x = 0; x <= absPos.w; x += absPos.w / this.n) {
             ctx.moveTo(absPos.x + x, absPos.y)
             ctx.lineTo(absPos.x + x, absPos.y + absPos.h)
@@ -83,20 +112,25 @@ function Grid(pos, n, lineWidth, strokeStyle) {
 
         ctx.lineWidth = this.lineWidth
         ctx.strokeStyle = this.strokeStyle
+        ctx.closePath()
         ctx.stroke()
+
+        this._drawPieces()
     }
 }
+
 function Elem(pos, figs, draw, state = 'OFF') {
     this.pos = pos
     this.figs = figs
     this.state = state
     this.draw = draw
-    if (!this.draw)
+    if (!this.draw) {
         this.draw = () => {
             for (const fig of this.figs) {
                 fig.draw(this.state)
             }
         }
+    }
 }
 
 // pos vals is ratios is related to unifiedSize (canvas height)
@@ -160,7 +194,7 @@ const gameScreenElems = {
             1 - 0.1 * 2,
             1 - 0.1 * 2
         )),
-        [new Grid(pos, 8, 1, '#ddd')]
+        [new Grid(pos, 1, '#ddd')]
     ),
 }
 
