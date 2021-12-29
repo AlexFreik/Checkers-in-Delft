@@ -26,13 +26,17 @@ function isPosInRect(pos, rect) {
         pos.y <= rect.y + rect.h
     )
 }
-
+function isSelected(mousePos, elem) {
+    return elem && isPosInRect(mousePos, elem.pos.toAbsCord())
+}
 window.addEventListener('click', function (event) {
-    const clickPos = getMousePos(canvas, event)
-    if (elems.joinGameBtn)
-        if (isPosInRect(clickPos, elems.joinGameBtn.pos.toAbsCord())) {
-            elems = gameScreenElems
-        }
+    const mousePos = getMousePos(canvas, event)
+    if (isSelected(mousePos, elems.joinGameBtn)) {
+        elems = gameScreenElems
+    }
+    if (isSelected(mousePos, elems.homeBtn)) {
+        elems = homeScreenElems
+    }
     requestAnimationFrame(drawScreen)
 })
 window.addEventListener('mousemove', function (event) {

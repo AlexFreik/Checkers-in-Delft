@@ -76,7 +76,7 @@ function Grid(pos, n, lineWidth, strokeStyle) {
             ctx.lineTo(absPos.x + x, absPos.y + absPos.h)
         }
 
-        for (let y = 0; y <= absPos.h; y += 40) {
+        for (let y = 0; y <= absPos.h; y += absPos.h / this.n) {
             ctx.moveTo(absPos.x, absPos.y + y)
             ctx.lineTo(absPos.x + absPos.w, absPos.y + y)
         }
@@ -160,7 +160,7 @@ const gameScreenElems = {
             1 - 0.1 * 2,
             1 - 0.1 * 2
         )),
-        [new Grid(pos, 8, 3, '#ddd')]
+        [new Grid(pos, 8, 1, '#ddd')]
     ),
 }
 
