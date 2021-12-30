@@ -1,2 +1,79 @@
-#canvas-game {
+body {
+    margin: 0;
+    background: #eee;
 }
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 0;
+    padding: 0;
+}
+header, footer {
+    background: #444645;
+    color: #E7DCC5;
+    text-align: center;
+}
+footer div {
+    font-size: 15px;
+    padding: 10px;
+}
+#logo {
+    margin: 0px auto;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 30px;
+}
+#logo-box {
+    padding: 2px;
+    border: 2px solid #eee;
+}
+
+
+#canvas-sec {
+    margin: auto;
+    text-align: center;
+}
+
+
+#under-canvas {
+    color: #E7DCC5;
+    max-width: 1000px;
+    margin: 20px auto;
+    text-align: center;
+    padding-top: 030px;
+    background: #444645;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+#under-canvas h2,
+#under-canvas h3{
+    color: #ECBEAD;
+}
+
+.row {
+    margin-top: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+.double-row-holder {
+    width: 95%;
+    margin: auto;
+    text-align: center;
+    padding-top: 030px;
+}
+.double-row-row {
+    flex-basis: 45%;
+    border-radius: 10px;
+    margin-bottom: 5%;
+    text-align: left;
+    padding: 20px 12px;
+}
+@media(max-width: 700px) {
+    .row {
+        flex-direction: column;
+    }
+}
+#rules-and-features
+
