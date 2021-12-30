@@ -86,6 +86,12 @@ function getCornerBtnElem(emoji, { left, down }) {
         new Text(pos, emoji, '#fff', '25px FontAwesome'),
     ])
 }
+function getDefaultBtnElem(pos, txtVal) {
+    return new Elem(pos, [
+        new Button(pos, '#3c3f41', 0.01, '#a9abad'),
+        new Text(pos, txtVal, '#fff', '20px Arial'),
+    ])
+}
 const background = new Elem(
     (pos = new Pos(0 * WIDTH_RATIO, 0, 1 * WIDTH_RATIO, 1)),
     [new Rect(pos, '#333333', 0.01, '#a9abad')]
@@ -96,19 +102,13 @@ const soundBtn = getCornerBtnElem('\uf028', { left: false, down: false })
 const homeScreenElems = {
     background: background,
     soundBtn: soundBtn,
-    createGameBtn: new Elem(
-        (pos = new Pos(0.35 * WIDTH_RATIO, 0.6, 0.3 * WIDTH_RATIO, 0.1)),
-        [
-            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
-            new Text(pos, 'Create New Game', '#fff', '20px Arial'),
-        ]
+    createGameBtn: getDefaultBtnElem(
+        new Pos(0.35 * WIDTH_RATIO, 0.6, 0.3 * WIDTH_RATIO, 0.1),
+        'Create New Game'
     ),
-    joinGameBtn: new Elem(
-        (pos = new Pos(0.35 * WIDTH_RATIO, 0.75, 0.3 * WIDTH_RATIO, 0.1)),
-        [
-            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
-            new Text(pos, 'Join Existing Game', '#fff', '20px Arial'),
-        ]
+    joinGameBtn: getDefaultBtnElem(
+        new Pos(0.35 * WIDTH_RATIO, 0.75, 0.3 * WIDTH_RATIO, 0.1),
+        'Join Existing Game'
     ),
     titleDesc: new Elem(
         (pos = new Pos(0.15 * WIDTH_RATIO, 0.1, 0.7 * WIDTH_RATIO, 0.45)),
@@ -123,24 +123,18 @@ const gameSettingElems = {
     background: background,
     soundBtn: soundBtn,
     homeBtn: getCornerBtnElem('\uf015', { left: true, down: false }),
-    forceJumpsChoseBtn: new Elem(
+    forceJumpsChoseBtn: getDefaultBtnElem(
         (pos = new Pos(
             ((1 - 0.15) * WIDTH_RATIO) / 2,
             0.6,
             0.15 * WIDTH_RATIO,
             0.05
         )),
-        [
-            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
-            new Text(pos, 'ON', '#fff', '15px Arial'),
-        ]
+        'ON'
     ),
-    startGameBtn: new Elem(
+    startGameBtn: getDefaultBtnElem(
         (pos = new Pos(0.35 * WIDTH_RATIO, 0.75, 0.3 * WIDTH_RATIO, 0.1)),
-        [
-            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
-            new Text(pos, 'Start', '#fff', '20px Arial'),
-        ]
+        'Start'
     ),
 }
 
