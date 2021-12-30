@@ -10,12 +10,12 @@ function Board(pos, lineWidth, strokeStyle) {
     this.selectedPiece = undefined
 
     /*
-     all pieces have coords {x: 0-7, y: 0-7}. It converts this coords into board-system pos
+     all pieces have coords {col: 0-7, row: 0-7}. It converts this coords into board-system pos
      */
     this._toAbsPiecePos = function (coords) {
         const d = this.pos.w / this.n
-        const x = this.pos.x + coords.x * d
-        const y = this.pos.y + this.pos.h - (coords.y + 1) * d
+        const x = this.pos.x + coords.col * d
+        const y = this.pos.y + this.pos.h - (coords.row + 1) * d
         return new Pos(x, y, d, d).toAbsCord()
     }
     /*
@@ -25,10 +25,10 @@ function Board(pos, lineWidth, strokeStyle) {
         // pos: position {x, y} on canvas
         const absGridPos = this.pos.toAbsCord()
         return {
-            x: Math.floor(
+            col: Math.floor(
                 ((pos.x - absGridPos.x) / absGridPos.w) * ROW_COL_NUM
             ),
-            y:
+            row:
                 ROW_COL_NUM -
                 Math.floor(((pos.y - this.pos.y) / absGridPos.h) * ROW_COL_NUM),
         }
@@ -91,7 +91,7 @@ function Board(pos, lineWidth, strokeStyle) {
         const coords = this._toCoords(pos)
         const chosenPiece = game.pieces.filter(
             (piece) =>
-                piece.coords.x === coords.x && piece.coords.y === coords.y
+                piece.coords.col === coords.col && piece.coords.row === coords.row
         )
         if (chosenPiece.length === 0) {
             if (this.selectedPiece === undefined) return

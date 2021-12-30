@@ -1,5 +1,5 @@
-function Piece(x, y, player) {
-    this.coords = { x, y }
+function Piece(col, row, player) {
+    this.coords = { col, row }
     this.player = player
     this.color = {}
     this.color[Setup.PLAYER_0] = PIECE_COL_0
@@ -18,9 +18,9 @@ function Game(forceJumps) {
                 pieces.push(new Piece(x, y, Setup.PLAYER_0))
             }
         }
-        for (let y = ROW_COL_NUM - PIECES_COL_NUM; y < ROW_COL_NUM; ++y) {
-            for (let x = y % 2; x < ROW_COL_NUM; x += 2) {
-                pieces.push(new Piece(x, y, Setup.PLAYER_1))
+        for (let row = ROW_COL_NUM - PIECES_COL_NUM; row < ROW_COL_NUM; ++row) {
+            for (let col = row % 2; col < ROW_COL_NUM; col += 2) {
+                pieces.push(new Piece(col, row, Setup.PLAYER_1))
             }
         }
         return pieces
