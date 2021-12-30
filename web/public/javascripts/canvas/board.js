@@ -24,12 +24,14 @@ function Board(absCnvPos, lineWidth, strokeStyle) {
     this._toCoords = function (absCnvPos) {
         const ans = {
             col: Math.floor(
-                ((absCnvPos.x - this.absCnvPos.x) / this.absCnvPos.w) * ROW_COL_NUM
+                ((absCnvPos.x - this.absCnvPos.x) / this.absCnvPos.w) *
+                    ROW_COL_NUM
             ),
-            row:
-                Math.floor((1 - (absCnvPos.y - this.absCnvPos.y) / this.absCnvPos.h) * ROW_COL_NUM),
+            row: Math.floor(
+                (1 - (absCnvPos.y - this.absCnvPos.y) / this.absCnvPos.h) *
+                    ROW_COL_NUM
+            ),
         }
-        console.log(ans)
         return ans
     }
     /*
@@ -64,12 +66,18 @@ function Board(absCnvPos, lineWidth, strokeStyle) {
         ctx.beginPath()
         for (let x = 0; x <= this.absCnvPos.w; x += this.absCnvPos.w / this.n) {
             ctx.moveTo(this.absCnvPos.x + x, this.absCnvPos.y)
-            ctx.lineTo(this.absCnvPos.x + x, this.absCnvPos.y + this.absCnvPos.h)
+            ctx.lineTo(
+                this.absCnvPos.x + x,
+                this.absCnvPos.y + this.absCnvPos.h
+            )
         }
 
         for (let y = 0; y <= this.absCnvPos.h; y += this.absCnvPos.h / this.n) {
             ctx.moveTo(this.absCnvPos.x, this.absCnvPos.y + y)
-            ctx.lineTo(this.absCnvPos.x + this.absCnvPos.w, this.absCnvPos.y + y)
+            ctx.lineTo(
+                this.absCnvPos.x + this.absCnvPos.w,
+                this.absCnvPos.y + y
+            )
         }
 
         ctx.lineWidth = this.lineWidth
@@ -88,7 +96,8 @@ function Board(absCnvPos, lineWidth, strokeStyle) {
         const coords = this._toCoords(absCnvPos)
         const chosenPiece = game.pieces.filter(
             (piece) =>
-                piece.coords.col === coords.col && piece.coords.row === coords.row
+                piece.coords.col === coords.col &&
+                piece.coords.row === coords.row
         )
         if (chosenPiece.length === 0) {
             if (this.selectedPiece === undefined) return

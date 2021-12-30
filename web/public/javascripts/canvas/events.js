@@ -1,41 +1,9 @@
-/*
- Translates mouse clientX, clientY position into ones relative to the canvas
- */
-function getMouseAbsCnvPos(canvas, evt) {
-    const rect = canvas.getBoundingClientRect() // abs. size of element
-    return {
-        x: evt.clientX - rect.left, // scale mouse coordinates after they have
-        y: evt.clientY - rect.top, // been adjusted to be relative to element
-    }
-}
-/*
- translates position, which is relative to canvas to coords, relative to page (like pageX, pageY)
- */
-function canvasRelPosToPagePos(absCnvPos) {
-    const rect = canvas.getBoundingClientRect() // abs. size of element
-    return {
-        x: absCnvPos.x + rect.left + window.scrollX,
-        y: absCnvPos.y + rect.top + window.scrollY,
-        w: absCnvPos.w,
-        h: absCnvPos.h,
-    }
-}
-
-function isPosInRect(pos, rect) {
-    // pos = {x: int, y: int}, rect = {x: int, y: int, width: int, height: int}
-    return (
-        rect.x <= pos.x &&
-        pos.x <= rect.x + rect.w &&
-        rect.y <= pos.y &&
-        pos.y <= rect.y + rect.h
-    )
-}
 function isSelected(mousePos, elem) {
-    return elem && isPosInRect(mousePos, elem.absCnvPos)
+    return elem && elem.absCnvPos.isInside({x: mousePos.x, y: mousePos.y})
 }
 
 window.addEventListener('click', function (event) {
-    const mouseAbsCnvPos = getMouseAbsCnvPos(canvas, event)
+    const mouseAbsCnvPos = AbsCnvPos.constructFromEvent(event)
 
     if (isSelected(mouseAbsCnvPos, elems.board)) {
         board.processClick(mouseAbsCnvPos)
@@ -43,9 +11,7 @@ window.addEventListener('click', function (event) {
         board.processNotClick()
     }
     if (isSelected(mouseAbsCnvPos, elems.joinGameBtn)) {
-        const inputAbsPos = gameChoosingElem.fieldID.absCnvPos
-        addGameIdInput(canvasRelPosToPagePos(inputAbsPos))
-
+        addGameIdInput(gameChoosingElem.fieldID.absCnvPos.toAbsPagePos())
         elems = gameChoosingElem
     }
 
@@ -75,10 +41,15 @@ window.addEventListener('click', function (event) {
 })
 
 window.addEventListener('mousemove', function (event) {
-    const clickPos = getMouseAbsCnvPos(canvas, event)
+    const mouseAbsCnvPos = AbsCnvPos.constructFromEvent(event)
     for (const [name, elem] of Object.entries(elems)) {
         if (elem.state) {
-            if (isPosInRect(clickPos, elem.absCnvPos)) {
+            if (
+                elem.absCnvPos.isInside({
+                    x: mouseAbsCnvPos.x,
+                    y: mouseAbsCnvPos.y,
+                })
+            ) {
                 elem.state = 'ON'
             } else {
                 elem.state = 'OFF'

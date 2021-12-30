@@ -28,7 +28,7 @@ function drawScreen() {
 }
 
 const canvas = document.getElementById('canvas-game')
-canvas.style.width = convertRatioToAbs(WIDTH_RATIO)  + 'px'
+canvas.style.width = convertRatioToAbs(WIDTH_RATIO) + 'px'
 canvas.style.height = convertRatioToAbs(1) + 'px'
 
 const ctx = setupCanvas(canvas)
