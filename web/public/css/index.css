@@ -3,7 +3,7 @@
 /* globals */
 body {
     margin: 0;
-    background: #E7DCC5;
+    background: #e7dcc5;
     color: #e7dcc5;
     line-height: 1.6;
 }
@@ -31,7 +31,7 @@ footer {
 }
 #logo-box {
     padding: 2px;
-    border: 2px solid #E7DCC5;
+    border: 2px solid #e7dcc5;
 }
 
 /* canvas */
