@@ -1,6 +1,17 @@
+/*
+ For convince I store positions in relative units (pos.x == 1 means pos.x is unifiedSize pixels)
+ canvas style height = unifiedSize
+ canvas style width = WIDTH_RATIO * unifiedSize
+ */
 function convert(ratio) {
     return unifiedSize * ratio
 }
+/*
+ represents a rectangle.
+ x, y -- coords of leftmost topmost corner
+ w -- width
+ h -- height
+ */
 function Pos(x, y, w, h) {
     this.x = x
     this.y = y
@@ -18,7 +29,9 @@ function Pos(x, y, w, h) {
         return new Pos(this.x + x, this.y + y, this.w, this.h)
     }
 }
-
+/*
+ drawable rectangle with fill and stroke
+ */
 function Rect(pos, fillStyle, lineWidth, strokeStyle) {
     this.pos = pos
     this.fillStyle = fillStyle
@@ -37,6 +50,9 @@ function Rect(pos, fillStyle, lineWidth, strokeStyle) {
         ctx.stroke()
     }
 }
+/*
+ basically a rectangle with animation when hovered
+ */
 function Button(pos, fillStyle, lineWidth, strokeStyle) {
     this.rect = new Rect(pos, fillStyle, lineWidth, strokeStyle)
     this.fillStyle = fillStyle
@@ -45,7 +61,9 @@ function Button(pos, fillStyle, lineWidth, strokeStyle) {
         this.rect.draw()
     }
 }
-
+/*
+ one-line text, which is centered in rectangle of pos
+ */
 function Text(pos, val, fillStyle, font) {
     this.pos = pos
     this.val = val
@@ -66,7 +84,11 @@ function Text(pos, val, fillStyle, font) {
         )
     }
 }
-
+/*
+ represents some drawable entity.
+ figs -- array of drawable figures (rectangles, texts, etc)
+ state -- whether it is hovered or not
+ */
 function Elem(pos, figs, draw, state = 'OFF') {
     this.pos = pos
     this.figs = figs

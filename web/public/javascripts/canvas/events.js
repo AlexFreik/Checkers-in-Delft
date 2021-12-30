@@ -1,3 +1,6 @@
+/*
+ Translates mouse clientX, clientY position into ones relative to the canvas
+ */
 function getMousePosRelativeCanvas(canvas, evt) {
     const rect = canvas.getBoundingClientRect() // abs. size of element
     return {
@@ -5,6 +8,9 @@ function getMousePosRelativeCanvas(canvas, evt) {
         y: evt.clientY - rect.top, // been adjusted to be relative to element
     }
 }
+/*
+ translates position, which is relative to canvas to coords, relative to page (like pageX, pageY)
+ */
 function canvasRelPosToPagePos(pos) {
     const rect = canvas.getBoundingClientRect() // abs. size of element
     return {

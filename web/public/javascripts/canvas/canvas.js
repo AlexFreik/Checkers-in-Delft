@@ -1,3 +1,8 @@
+/*
+ The problem this function solves --- blurriness on hdpi screens.
+ Because now one pixel have more than one real pixels inside (window.devicePixelRatio^2 to be consise),
+ we need to scale our canvas.
+ */
 function setupCanvas(canvas) {
     // Get the device pixel ratio, falling back to 1.
     const dpr = window.devicePixelRatio || 1
@@ -13,7 +18,9 @@ function setupCanvas(canvas) {
     ctx.scale(dpr, dpr)
     return ctx
 }
-
+/*
+ Just draws elements.
+ */
 function drawScreen() {
     for (const [name, elem] of Object.entries(elems)) {
         elem.draw()
