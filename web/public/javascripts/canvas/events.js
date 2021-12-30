@@ -47,6 +47,9 @@ window.addEventListener('click', function (event) {
     if (isSelected(mousePos, elems.homeBtn)) {
         elems = homeScreenElems
     }
+    if (isSelected(mousePos, elems.soundBtn)) {
+        elems.soundBtn.figs[1].val = '\uf026'
+    }
 
     if (isSelected(mousePos, elems.forceJumpsChoseBtn)) {
         const txt = elems.forceJumpsChoseBtn.figs[1]

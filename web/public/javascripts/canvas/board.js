@@ -30,7 +30,7 @@ function Board(pos, lineWidth, strokeStyle) {
         ctx.arc(
             absPos.x + absPos.w / 2,
             absPos.y + absPos.w / 2,
-             absPos.w / 2 / (isSelected ? 1.3 : 1.5),
+            absPos.w / 2 / (isSelected ? 1.3 : 1.5),
             0,
             2 * Math.PI
         )
