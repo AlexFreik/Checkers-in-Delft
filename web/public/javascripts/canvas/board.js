@@ -97,7 +97,4 @@ class Board {
             this.selectedPiece = chosenPiece[0]
         }
     }
-    processNotClick = () => {
-        this.selectedPiece = undefined
-    }
 }

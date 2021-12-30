@@ -36,6 +36,21 @@ class Button {
         this.rect.draw()
     }
 }
+function getCornerBtnElem(emoji, { left, down }) {
+    const x = left === true ? 0.03 : WIDTH_RATIO - 0.13
+    const y = down === true ? 1 - 0.13 : 0.03
+    return new Elem((pos = new RatioCnvPos(x, y, 0.1, 0.1).toAbsCnvPos()), [
+        new Button(pos, '#3c3f41', convertRatioToAbs(0.01), '#a9abad'),
+        new Text(pos, emoji, '#fff', '25px FontAwesome'),
+    ])
+}
+function getDefaultBtnElem(pos, txtVal) {
+    return new Elem(pos, [
+        new Button(pos, '#3c3f41', convertRatioToAbs(0.01), '#a9abad'),
+        new Text(pos, txtVal, '#fff', '20px Arial'),
+    ])
+}
+
 /**
  * One-line text, which is centered in rectangle of pos.
  */
@@ -59,6 +74,7 @@ class Text {
         )
     }
 }
+
 /**
  * represents some drawable entity.
  * @param absCnvPos
