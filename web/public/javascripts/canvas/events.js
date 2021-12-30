@@ -87,3 +87,12 @@ window.addEventListener('mousemove', function (event) {
     }
     requestAnimationFrame(drawScreen)
 })
+
+window.addEventListener('keydown', function (event) {
+    if (elems.fieldID && event.key === 'Enter') {
+        removeGameIdInput()
+        game = new Game('ON') // TODO
+        elems = gameScreenElems
+        requestAnimationFrame(drawScreen)
+    }
+})
