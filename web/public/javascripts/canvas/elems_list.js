@@ -1,7 +1,3 @@
-// pos vals is ratios is related to unifiedSize (canvas height)
-/*
- creates instance of element, which is courner button (like home / mute / undo ...)
- */
 function getCornerBtnElem(emoji, { left, down }) {
     const x = left === true ? 0.03 : WIDTH_RATIO - 0.13
     const y = down === true ? 1 - 0.13 : 0.03
@@ -23,9 +19,6 @@ const background = new Elem(
 const soundBtn = getCornerBtnElem('\uf028', { left: false, down: false })
 const homeBtn = getCornerBtnElem('\uf015', { left: true, down: false })
 
-/*
- elements, present at home screen
- */
 const homeScreenElems = {
     background: background,
     soundBtn: soundBtn,
@@ -61,9 +54,6 @@ const homeScreenElems = {
     ),
 }
 
-/*
- elements, present at game settings screen, when you click "create new game"
- */
 const gameSettingElems = {
     background: background,
     soundBtn: soundBtn,
@@ -88,9 +78,6 @@ const gameSettingElems = {
     ),
 }
 
-/*
- elements, present at game joining screen, when you click "join existing game" and input gameID
- */
 const gameChoosingElem = {
     background: background,
     homeBtn: homeBtn,
@@ -115,9 +102,7 @@ const gameChoosingElem = {
         ]
     ),
 }
-/*
- screen with board, pieces and stuff
- */
+
 const gameScreenElems = {
     background: background,
     soundBtn: soundBtn,

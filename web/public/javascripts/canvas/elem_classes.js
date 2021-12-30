@@ -1,7 +1,3 @@
-
-/*
- drawable rectangle with fill and stroke
- */
 function Rect(absCnvPos, fillStyle, lineWidth, strokeStyle) {
     this.absCnvPos = absCnvPos
     this.fillStyle = fillStyle
@@ -18,9 +14,6 @@ function Rect(absCnvPos, fillStyle, lineWidth, strokeStyle) {
         ctx.stroke()
     }
 }
-/*
- basically a rectangle with animation when hovered
- */
 function Button(pos, fillStyle, lineWidth, strokeStyle) {
     this.rect = new Rect(pos, fillStyle, lineWidth, strokeStyle)
     this.fillStyle = fillStyle

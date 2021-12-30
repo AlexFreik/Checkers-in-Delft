@@ -1,12 +1,4 @@
 /*
- For convince I store positions in relative units (pos.x == 1 means pos.x is unifiedSize pixels)
- canvas style height = unifiedSize
- canvas style width = WIDTH_RATIO * unifiedSize
- */
-function convertRatioToAbs(ratio) {
-    return unifiedSize * ratio
-}
-/*
  represents a rectangle.
  x, y -- coords of leftmost topmost corner
  w -- width
@@ -33,6 +25,9 @@ class Pos {
 }
 
 let unifiedSize = 500
+function convertRatioToAbs(ratio) {
+    return unifiedSize * ratio
+}
 class RatioCnvPos extends Pos {
     constructor(x, y, w, h) {
         super(x, y, w, h)

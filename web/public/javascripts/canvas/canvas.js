@@ -18,9 +18,7 @@ function setupCanvas(canvas) {
     ctx.scale(dpr, dpr)
     return ctx
 }
-/*
- Just draws elements.
- */
+
 function drawScreen() {
     for (const [name, elem] of Object.entries(elems)) {
         elem.draw()

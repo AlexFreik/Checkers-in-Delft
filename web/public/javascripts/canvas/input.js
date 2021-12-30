@@ -1,7 +1,3 @@
-/*
- It is html input element, which is used for gameID input.
- When user press 'Enter' it processes input.
- */
 function addGameIdInput(pos) {
     const input = document.createElement('input')
 

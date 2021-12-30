@@ -4,25 +4,20 @@
  */
 function Board(absCnvPos, lineWidth, strokeStyle) {
     this.absCnvPos = absCnvPos
-    this.n = ROW_COL_NUM // n -- number of rows & columns
+    this.n = ROW_COL_NUM
     this.lineWidth = lineWidth
     this.strokeStyle = strokeStyle
     this.selectedPiece = undefined
 
-    /*
-     all pieces have coords {col: 0-7, row: 0-7}. It converts this coords into board-system pos
-     */
     this._toAbsPiecePos = function (coords) {
         const d = this.absCnvPos.w / this.n
         const x = this.absCnvPos.x + coords.col * d
         const y = this.absCnvPos.y + this.absCnvPos.h - (coords.row + 1) * d
         return new AbsCnvPos(x, y, d, d)
     }
-    /*
-     it does reverse of _toAbsPiecePos
-     */
+
     this._toCoords = function (absCnvPos) {
-        const ans = {
+        return {
             col: Math.floor(
                 ((absCnvPos.x - this.absCnvPos.x) / this.absCnvPos.w) *
                     ROW_COL_NUM
@@ -32,11 +27,7 @@ function Board(absCnvPos, lineWidth, strokeStyle) {
                     ROW_COL_NUM
             ),
         }
-        return ans
     }
-    /*
-     draws piece, and animates it if it is selected
-     */
     this._drawPiece = function (piece, isSelected) {
         const absPos = this._toAbsPiecePos(piece.coords)
         ctx.fillStyle = piece.color[piece.player]
@@ -54,10 +45,7 @@ function Board(absCnvPos, lineWidth, strokeStyle) {
         ctx.stroke()
         ctx.fill()
     }
-    /*
-     draws all pieces on the board
-     */
-    this._drawPieces = function () {
+    this._drawAllPieces = function () {
         for (const piece of game.pieces) {
             this._drawPiece(piece, piece === this.selectedPiece)
         }
@@ -85,7 +73,7 @@ function Board(absCnvPos, lineWidth, strokeStyle) {
         ctx.closePath()
         ctx.stroke()
 
-        this._drawPieces()
+        this._drawAllPieces()
     }
 
     /*
