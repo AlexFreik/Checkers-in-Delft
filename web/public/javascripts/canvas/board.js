@@ -3,7 +3,7 @@ function Board(pos, lineWidth, strokeStyle) {
     this.n = ROW_COL_NUM // n -- number of rows & columns
     this.lineWidth = lineWidth
     this.strokeStyle = strokeStyle
-    this.choosenPiece = undefined
+    this.selectedPiece = undefined
 
     this._toAbsPiecePos = function (coords) {
         const d = this.pos.w / this.n
@@ -23,14 +23,14 @@ function Board(pos, lineWidth, strokeStyle) {
                 Math.floor(((pos.y - this.pos.y) / absGridPos.h) * ROW_COL_NUM),
         }
     }
-    this._drawPiece = function (piece) {
+    this._drawPiece = function (piece, isSelected) {
         const absPos = this._toAbsPiecePos(piece.coords)
         ctx.fillStyle = piece.color[piece.player]
         ctx.beginPath()
         ctx.arc(
             absPos.x + absPos.w / 2,
             absPos.y + absPos.w / 2,
-            absPos.w / 2 / 1.5,
+             absPos.w / 2 / (isSelected ? 1.3 : 1.5),
             0,
             2 * Math.PI
         )
@@ -42,7 +42,7 @@ function Board(pos, lineWidth, strokeStyle) {
     }
     this._drawPieces = function () {
         for (const piece of game.pieces) {
-            this._drawPiece(piece)
+            this._drawPiece(piece, piece === this.selectedPiece)
         }
     }
     this.draw = function () {
@@ -76,15 +76,15 @@ function Board(pos, lineWidth, strokeStyle) {
         )
         console.log(chosenPiece)
         if (chosenPiece.length === 0) {
-            if (this.choosenPiece === undefined) return
-            this.choosenPiece.coords = coords
-            this.choosenPiece = undefined
+            if (this.selectedPiece === undefined) return
+            this.selectedPiece.coords = coords
+            this.selectedPiece = undefined
         } else {
             console.assert(chosenPiece.length === 1)
-            this.choosenPiece = chosenPiece[0]
+            this.selectedPiece = chosenPiece[0]
         }
     }
     this.processNotClick = function () {
-        this.choosenPiece = undefined
+        this.selectedPiece = undefined
     }
 }
