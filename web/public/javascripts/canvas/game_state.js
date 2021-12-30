@@ -12,12 +12,12 @@ function Game() {
     this.pieces = (() => {
         let pieces = []
         for (let y = 0; y < PIECES_COL_NUM; ++y) {
-            for (let x = y % 2 ; x < ROW_COL_NUM; x += 2) {
+            for (let x = y % 2; x < ROW_COL_NUM; x += 2) {
                 pieces.push(new Piece(x, y, Setup.PLAYER_0))
             }
         }
         for (let y = ROW_COL_NUM - PIECES_COL_NUM; y < ROW_COL_NUM; ++y) {
-            for (let x = y % 2 ; x < ROW_COL_NUM; x += 2) {
+            for (let x = y % 2; x < ROW_COL_NUM; x += 2) {
                 pieces.push(new Piece(x, y, Setup.PLAYER_1))
             }
         }

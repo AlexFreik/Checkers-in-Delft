@@ -31,6 +31,12 @@ function isSelected(mousePos, elem) {
 }
 window.addEventListener('click', function (event) {
     const mousePos = getMousePos(canvas, event)
+
+    if (isSelected(mousePos, elems.board)) {
+        board.processClick(mousePos)
+    } else {
+        board.processNotClick()
+    }
     if (isSelected(mousePos, elems.joinGameBtn)) {
         elems = gameScreenElems
     }

@@ -1,6 +1,7 @@
 function convert(ratio) {
     return unifiedSize * ratio
 }
+
 function Pos(x, y, w, h) {
     this.x = x
     this.y = y
@@ -60,62 +61,6 @@ function Text(pos, val, fillStyle, font) {
             absPos.y + absPos.h / 2,
             absPos.w
         )
-    }
-}
-function Grid(pos, lineWidth, strokeStyle) {
-    this.pos = pos
-    this.n = ROW_COL_NUM // n -- number of rows & columns
-    this.lineWidth = lineWidth
-    this.strokeStyle = strokeStyle
-
-    this._toAbsPiecePos = function (coords) {
-        const d = this.pos.w / this.n
-        const x = this.pos.x + coords.x * d
-        const y = this.pos.y + this.pos.h - (coords.y + 1) * d
-        return new Pos(x, y, d, d).toAbsCord()
-    }
-    this._drawPiece = function (piece) {
-        const absPos = this._toAbsPiecePos(piece.coords)
-        ctx.fillStyle = piece.color[piece.player]
-        ctx.beginPath()
-        ctx.arc(
-            absPos.x + absPos.w / 2,
-            absPos.y + absPos.w / 2,
-            absPos.w / 2 / 1.5,
-            0,
-            2 * Math.PI
-        )
-        ctx.closePath()
-        ctx.strokeStyle = piece.player === Setup.PLAYER_0 ? "#333" : "#eee"
-        ctx.lineWidth = 5
-        ctx.stroke()
-        ctx.fill()
-    }
-    this._drawPieces = function () {
-        for (const piece of game.pieces) {
-            this._drawPiece(piece)
-        }
-    }
-    this.draw = function () {
-        const absPos = this.pos.toAbsCord()
-
-        ctx.beginPath()
-        for (let x = 0; x <= absPos.w; x += absPos.w / this.n) {
-            ctx.moveTo(absPos.x + x, absPos.y)
-            ctx.lineTo(absPos.x + x, absPos.y + absPos.h)
-        }
-
-        for (let y = 0; y <= absPos.h; y += absPos.h / this.n) {
-            ctx.moveTo(absPos.x, absPos.y + y)
-            ctx.lineTo(absPos.x + absPos.w, absPos.y + y)
-        }
-
-        ctx.lineWidth = this.lineWidth
-        ctx.strokeStyle = this.strokeStyle
-        ctx.closePath()
-        ctx.stroke()
-
-        this._drawPieces()
     }
 }
 
@@ -187,15 +132,16 @@ const gameScreenElems = {
         new Text(pos, '\uf0e2', '#fff', '25px FontAwesome'),
     ]),
 
-    descGrid: new Elem(
+    board: new Elem(
         (pos = new Pos(
             (WIDTH_RATIO - (1 - 0.1 * 2)) / 2,
             0.1,
             1 - 0.1 * 2,
             1 - 0.1 * 2
         )),
-        [new Grid(pos, 1, '#ddd')]
+        [new Board(pos, 1, '#ddd')]
     ),
 }
 
+const board = gameScreenElems.board.figs[0]
 let elems = homeScreenElems
