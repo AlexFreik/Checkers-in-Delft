@@ -6,8 +6,7 @@ const logger = require('morgan')
 const http = require('http')
 const websocket = require('ws')
 
-const indexRouter = require('./routes/index')
-const { route } = require('express/lib/router')
+const indexRouter = require('./routes')
 
 function createApp(port) {
     const app = express()
@@ -18,12 +17,12 @@ function createApp(port) {
     app.use(express.json())
     app.use(express.urlencoded({ extended: false }))
     app.use(cookieParser())
-    app.use(express.static(path.join(__dirname, 'public')))
+    app.use(express.static(path.join(__dirname, '../public')))
 
     app.use('/', indexRouter)
 
     // catch 404 and forward to error handler
-    app.use(function (req, res, next) {
+    app.use(function(req, res, next) {
         next(createError(404))
     })
 
@@ -44,7 +43,7 @@ function createApp(port) {
 function createWebsocketServer(httpServer) {
     const wss = new websocket.Server({ server: httpServer })
 
-    wss.on('connection', function (ws) {
+    wss.on('connection', function(ws) {
         /*
          * let's slow down the server response time a bit to
          * make the change visible on the client side
@@ -56,9 +55,8 @@ function createWebsocketServer(httpServer) {
             let inMsg = JSON.parse(message)
             if (inMsg.type === 'MOVE') {
                 let x = parseInt(inMsg.x)
-                ws.send(JSON.stringify({type: 'MOVE', x: x + 1}))
+                ws.send(JSON.stringify({ type: 'MOVE', x: x + 1 }))
             }
-
         })
     })
 }
