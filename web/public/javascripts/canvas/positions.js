@@ -69,11 +69,6 @@ class AbsCnvPos extends Pos {
     }
 }
 
-class AbsClientPos extends Pos {
-    constructor(x, y, w, h) {
-        super(x, y, w, h)
-    }
-}
 class AbsPagePos extends Pos {
     constructor(x, y, w, h) {
         super(x, y, w, h)

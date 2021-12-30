@@ -2,6 +2,7 @@ function isSelected(mousePos, elem) {
     return elem && elem.absCnvPos.isInside(mousePos.x, mousePos.y)
 }
 
+
 window.addEventListener('click', function (event) {
     const mouseAbsCnvPos = AbsCnvPos.constructFromEvent(event)
 
