@@ -1,7 +1,6 @@
 function convert(ratio) {
     return unifiedSize * ratio
 }
-
 function Pos(x, y, w, h) {
     this.x = x
     this.y = y
@@ -46,6 +45,7 @@ function Button(pos, fillStyle, lineWidth, strokeStyle) {
         this.rect.draw()
     }
 }
+
 function Text(pos, val, fillStyle, font) {
     this.pos = pos
     this.val = val
@@ -67,32 +67,6 @@ function Text(pos, val, fillStyle, font) {
     }
 }
 
-function addInput(pos) {
-    const input = document.createElement('input')
-
-    input.id = 'gameID'
-    input.type = 'text'
-    input.style.position = 'absolute'
-    input.style.left = pos.x + 'px'
-    input.style.top = pos.y + 'px'
-    input.style.width = Math.floor(pos.w) + 'px'
-    input.style.height = Math.floor(pos.h) + 'px'
-
-    input.style.background = 'rgba(0,0,0,0)'
-    input.style.color = '#eee'
-    input.style['font-size'] = '25px'
-    input.onkeydown = function handleEnter(event) {
-        if (event.key === 'Enter') {
-            document.body.removeChild(this)
-            game = new Game('ON') // TODO
-            elems = gameScreenElems
-            requestAnimationFrame(drawScreen)
-        }
-    }
-
-    document.body.appendChild(input)
-}
-
 function Elem(pos, figs, draw, state = 'OFF') {
     this.pos = pos
     this.figs = figs
@@ -105,13 +79,4 @@ function Elem(pos, figs, draw, state = 'OFF') {
         }
     }
     this.state = state
-}
-
-function getCornerBtnElem(emoji, { left, down }) {
-    const x = left === true ? 0.03 : WIDTH_RATIO - 0.13
-    const y = down === true ? 1 - 0.13 : 0.03
-    return new Elem((pos = new Pos(x, y, 0.1, 0.1)), [
-        new Button(pos, '#3c3f41', 0.01, '#a9abad'),
-        new Text(pos, emoji, '#fff', '25px FontAwesome'),
-    ])
 }

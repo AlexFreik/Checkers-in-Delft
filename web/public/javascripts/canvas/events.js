@@ -28,14 +28,6 @@ function isSelected(mousePos, elem) {
     return elem && isPosInRect(mousePos, elem.pos.toAbsCord())
 }
 
-function removeGameIdInput() {
-    const input = document.getElementById('gameID')
-    if (input) {
-        input.remove()
-        return true
-    }
-    return false
-}
 window.addEventListener('click', function (event) {
     const mousePos = getMousePosRelativeCanvas(canvas, event)
 
@@ -45,7 +37,7 @@ window.addEventListener('click', function (event) {
         board.processNotClick()
     }
     if (isSelected(mousePos, elems.joinGameBtn)) {
-        addInput(
+        addGameIdInput(
             canvasRelPosToPagePos(gameChoosingElem.fieldID.pos.toAbsCord())
         )
         elems = gameChoosingElem
