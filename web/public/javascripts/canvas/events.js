@@ -5,35 +5,35 @@ function isSelected(mousePos, elem) {
 window.addEventListener('click', function (event) {
     const mouseAbsCnvPos = AbsCnvPos.constructFromEvent(event)
 
-    if (isSelected(mouseAbsCnvPos, elems.board)) {
+    if (isSelected(mouseAbsCnvPos, currScreenElems.board)) {
         board.processClick(mouseAbsCnvPos)
     } else {
         board.processNotClick()
     }
-    if (isSelected(mouseAbsCnvPos, elems.joinGameBtn)) {
+    if (isSelected(mouseAbsCnvPos, currScreenElems.joinGameBtn)) {
         addGameIdInput(gameChoosingElem.fieldID.absCnvPos.toAbsPagePos())
-        elems = gameChoosingElem
+        currScreenElems = gameChoosingElem
     }
 
-    if (isSelected(mouseAbsCnvPos, elems.forceJumpsChoseBtn)) {
-        const txt = elems.forceJumpsChoseBtn.figs[1]
+    if (isSelected(mouseAbsCnvPos, currScreenElems.forceJumpsChoseBtn)) {
+        const txt = currScreenElems.forceJumpsChoseBtn.figs[1]
         txt.val = txt.val === 'ON' ? 'OFF' : 'ON'
     }
-    if (isSelected(mouseAbsCnvPos, elems.startBtn)) {
-        const forceJumps = elems.forceJumpsChoseBtn.figs[1].val === 'ON'
+    if (isSelected(mouseAbsCnvPos, currScreenElems.startBtn)) {
+        const forceJumps = currScreenElems.forceJumpsChoseBtn.figs[1].val === 'ON'
         game = new Game(forceJumps)
-        elems = gameScreenElems
+        currScreenElems = gameScreenElems
     }
-    if (isSelected(mouseAbsCnvPos, elems.createGameBtn)) {
-        elems = gameSettingElems
+    if (isSelected(mouseAbsCnvPos, currScreenElems.createGameBtn)) {
+        currScreenElems = gameSettingElems
     }
 
-    if (isSelected(mouseAbsCnvPos, elems.homeBtn)) {
+    if (isSelected(mouseAbsCnvPos, currScreenElems.homeBtn)) {
         removeGameIdInput()
-        elems = homeScreenElems
+        currScreenElems = homeScreenElems
     }
-    if (isSelected(mouseAbsCnvPos, elems.soundBtn)) {
-        const emoji = elems.soundBtn.figs[1]
+    if (isSelected(mouseAbsCnvPos, currScreenElems.soundBtn)) {
+        const emoji = currScreenElems.soundBtn.figs[1]
         emoji.val = emoji.val === '\uf028' ? '\uf026' : '\uf028'
     }
 
@@ -42,7 +42,7 @@ window.addEventListener('click', function (event) {
 
 window.addEventListener('mousemove', function (event) {
     const mouseAbsCnvPos = AbsCnvPos.constructFromEvent(event)
-    for (const [name, elem] of Object.entries(elems)) {
+    for (const [name, elem] of Object.entries(currScreenElems)) {
         if (elem.state) {
             if (elem.absCnvPos.isInside(mouseAbsCnvPos.x, mouseAbsCnvPos.y)) {
                 elem.state = 'ON'
@@ -55,10 +55,10 @@ window.addEventListener('mousemove', function (event) {
 })
 
 window.addEventListener('keydown', function (event) {
-    if (elems.fieldID && event.key === 'Enter') {
+    if (currScreenElems.fieldID && event.key === 'Enter') {
         removeGameIdInput()
         game = new Game('ON') // TODO
-        elems = gameScreenElems
+        currScreenElems = gameScreenElems
         requestAnimationFrame(drawScreen)
     }
 })

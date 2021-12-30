@@ -122,4 +122,4 @@ const gameScreenElems = {
 }
 
 const board = gameScreenElems.board.figs[0]
-let elems = homeScreenElems
+let currScreenElems = homeScreenElems

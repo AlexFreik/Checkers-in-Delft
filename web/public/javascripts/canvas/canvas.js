@@ -20,7 +20,7 @@ function setupCanvas(canvas) {
 }
 
 function drawScreen() {
-    for (const [name, elem] of Object.entries(elems)) {
+    for (const [name, elem] of Object.entries(currScreenElems)) {
         elem.draw()
     }
 }
