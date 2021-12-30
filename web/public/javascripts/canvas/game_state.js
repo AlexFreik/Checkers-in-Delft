@@ -8,10 +8,15 @@ function Piece(col, row, player) {
     this.draw = function () {}
 }
 
-function Game(forceJumps) {
-    this.forceJumps = forceJumps // boolean
+class Game {
+    /**
+     * @param {boolean} forceJumps
+     */
+    constructor(forceJumps) {
+        this.forceJumps = forceJumps
+    }
 
-    this.pieces = (() => {
+    pieces = (() => {
         let pieces = []
         for (let y = 0; y < PIECES_COL_NUM; ++y) {
             for (let x = y % 2; x < ROW_COL_NUM; x += 2) {

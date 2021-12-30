@@ -1,6 +1,6 @@
-/*
- Board-class. It is responsible for drawing grid and pieces
- and for detecting which piece is selected, when user clicks on board
+/**
+ * Board-class. It is responsible for drawing grid and pieces
+ * and for detecting which piece is selected, when user clicks on board
  */
 class Board {
     constructor(absCnvPos, lineWidth, strokeStyle) {
@@ -77,9 +77,9 @@ class Board {
         this._drawAllPieces()
     }
 
-    /*
-     when user clicks on board it detects at which coords this click
-     was and if needed erases selection or moves piece.
+    /**
+     * When user clicks on board it detects at which coords this click
+     * was and if needed erases selection or moves piece.
      */
     processClick = (absCnvPos) => {
         const coords = this._toCoords(absCnvPos)
@@ -97,7 +97,7 @@ class Board {
             this.selectedPiece = chosenPiece[0]
         }
     }
-    processNotClick = function () {
+    processNotClick = () => {
         this.selectedPiece = undefined
     }
 }

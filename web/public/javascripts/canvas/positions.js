@@ -1,8 +1,8 @@
-/*
- represents a rectangle.
- x, y -- coords of leftmost topmost corner
- w -- width
- h -- height
+/**
+ * Represents a rectangle.
+ * @param {number} x, y -- coords of leftmost topmost corner
+ * @param {number} w -- width
+ * @param {number} h -- height
  */
 class Pos {
     constructor(x, y, w, h) {
@@ -46,11 +46,8 @@ class AbsCnvPos extends Pos {
     constructor(x, y, w, h) {
         super(x, y, w, h)
     }
-    /*
-     translates position, which is relative to canvas to coords, relative to page (like pageX, pageY)
-     */
     toAbsPagePos() {
-        const rect = canvas.getBoundingClientRect() // abs. size of element
+        const rect = canvas.getBoundingClientRect()
         return new AbsPagePos(
             this.x + rect.left + window.scrollX,
             this.y + rect.top + window.scrollY,
@@ -59,7 +56,7 @@ class AbsCnvPos extends Pos {
         )
     }
     static constructFromEvent(evt) {
-        const rect = canvas.getBoundingClientRect() // abs. size of element
+        const rect = canvas.getBoundingClientRect()
         return new AbsCnvPos(
             evt.clientX - rect.left,
             evt.clientY - rect.top,
@@ -69,6 +66,9 @@ class AbsCnvPos extends Pos {
     }
 }
 
+/**
+ * Pos with x, y relative to page (like pageX, pageY)
+ */
 class AbsPagePos extends Pos {
     constructor(x, y, w, h) {
         super(x, y, w, h)

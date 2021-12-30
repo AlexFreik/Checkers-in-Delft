@@ -1,36 +1,52 @@
-function Rect(absCnvPos, fillStyle, lineWidth, strokeStyle) {
-    this.absCnvPos = absCnvPos
-    this.fillStyle = fillStyle
-    this.lineWidth = lineWidth
-    this.strokeStyle = strokeStyle
-    this.draw = function () {
+class Rect {
+    constructor(absCnvPos, fillStyle, lineWidth, strokeStyle) {
+        this.absCnvPos = absCnvPos
+        this.fillStyle = fillStyle
+        this.lineWidth = lineWidth
+        this.strokeStyle = strokeStyle
+    }
+    draw = () => {
         ctx.fillStyle = this.fillStyle
-        ctx.fillRect(this.absCnvPos.x, this.absCnvPos.y, this.absCnvPos.w, this.absCnvPos.h)
+        ctx.fillRect(
+            this.absCnvPos.x,
+            this.absCnvPos.y,
+            this.absCnvPos.w,
+            this.absCnvPos.h
+        )
 
         ctx.beginPath()
-        ctx.rect(this.absCnvPos.x, this.absCnvPos.y, this.absCnvPos.w, this.absCnvPos.h)
+        ctx.rect(
+            this.absCnvPos.x,
+            this.absCnvPos.y,
+            this.absCnvPos.w,
+            this.absCnvPos.h
+        )
         ctx.lineWidth = this.lineWidth
         ctx.strokeStyle = this.strokeStyle
         ctx.stroke()
     }
 }
-function Button(pos, fillStyle, lineWidth, strokeStyle) {
-    this.rect = new Rect(pos, fillStyle, lineWidth, strokeStyle)
-    this.fillStyle = fillStyle
-    this.draw = function (state) {
+class Button {
+    constructor(pos, fillStyle, lineWidth, strokeStyle) {
+        this.rect = new Rect(pos, fillStyle, lineWidth, strokeStyle)
+        this.fillStyle = fillStyle
+    }
+    draw = (state) => {
         this.rect.fillStyle = state === 'ON' ? 'rgba(0,0,0,0)' : this.fillStyle
         this.rect.draw()
     }
 }
-/*
- one-line text, which is centered in rectangle of pos
+/**
+ * One-line text, which is centered in rectangle of pos.
  */
-function Text(absCnvPos, val, fillStyle, font) {
-    this.absCnvPos = absCnvPos
-    this.val = val
-    this.fillStyle = fillStyle
-    this.font = font
-    this.draw = function () {
+class Text {
+    constructor(absCnvPos, val, fillStyle, font) {
+        this.absCnvPos = absCnvPos
+        this.val = val
+        this.fillStyle = fillStyle
+        this.font = font
+    }
+    draw = () => {
         ctx.fillStyle = this.fillStyle
         ctx.font = this.font
         ctx.textAlign = 'center'
@@ -43,21 +59,25 @@ function Text(absCnvPos, val, fillStyle, font) {
         )
     }
 }
-/*
- represents some drawable entity.
- figs -- array of drawable figures (rectangles, texts, etc)
- state -- whether it is hovered or not
+/**
+ * represents some drawable entity.
+ * @param absCnvPos
+ * @param {array} figs -- array of drawable figures (rectangles, texts, etc)
+ * @param draw
+ * @param {string} state -- whether it is hovered or not
  */
-function Elem(absCnvPos, figs, draw, state = 'OFF') {
-    this.absCnvPos = absCnvPos
-    this.figs = figs
-    this.draw = draw
-    if (!this.draw) {
-        this.draw = () => {
-            for (const fig of this.figs) {
-                fig.draw(this.state)
+class Elem {
+    constructor(absCnvPos, figs, draw, state = 'OFF') {
+        this.absCnvPos = absCnvPos
+        this.figs = figs
+        this.draw = draw
+        if (!this.draw) {
+            this.draw = () => {
+                for (const fig of this.figs) {
+                    fig.draw(this.state)
+                }
             }
         }
+        this.state = state
     }
-    this.state = state
 }
