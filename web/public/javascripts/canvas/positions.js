@@ -22,7 +22,7 @@ class Pos {
     shift(x, y) {
         return new Pos(this.x + x, this.y + y, this.w, this.h)
     }
-    isInside({x, y}) {
+    isInside(x, y) {
         return (
             this.x <= x &&
             x <= this.x + this.w &&

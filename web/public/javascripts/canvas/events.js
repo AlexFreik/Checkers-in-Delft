@@ -1,5 +1,5 @@
 function isSelected(mousePos, elem) {
-    return elem && elem.absCnvPos.isInside({x: mousePos.x, y: mousePos.y})
+    return elem && elem.absCnvPos.isInside(mousePos.x, mousePos.y)
 }
 
 window.addEventListener('click', function (event) {
@@ -44,12 +44,7 @@ window.addEventListener('mousemove', function (event) {
     const mouseAbsCnvPos = AbsCnvPos.constructFromEvent(event)
     for (const [name, elem] of Object.entries(elems)) {
         if (elem.state) {
-            if (
-                elem.absCnvPos.isInside({
-                    x: mouseAbsCnvPos.x,
-                    y: mouseAbsCnvPos.y,
-                })
-            ) {
+            if (elem.absCnvPos.isInside(mouseAbsCnvPos.x, mouseAbsCnvPos.y)) {
                 elem.state = 'ON'
             } else {
                 elem.state = 'OFF'
