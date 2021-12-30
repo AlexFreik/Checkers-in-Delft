@@ -86,15 +86,16 @@ function getCornerBtnElem(emoji, { left, down }) {
         new Text(pos, emoji, '#fff', '25px FontAwesome'),
     ])
 }
-function getBackgroundElem() {
-    return new Elem((pos = new Pos(0 * WIDTH_RATIO, 0, 1 * WIDTH_RATIO, 1)), [
-        new Rect(pos, '#333333', 0.01, '#a9abad'),
-    ])
-}
+const background = new Elem(
+    (pos = new Pos(0 * WIDTH_RATIO, 0, 1 * WIDTH_RATIO, 1)),
+    [new Rect(pos, '#333333', 0.01, '#a9abad')]
+)
+const soundBtn = getCornerBtnElem('\uf028', { left: false, down: false })
 // pos vals is ratios is related to unifiedSize (canvas height)
 
 const homeScreenElems = {
-    background: getBackgroundElem(),
+    background: background,
+    soundBtn: soundBtn,
     createGameBtn: new Elem(
         (pos = new Pos(0.35 * WIDTH_RATIO, 0.6, 0.3 * WIDTH_RATIO, 0.1)),
         [
@@ -116,11 +117,11 @@ const homeScreenElems = {
             new Text(pos, 'THE BEST CHECKERS IN DELFT', '#fff', '25px Arial'),
         ]
     ),
-    soundBtn: getCornerBtnElem('\uf028', { left: false, down: false }),
 }
 
 const gameSettingElems = {
-    background: getBackgroundElem(),
+    background: background,
+    soundBtn: soundBtn,
     homeBtn: getCornerBtnElem('\uf015', { left: true, down: false }),
     forceJumpsChoseBtn: new Elem(
         (pos = new Pos(
@@ -144,8 +145,8 @@ const gameSettingElems = {
 }
 
 const gameScreenElems = {
-    background: getBackgroundElem(),
-    soundBtn: getCornerBtnElem('\uf028', { left: false, down: false }),
+    background: background,
+    soundBtn: soundBtn,
     adviceBtn: getCornerBtnElem('\uf0eb', { left: false, down: true }),
     homeBtn: getCornerBtnElem('\uf015', { left: true, down: false }),
     undoBtn: getCornerBtnElem('\uf0e2', { left: true, down: true }),

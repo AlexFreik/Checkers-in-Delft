@@ -48,7 +48,8 @@ window.addEventListener('click', function (event) {
         elems = homeScreenElems
     }
     if (isSelected(mousePos, elems.soundBtn)) {
-        elems.soundBtn.figs[1].val = '\uf026'
+        const emoji = elems.soundBtn.figs[1]
+        emoji.val = emoji.val === '\uf028' ? '\uf026' : '\uf028'
     }
 
     if (isSelected(mousePos, elems.forceJumpsChoseBtn)) {
