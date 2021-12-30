@@ -4,7 +4,7 @@
 body {
     margin: 0;
     background: #eee;
-    color: #E7DCC5;
+    color: #e7dcc5;
     line-height: 1.6;
 }
 hr {
@@ -16,9 +16,9 @@ hr {
     padding: 0;
 }
 
-
 /* header */
-header, footer {
+header,
+footer {
     background: #444645;
     text-align: center;
 }
@@ -40,7 +40,6 @@ header, footer {
     text-align: center;
 }
 
-
 /* text under canvas */
 #under-canvas {
     max-width: 1000px;
@@ -55,8 +54,8 @@ header, footer {
     font-size: 16px;
 }
 #under-canvas h2,
-#under-canvas h3{
-    color: #ECBEAD;
+#under-canvas h3 {
+    color: #ecbead;
 }
 
 .row {
@@ -76,7 +75,7 @@ header, footer {
     text-align: left;
     padding: 5px 12px 20px;
 }
-@media(max-width: 700px) {
+@media (max-width: 700px) {
     .row {
         flex-direction: column;
     }
