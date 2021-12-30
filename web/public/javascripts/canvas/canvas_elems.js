@@ -64,26 +64,36 @@ function Text(pos, val, fillStyle, font) {
     }
 }
 
-function Elem(pos, figs, draw, state = 'OFF') {
+function Elem(pos, figs, draw) {
     this.pos = pos
     this.figs = figs
-    this.state = state
     this.draw = draw
     if (!this.draw) {
         this.draw = () => {
             for (const fig of this.figs) {
-                fig.draw(this.state)
+                fig.draw()
             }
         }
     }
 }
 
+function getCornerBtnElem(emoji, {left, down}) {
+    const x = left === true ? 0.03 : WIDTH_RATIO - 0.13
+    const y = down === true ? 1 - 0.13 : 0.03
+    return new Elem((pos = new Pos(x, y, 0.1, 0.1)), [
+        new Button(pos, '#3c3f41', 0.01, '#a9abad'),
+        new Text(pos, emoji, '#fff', '25px FontAwesome'),
+    ])
+}
+
 // pos vals is ratios is related to unifiedSize (canvas height)
+
+const background = new Elem(
+    (pos = new Pos(0 * WIDTH_RATIO, 0, 1 * WIDTH_RATIO, 1)),
+    [new Rect(pos, '#333333', 0.01, '#a9abad')]
+)
 const homeScreenElems = {
-    background: new Elem(
-        (pos = new Pos(0 * WIDTH_RATIO, 0, 1 * WIDTH_RATIO, 1)),
-        [new Rect(pos, '#333333', 0.01, '#a9abad')]
-    ),
+    background: background,
     createGameBtn: new Elem(
         (pos = new Pos(0.35 * WIDTH_RATIO, 0.6, 0.3 * WIDTH_RATIO, 0.1)),
         [
@@ -106,31 +116,18 @@ const homeScreenElems = {
         ]
     ),
 }
-const gameScreenElems = {
-    background: new Elem(
-        (pos = new Pos(0 * WIDTH_RATIO, 0, 1 * WIDTH_RATIO, 1)),
-        [new Rect(pos, '#333333', 0.01, '#a9abad')]
-    ),
 
-    settingsBtn: new Elem((pos = new Pos(WIDTH_RATIO - 0.13, 0.03, 0.1, 0.1)), [
-        new Button(pos, '#3c3f41', 0.01, '#a9abad'),
-        new Text(pos, '\uf013', '#fff', '25px FontAwesome'),
-    ]),
-    adviceBtn: new Elem(
-        (pos = new Pos(WIDTH_RATIO - 0.13, 1 - 0.13, 0.1, 0.1)),
-        [
-            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
-            new Text(pos, '\uf0eb', '#fff', '25px FontAwesome'),
-        ]
-    ),
-    homeBtn: new Elem((pos = new Pos(0.03, 0.03, 0.1, 0.1)), [
-        new Button(pos, '#3c3f41', 0.01, '#a9abad'),
-        new Text(pos, '\uf015', '#fff', '25px FontAwesome'),
-    ]),
-    undoBtn: new Elem((pos = new Pos(0.03, 1 - 0.13, 0.1, 0.1)), [
-        new Button(pos, '#3c3f41', 0.01, '#a9abad'),
-        new Text(pos, '\uf0e2', '#fff', '25px FontAwesome'),
-    ]),
+const gameSettingElems = {
+    background: background,
+    homeBtn: getCornerBtnElem('\uf015', {left: true, down: false}),
+}
+
+const gameScreenElems = {
+    background: background,
+    settingsBtn: getCornerBtnElem('\uf013', {left: false, down: false}),
+    adviceBtn: getCornerBtnElem('\uf0eb', {left: false, down: true}),
+    homeBtn: getCornerBtnElem('\uf015', {left: true, down: false}),
+    undoBtn: getCornerBtnElem('\uf0e2', {left: true, down: true}),
 
     board: new Elem(
         (pos = new Pos(

@@ -43,6 +43,9 @@ window.addEventListener('click', function (event) {
     if (isSelected(mousePos, elems.homeBtn)) {
         elems = homeScreenElems
     }
+    if (isSelected(mousePos, elems.createGameBtn)) {
+        elems = gameSettingElems
+    }
     requestAnimationFrame(drawScreen)
 })
 window.addEventListener('mousemove', function (event) {
