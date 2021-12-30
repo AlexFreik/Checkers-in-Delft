@@ -1,7 +1,7 @@
 # API
 
 ## Notes
-1. Coordinate system: `x: (0-7), y: (0-7)`
+1. Coordinate system: `col: (0-7), row: (0-7)`
 
 ## HTTP API
 
@@ -51,12 +51,12 @@
   {
     "type": "move",
     "from": {
-      "x": 1,
-      "y": 1
+      "col": 1,
+      "row": 1
     },
     "to": {
-      "x": 2,
-      "y": 2
+      "col": 2,
+      "row": 2
     }
   }
   ```
@@ -81,18 +81,20 @@
   `Side` can have two values: 1 or 2.
 
 
-- **GameState** - broadcasted to both players every time game state changes, and also after `Welcome` message.
+- **GameState** - broadcasted to both players every time game state changes (including after every move),
+  and also directly after `Welcome` message.
   ```json
   {
     "type": "game-state",
-    "state": "<game-state>"
+    "state": "<game-state>",
+    "currentPlayer": "<player-id>, included only in in-progress state",
+    "winnerId": "<player-id>, included only in finished state"
   }
   ```
   Possible game states:
   - `waiting-for-start` - before the second player joins
   - `in-progress` - while the game is in progress
   - `finished` - after the game is finished and the result is known
-  - `abandoned` - after one of the players surrenders
 
 
 - **Move** - broadcasted to both players after a move is made
@@ -100,12 +102,12 @@
   {
     "type": "move",
     "from": {
-      "x": 1,
-      "y": 1
+      "col": 1,
+      "row": 1
     },
     "to": {
-      "x": 2,
-      "y": 2
+      "col": 2,
+      "row": 2
     }
   }
   ```
