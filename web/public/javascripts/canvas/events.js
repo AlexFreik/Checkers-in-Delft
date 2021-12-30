@@ -38,13 +38,24 @@ window.addEventListener('click', function (event) {
         board.processNotClick()
     }
     if (isSelected(mousePos, elems.joinGameBtn)) {
+        game = new Game()
         elems = gameScreenElems
+    }
+    if (isSelected(mousePos, elems.createGameBtn)) {
+        elems = gameSettingElems
     }
     if (isSelected(mousePos, elems.homeBtn)) {
         elems = homeScreenElems
     }
-    if (isSelected(mousePos, elems.createGameBtn)) {
-        elems = gameSettingElems
+
+    if (isSelected(mousePos, elems.forceJumpsChoseBtn)) {
+        const txt = elems.forceJumpsChoseBtn.figs[1]
+        txt.val = txt.val === 'ON' ? 'OFF' : 'ON'
+    }
+    if (isSelected(mousePos, elems.startGameBtn)) {
+        const forceJumps = elems.forceJumpsChoseBtn.figs[1].val === 'ON'
+        game = new Game(forceJumps)
+        elems = gameScreenElems
     }
     requestAnimationFrame(drawScreen)
 })

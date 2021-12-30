@@ -64,20 +64,21 @@ function Text(pos, val, fillStyle, font) {
     }
 }
 
-function Elem(pos, figs, draw) {
+function Elem(pos, figs, draw, state = 'OFF') {
     this.pos = pos
     this.figs = figs
     this.draw = draw
     if (!this.draw) {
         this.draw = () => {
             for (const fig of this.figs) {
-                fig.draw()
+                fig.draw(this.state)
             }
         }
     }
+    this.state = state
 }
 
-function getCornerBtnElem(emoji, {left, down}) {
+function getCornerBtnElem(emoji, { left, down }) {
     const x = left === true ? 0.03 : WIDTH_RATIO - 0.13
     const y = down === true ? 1 - 0.13 : 0.03
     return new Elem((pos = new Pos(x, y, 0.1, 0.1)), [
@@ -119,15 +120,29 @@ const homeScreenElems = {
 
 const gameSettingElems = {
     background: background,
-    homeBtn: getCornerBtnElem('\uf015', {left: true, down: false}),
+    homeBtn: getCornerBtnElem('\uf015', { left: true, down: false }),
+    forceJumpsChoseBtn: new Elem(
+        pos = new Pos((1 - 0.15) * WIDTH_RATIO / 2, 0.6, 0.15 * WIDTH_RATIO, 0.05),
+        [
+            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
+            new Text(pos, 'ON', '#fff', '15px Arial'),
+        ]
+    ),
+    startGameBtn: new Elem(
+        (pos = new Pos(0.35 * WIDTH_RATIO, 0.75, 0.3 * WIDTH_RATIO, 0.1)),
+        [
+            new Button(pos, '#3c3f41', 0.01, '#a9abad'),
+            new Text(pos, 'Start', '#fff', '20px Arial'),
+        ]
+    ),
 }
 
 const gameScreenElems = {
     background: background,
-    settingsBtn: getCornerBtnElem('\uf013', {left: false, down: false}),
-    adviceBtn: getCornerBtnElem('\uf0eb', {left: false, down: true}),
-    homeBtn: getCornerBtnElem('\uf015', {left: true, down: false}),
-    undoBtn: getCornerBtnElem('\uf0e2', {left: true, down: true}),
+    settingsBtn: getCornerBtnElem('\uf013', { left: false, down: false }),
+    adviceBtn: getCornerBtnElem('\uf0eb', { left: false, down: true }),
+    homeBtn: getCornerBtnElem('\uf015', { left: true, down: false }),
+    undoBtn: getCornerBtnElem('\uf0e2', { left: true, down: true }),
 
     board: new Elem(
         (pos = new Pos(

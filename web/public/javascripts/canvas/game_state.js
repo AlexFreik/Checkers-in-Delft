@@ -8,7 +8,9 @@ function Piece(x, y, player) {
     this.draw = function () {}
 }
 
-function Game() {
+function Game(forceJumps) {
+    this.forceJumps = forceJumps // boolean
+
     this.pieces = (() => {
         let pieces = []
         for (let y = 0; y < PIECES_COL_NUM; ++y) {
@@ -25,4 +27,4 @@ function Game() {
     })()
 }
 
-const game = new Game()
+let game = undefined
