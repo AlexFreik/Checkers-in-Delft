@@ -2,20 +2,18 @@
 /*
  drawable rectangle with fill and stroke
  */
-function Rect(pos, fillStyle, lineWidth, strokeStyle) {
-    this.pos = pos
+function Rect(absCnvPos, fillStyle, lineWidth, strokeStyle) {
+    this.absCnvPos = absCnvPos
     this.fillStyle = fillStyle
     this.lineWidth = lineWidth
     this.strokeStyle = strokeStyle
     this.draw = function () {
-        const absPos = this.pos.toAbsCord()
-
         ctx.fillStyle = this.fillStyle
-        ctx.fillRect(absPos.x, absPos.y, absPos.w, absPos.h)
+        ctx.fillRect(this.absCnvPos.x, this.absCnvPos.y, this.absCnvPos.w, this.absCnvPos.h)
 
         ctx.beginPath()
-        ctx.rect(absPos.x, absPos.y, absPos.w, absPos.h)
-        ctx.lineWidth = convert(this.lineWidth)
+        ctx.rect(this.absCnvPos.x, this.absCnvPos.y, this.absCnvPos.w, this.absCnvPos.h)
+        ctx.lineWidth = this.lineWidth
         ctx.strokeStyle = this.strokeStyle
         ctx.stroke()
     }
@@ -34,23 +32,21 @@ function Button(pos, fillStyle, lineWidth, strokeStyle) {
 /*
  one-line text, which is centered in rectangle of pos
  */
-function Text(pos, val, fillStyle, font) {
-    this.pos = pos
+function Text(absCnvPos, val, fillStyle, font) {
+    this.absCnvPos = absCnvPos
     this.val = val
     this.fillStyle = fillStyle
     this.font = font
     this.draw = function () {
-        const absPos = this.pos.toAbsCord()
-
         ctx.fillStyle = this.fillStyle
         ctx.font = this.font
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
         ctx.fillText(
             this.val,
-            absPos.x + absPos.w / 2,
-            absPos.y + absPos.h / 2,
-            absPos.w
+            this.absCnvPos.x + this.absCnvPos.w / 2,
+            this.absCnvPos.y + this.absCnvPos.h / 2,
+            this.absCnvPos.w
         )
     }
 }
@@ -59,8 +55,8 @@ function Text(pos, val, fillStyle, font) {
  figs -- array of drawable figures (rectangles, texts, etc)
  state -- whether it is hovered or not
  */
-function Elem(pos, figs, draw, state = 'OFF') {
-    this.pos = pos
+function Elem(absCnvPos, figs, draw, state = 'OFF') {
+    this.absCnvPos = absCnvPos
     this.figs = figs
     this.draw = draw
     if (!this.draw) {

@@ -3,7 +3,7 @@
  canvas style height = unifiedSize
  canvas style width = WIDTH_RATIO * unifiedSize
  */
-function convert(ratio) {
+function convertRatioToAbs(ratio) {
     return unifiedSize * ratio
 }
 /*
@@ -12,20 +12,35 @@ function convert(ratio) {
  w -- width
  h -- height
  */
-function Pos(x, y, w, h) {
-    this.x = x
-    this.y = y
-    this.w = w
-    this.h = h
-    this.toAbsCord = function () {
-        return new Pos(
-            convert(this.x),
-            convert(this.y),
-            convert(this.w),
-            convert(this.h)
+class Pos {
+    constructor(x, y, w, h) {
+        this.x = x
+        this.y = y
+        this.w = w
+        this.h = h
+    }
+    shift(x, y) {
+        return new Pos(this.x + x, this.y + y, this.w, this.h)
+    }
+}
+
+let unifiedSize = 500
+class RatioCnvPos extends Pos {
+    constructor(x, y, w, h) {
+        super(x, y, w, h)
+    }
+    toAbsCnvPos() {
+        return new AbsCnvPos(
+            convertRatioToAbs(this.x),
+            convertRatioToAbs(this.y),
+            convertRatioToAbs(this.w),
+            convertRatioToAbs(this.h)
         )
     }
-    this.shift = function (x, y) {
-        return new Pos(this.x + x, this.y + y, this.w, this.h)
+}
+
+class AbsCnvPos extends Pos{
+    constructor(x, y, w, h) {
+        super(x, y, w, h)
     }
 }

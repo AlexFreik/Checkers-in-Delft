@@ -27,10 +27,9 @@ function drawScreen() {
     }
 }
 
-let unifiedSize = 500
 const canvas = document.getElementById('canvas-game')
-canvas.style.width = WIDTH_RATIO * unifiedSize + 'px'
-canvas.style.height = unifiedSize + 'px'
+canvas.style.width = convertRatioToAbs(WIDTH_RATIO)  + 'px'
+canvas.style.height = convertRatioToAbs(1) + 'px'
 
 const ctx = setupCanvas(canvas)
 

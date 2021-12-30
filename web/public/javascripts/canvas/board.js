@@ -2,8 +2,8 @@
  Board-class. It is responsible for drawing grid and pieces
  and for detecting which piece is selected, when user clicks on board
  */
-function Board(pos, lineWidth, strokeStyle) {
-    this.pos = pos
+function Board(absCnvPos, lineWidth, strokeStyle) {
+    this.absCnvPos = absCnvPos
     this.n = ROW_COL_NUM // n -- number of rows & columns
     this.lineWidth = lineWidth
     this.strokeStyle = strokeStyle
@@ -13,25 +13,24 @@ function Board(pos, lineWidth, strokeStyle) {
      all pieces have coords {col: 0-7, row: 0-7}. It converts this coords into board-system pos
      */
     this._toAbsPiecePos = function (coords) {
-        const d = this.pos.w / this.n
-        const x = this.pos.x + coords.col * d
-        const y = this.pos.y + this.pos.h - (coords.row + 1) * d
-        return new Pos(x, y, d, d).toAbsCord()
+        const d = this.absCnvPos.w / this.n
+        const x = this.absCnvPos.x + coords.col * d
+        const y = this.absCnvPos.y + this.absCnvPos.h - (coords.row + 1) * d
+        return new AbsCnvPos(x, y, d, d)
     }
     /*
      it does reverse of _toAbsPiecePos
      */
-    this._toCoords = function (pos) {
-        // pos: position {x, y} on canvas
-        const absGridPos = this.pos.toAbsCord()
-        return {
+    this._toCoords = function (absCnvPos) {
+        const ans = {
             col: Math.floor(
-                ((pos.x - absGridPos.x) / absGridPos.w) * ROW_COL_NUM
+                ((absCnvPos.x - this.absCnvPos.x) / this.absCnvPos.w) * ROW_COL_NUM
             ),
             row:
-                ROW_COL_NUM -
-                Math.floor(((pos.y - this.pos.y) / absGridPos.h) * ROW_COL_NUM),
+                Math.floor((1 - (absCnvPos.y - this.absCnvPos.y) / this.absCnvPos.h) * ROW_COL_NUM),
         }
+        console.log(ans)
+        return ans
     }
     /*
      draws piece, and animates it if it is selected
@@ -62,17 +61,15 @@ function Board(pos, lineWidth, strokeStyle) {
         }
     }
     this.draw = function () {
-        const absPos = this.pos.toAbsCord()
-
         ctx.beginPath()
-        for (let x = 0; x <= absPos.w; x += absPos.w / this.n) {
-            ctx.moveTo(absPos.x + x, absPos.y)
-            ctx.lineTo(absPos.x + x, absPos.y + absPos.h)
+        for (let x = 0; x <= this.absCnvPos.w; x += this.absCnvPos.w / this.n) {
+            ctx.moveTo(this.absCnvPos.x + x, this.absCnvPos.y)
+            ctx.lineTo(this.absCnvPos.x + x, this.absCnvPos.y + this.absCnvPos.h)
         }
 
-        for (let y = 0; y <= absPos.h; y += absPos.h / this.n) {
-            ctx.moveTo(absPos.x, absPos.y + y)
-            ctx.lineTo(absPos.x + absPos.w, absPos.y + y)
+        for (let y = 0; y <= this.absCnvPos.h; y += this.absCnvPos.h / this.n) {
+            ctx.moveTo(this.absCnvPos.x, this.absCnvPos.y + y)
+            ctx.lineTo(this.absCnvPos.x + this.absCnvPos.w, this.absCnvPos.y + y)
         }
 
         ctx.lineWidth = this.lineWidth
@@ -87,8 +84,8 @@ function Board(pos, lineWidth, strokeStyle) {
      when user clicks on board it detects at which coords this click
      was and if needed erases selection or moves piece.
      */
-    this.processClick = function (pos) {
-        const coords = this._toCoords(pos)
+    this.processClick = function (absCnvPos) {
+        const coords = this._toCoords(absCnvPos)
         const chosenPiece = game.pieces.filter(
             (piece) =>
                 piece.coords.col === coords.col && piece.coords.row === coords.row
