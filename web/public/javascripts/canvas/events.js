@@ -43,9 +43,9 @@ window.addEventListener('click', function (event) {
         board.processNotClick()
     }
     if (isSelected(mousePos, elems.joinGameBtn)) {
-        addGameIdInput(
-            canvasRelPosToPagePos(gameChoosingElem.fieldID.pos.toAbsCord())
-        )
+        const inputAbsPos = gameChoosingElem.fieldID.pos.toAbsCord()
+        addGameIdInput(canvasRelPosToPagePos(inputAbsPos))
+
         elems = gameChoosingElem
     }
 
