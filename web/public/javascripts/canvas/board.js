@@ -69,12 +69,10 @@ function Board(pos, lineWidth, strokeStyle) {
 
     this.processClick = function (pos) {
         const coords = this._toCoords(pos)
-        console.log(coords)
         const chosenPiece = game.pieces.filter(
             (piece) =>
                 piece.coords.x === coords.x && piece.coords.y === coords.y
         )
-        console.log(chosenPiece)
         if (chosenPiece.length === 0) {
             if (this.selectedPiece === undefined) return
             this.selectedPiece.coords = coords

@@ -9,11 +9,20 @@ function getMousePosScale(canvas, evt) {
     }
 }
 
-function getMousePos(canvas, evt) {
+function getMousePosRelativeCanvas(canvas, evt) {
     const rect = canvas.getBoundingClientRect() // abs. size of element
     return {
         x: evt.clientX - rect.left, // scale mouse coordinates after they have
         y: evt.clientY - rect.top, // been adjusted to be relative to element
+    }
+}
+function canvasRelPosToPagePos(pos) {
+    const rect = canvas.getBoundingClientRect() // abs. size of element
+    return {
+        x: pos.x + rect.left + window.scrollX,
+        y: pos.y + rect.top + window.scrollY,
+        w: pos.w,
+        h: pos.h,
     }
 }
 
@@ -29,21 +38,40 @@ function isPosInRect(pos, rect) {
 function isSelected(mousePos, elem) {
     return elem && isPosInRect(mousePos, elem.pos.toAbsCord())
 }
+
 window.addEventListener('click', function (event) {
-    const mousePos = getMousePos(canvas, event)
+    const mousePos = getMousePosRelativeCanvas(canvas, event)
 
     if (isSelected(mousePos, elems.board)) {
         board.processClick(mousePos)
     } else {
         board.processNotClick()
     }
+    if (isSelected(mousePos, elems.joinBtn)) {
+        game = new Game('ON') // TODO
+
+        elems = gameScreenElems
+    }
     if (isSelected(mousePos, elems.joinGameBtn)) {
-        game = new Game()
+        addInput(
+            canvasRelPosToPagePos(gameChoosingElem.fieldID.pos.toAbsCord())
+        )
+        elems = gameChoosingElem
+    }
+
+    if (isSelected(mousePos, elems.forceJumpsChoseBtn)) {
+        const txt = elems.forceJumpsChoseBtn.figs[1]
+        txt.val = txt.val === 'ON' ? 'OFF' : 'ON'
+    }
+    if (isSelected(mousePos, elems.startBtn)) {
+        const forceJumps = elems.forceJumpsChoseBtn.figs[1].val === 'ON'
+        game = new Game(forceJumps)
         elems = gameScreenElems
     }
     if (isSelected(mousePos, elems.createGameBtn)) {
         elems = gameSettingElems
     }
+
     if (isSelected(mousePos, elems.homeBtn)) {
         elems = homeScreenElems
     }
@@ -52,19 +80,10 @@ window.addEventListener('click', function (event) {
         emoji.val = emoji.val === '\uf028' ? '\uf026' : '\uf028'
     }
 
-    if (isSelected(mousePos, elems.forceJumpsChoseBtn)) {
-        const txt = elems.forceJumpsChoseBtn.figs[1]
-        txt.val = txt.val === 'ON' ? 'OFF' : 'ON'
-    }
-    if (isSelected(mousePos, elems.startGameBtn)) {
-        const forceJumps = elems.forceJumpsChoseBtn.figs[1].val === 'ON'
-        game = new Game(forceJumps)
-        elems = gameScreenElems
-    }
     requestAnimationFrame(drawScreen)
 })
 window.addEventListener('mousemove', function (event) {
-    const clickPos = getMousePos(canvas, event)
+    const clickPos = getMousePosRelativeCanvas(canvas, event)
     for (const [name, elem] of Object.entries(elems)) {
         if (elem.state) {
             if (isPosInRect(clickPos, elem.pos.toAbsCord())) {

@@ -5,6 +5,10 @@ body {
     background: #202124;
 }
 
+input {
+    //width: 1000px;
+}
+
 * {
     color: #fff;
 }

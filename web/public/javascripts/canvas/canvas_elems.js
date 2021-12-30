@@ -15,6 +15,9 @@ function Pos(x, y, w, h) {
             convert(this.h)
         )
     }
+    this.shift = function (x, y) {
+        return new Pos(this.x + x, this.y + y, this.w, this.h)
+    }
 }
 
 function Rect(pos, fillStyle, lineWidth, strokeStyle) {
@@ -64,6 +67,29 @@ function Text(pos, val, fillStyle, font) {
     }
 }
 
+function addInput(pos) {
+    const input = document.createElement('input')
+
+    input.id = 'gameID'
+    input.type = 'text'
+    input.style.position = 'absolute'
+    input.style.left = pos.x + 'px'
+    input.style.top = pos.y + 'px'
+    input.style.width = Math.floor(pos.w) + 'px'
+    input.style.height = Math.floor(pos.h) + 'px'
+
+    input.style.background = 'rgba(0,0,0,0)'
+    input.style.color = '#eee'
+    input.style['font-size'] = '25px'
+    input.onkeydown = function handleEnter(event) {
+        if (event.key === 'Enter') {
+            document.body.removeChild(this)
+        }
+    }
+
+    document.body.appendChild(input)
+}
+
 function Elem(pos, figs, draw, state = 'OFF') {
     this.pos = pos
     this.figs = figs
@@ -86,18 +112,19 @@ function getCornerBtnElem(emoji, { left, down }) {
         new Text(pos, emoji, '#fff', '25px FontAwesome'),
     ])
 }
+
+// pos vals is ratios is related to unifiedSize (canvas height)
 function getDefaultBtnElem(pos, txtVal) {
     return new Elem(pos, [
         new Button(pos, '#3c3f41', 0.01, '#a9abad'),
         new Text(pos, txtVal, '#fff', '20px Arial'),
     ])
 }
-const background = new Elem(
-    (pos = new Pos(0 * WIDTH_RATIO, 0, 1 * WIDTH_RATIO, 1)),
-    [new Rect(pos, '#333333', 0.01, '#a9abad')]
-)
+const background = new Elem((pos = new Pos(0, 0, WIDTH_RATIO, 1)), [
+    new Rect(pos, '#333333', 0.01, '#a9abad'),
+])
 const soundBtn = getCornerBtnElem('\uf028', { left: false, down: false })
-// pos vals is ratios is related to unifiedSize (canvas height)
+const homeBtn = getCornerBtnElem('\uf015', { left: true, down: false })
 
 const homeScreenElems = {
     background: background,
@@ -122,7 +149,7 @@ const homeScreenElems = {
 const gameSettingElems = {
     background: background,
     soundBtn: soundBtn,
-    homeBtn: getCornerBtnElem('\uf015', { left: true, down: false }),
+    homeBtn: homeBtn,
     forceJumpsChoseBtn: getDefaultBtnElem(
         (pos = new Pos(
             ((1 - 0.15) * WIDTH_RATIO) / 2,
@@ -132,9 +159,28 @@ const gameSettingElems = {
         )),
         'ON'
     ),
-    startGameBtn: getDefaultBtnElem(
+    startBtn: getDefaultBtnElem(
         (pos = new Pos(0.35 * WIDTH_RATIO, 0.75, 0.3 * WIDTH_RATIO, 0.1)),
         'Start'
+    ),
+}
+
+const gameChoosingElem = {
+    background: background,
+    homeBtn: homeBtn,
+    soundBtn: soundBtn,
+
+    fieldID: new Elem(
+        (pos = new Pos(0.35 * WIDTH_RATIO, 0.5, 0.3 * WIDTH_RATIO, 0.1)),
+        [
+            new Rect(pos, '#3c3f41', 0.01, '#a9abad'),
+            new Text(pos, '', '#fff', '25px Arial'),
+            new Text(pos.shift(0, -0.1), 'Game ID:', '#fff', '25px Arial'),
+        ]
+    ),
+    joinBtn: getDefaultBtnElem(
+        new Pos(0.35 * WIDTH_RATIO, 0.75, 0.3 * WIDTH_RATIO, 0.1),
+        'Join'
     ),
 }
 
@@ -142,7 +188,7 @@ const gameScreenElems = {
     background: background,
     soundBtn: soundBtn,
     adviceBtn: getCornerBtnElem('\uf0eb', { left: false, down: true }),
-    homeBtn: getCornerBtnElem('\uf015', { left: true, down: false }),
+    homeBtn: homeBtn,
     undoBtn: getCornerBtnElem('\uf0e2', { left: true, down: true }),
 
     board: new Elem(
