@@ -6,7 +6,8 @@ const logger = require('morgan')
 const http = require('http')
 const websocket = require('ws')
 
-const indexRouter = require('./routes')
+const indexRouter = require('./routes/index')
+const apiRouter = require('./routes/api')
 
 function createApp(port) {
     const app = express()
@@ -19,6 +20,7 @@ function createApp(port) {
     app.use(cookieParser())
     app.use(express.static(path.join(__dirname, '../public')))
 
+    app.use('/api/', apiRouter)
     app.use('/', indexRouter)
 
     // catch 404 and forward to error handler
