@@ -24,3 +24,7 @@ function removeGameIdInput() {
     }
     return false
 }
+
+function getGameIdInputTxt() {
+    return document.getElementById('gameID').value
+}

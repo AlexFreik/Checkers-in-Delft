@@ -19,10 +19,34 @@ const homeScreenElems = {
         [
             new Rect(ratioPos, '#3c3f41', 0.01, '#a9abad'),
             new Text(
-                ratioPos,
+                ratioPos.shift(0, -0.1),
                 'THE BEST CHECKERS IN DELFT',
                 '#fff',
                 '25px Arial'
+            ),
+            new Text(
+                ratioPos.shift(0, -0.1),
+                'THE BEST CHECKERS IN DELFT',
+                '#fff',
+                '25px Arial'
+            ),
+            new Text(
+                ratioPos.shift(0, 0.03),
+                'finished games: ',
+                '#fff',
+                '20px Arial'
+            ),
+            new Text(
+                ratioPos.shift(0, 0.1),
+                'in progress games: ',
+                '#fff',
+                '20px Arial'
+            ),
+            new Text(
+                ratioPos.shift(0, 0.17),
+                'some third stat: ',
+                '#fff',
+                '20px Arial'
             ),
         ]
     ),
@@ -30,10 +54,10 @@ const homeScreenElems = {
 
 let currScreenElems = homeScreenElems
 
-homeScreenElems.createGameBtn.onclick = (event) => {
+homeScreenElems.createGameBtn.onclick = () => {
     currScreenElems = createGameScreenElems
 }
-homeScreenElems.joinGameBtn.onclick = (event) => {
+homeScreenElems.joinGameBtn.onclick = () => {
     addGameIdInput(joiningScreenElems.fieldID.absCnvPos.toAbsPagePos())
     currScreenElems = joiningScreenElems
 }
