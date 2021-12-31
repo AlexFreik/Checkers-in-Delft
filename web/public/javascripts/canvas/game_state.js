@@ -14,9 +14,9 @@ class Game {
      */
     constructor(forceJumps) {
         this.forceJumps = forceJumps
+        this.pieces = this._initialisePieces()
     }
-
-    pieces = (() => {
+    _initialisePieces() {
         let pieces = []
         for (let y = 0; y < PIECES_COL_NUM; ++y) {
             for (let x = y % 2; x < ROW_COL_NUM; x += 2) {
@@ -29,7 +29,7 @@ class Game {
             }
         }
         return pieces
-    })()
+    }
 }
 
 let game = undefined

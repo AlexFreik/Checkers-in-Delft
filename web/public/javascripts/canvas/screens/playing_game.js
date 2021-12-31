@@ -1,9 +1,7 @@
 const gameScreenElems = {
     background: background,
     soundBtn: soundBtn,
-    adviceBtn: getCornerBtnElem('\uf0eb', { left: false, down: true }),
     homeBtn: homeBtn,
-    undoBtn: getCornerBtnElem('\uf0e2', { left: true, down: true }),
 
     board: new Board(
         new RatioCnvPos(
