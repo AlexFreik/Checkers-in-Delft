@@ -13,6 +13,8 @@ const gameScreenElems = {
         1,
         '#ddd'
     ),
+
+    turn: new Text(new RatioCnvPos(0, 0, WIDTH_RATIO, 0.1), "Turn: ", '#ddd', "20px Arial")
 }
 
 const board = gameScreenElems.board
