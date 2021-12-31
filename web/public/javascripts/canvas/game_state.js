@@ -1,11 +1,14 @@
-function Piece(col, row, player) {
-    this.coords = { col, row }
-    this.player = player
-    this.color = {}
-    this.color[Setup.PLAYER_0] = PIECE_COL_0
-    this.color[Setup.PLAYER_1] = PIECE_COL_1
-
-    this.draw = function () {}
+class Piece {
+    constructor(col, row, player) {
+        this.coords = {col, row}
+        this.player = player
+        this.color = {}
+        this.color[Setup.PLAYER_0] = PIECE_COL_0
+        this.color[Setup.PLAYER_1] = PIECE_COL_1
+    }
+    coordsEqual({col, row}) {
+        return this.coords.col === col && this.coords.row === row
+    }
 }
 
 class Game {
@@ -15,6 +18,17 @@ class Game {
     constructor(forceJumps) {
         this.forceJumps = forceJumps
         this.pieces = this._initialisePieces()
+    }
+
+    movePiece(from, to) {
+        this.getPiece(from).coords = to
+    }
+    getPiece(coords) {
+        const piece = this.pieces.filter((piece) => piece.coordsEqual(coords))
+        return piece[0]
+    }
+    removePiece(coords) {
+      this.pieces.splice(0, this.getPiece(coords))
     }
     _initialisePieces() {
         let pieces = []

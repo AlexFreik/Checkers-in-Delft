@@ -8,7 +8,49 @@ class Board {
         this.n = ROW_COL_NUM
         this.lineWidth = lineWidth
         this.strokeStyle = strokeStyle
-        this.selectedPiece = undefined
+        this.selectedPieceCoords = undefined
+    }
+    draw() {
+        this._drawGrid()
+        this._drawAllPieces()
+    }
+    _drawGrid() {
+        ctx.beginPath()
+        for (let x = 0; x <= this.absCnvPos.w; x += this.absCnvPos.w / this.n) {
+            ctx.moveTo(this.absCnvPos.x + x, this.absCnvPos.y)
+            ctx.lineTo(
+                this.absCnvPos.x + x,
+                this.absCnvPos.y + this.absCnvPos.h
+            )
+        }
+
+        for (let y = 0; y <= this.absCnvPos.h; y += this.absCnvPos.h / this.n) {
+            ctx.moveTo(this.absCnvPos.x, this.absCnvPos.y + y)
+            ctx.lineTo(
+                this.absCnvPos.x + this.absCnvPos.w,
+                this.absCnvPos.y + y
+            )
+        }
+
+        ctx.lineWidth = this.lineWidth
+        ctx.strokeStyle = this.strokeStyle
+        ctx.closePath()
+        ctx.stroke()
+    }
+
+    /**
+     * When user clicks on board it detects at which coords this click
+     * was and if needed erases selection or moves piece.
+     */
+    processClick(absCnvPos) {
+        const coords = this._toCoords(absCnvPos)
+        if (!game.getPiece(coords)) {
+            if (this.selectedPieceCoords === undefined) return
+            game.movePiece(this.selectedPieceCoords, coords)
+            this.selectedPieceCoords = undefined
+        } else {
+            this.selectedPieceCoords = coords
+        }
     }
     _toAbsPiecePos = (coords) => {
         const d = this.absCnvPos.w / this.n
@@ -48,53 +90,11 @@ class Board {
     }
     _drawAllPieces() {
         for (const piece of game.pieces) {
-            this._drawPiece(piece, piece === this.selectedPiece)
-        }
-    }
-    draw() {
-        ctx.beginPath()
-        for (let x = 0; x <= this.absCnvPos.w; x += this.absCnvPos.w / this.n) {
-            ctx.moveTo(this.absCnvPos.x + x, this.absCnvPos.y)
-            ctx.lineTo(
-                this.absCnvPos.x + x,
-                this.absCnvPos.y + this.absCnvPos.h
+            this._drawPiece(
+                piece,
+                this.selectedPieceCoords &&
+                    piece.coordsEqual(this.selectedPieceCoords)
             )
-        }
-
-        for (let y = 0; y <= this.absCnvPos.h; y += this.absCnvPos.h / this.n) {
-            ctx.moveTo(this.absCnvPos.x, this.absCnvPos.y + y)
-            ctx.lineTo(
-                this.absCnvPos.x + this.absCnvPos.w,
-                this.absCnvPos.y + y
-            )
-        }
-
-        ctx.lineWidth = this.lineWidth
-        ctx.strokeStyle = this.strokeStyle
-        ctx.closePath()
-        ctx.stroke()
-
-        this._drawAllPieces()
-    }
-
-    /**
-     * When user clicks on board it detects at which coords this click
-     * was and if needed erases selection or moves piece.
-     */
-    processClick(absCnvPos) {
-        const coords = this._toCoords(absCnvPos)
-        const chosenPiece = game.pieces.filter(
-            (piece) =>
-                piece.coords.col === coords.col &&
-                piece.coords.row === coords.row
-        )
-        if (chosenPiece.length === 0) {
-            if (this.selectedPiece === undefined) return
-            this.selectedPiece.coords = coords
-            this.selectedPiece = undefined
-        } else {
-            console.assert(chosenPiece.length === 1)
-            this.selectedPiece = chosenPiece[0]
         }
     }
 }

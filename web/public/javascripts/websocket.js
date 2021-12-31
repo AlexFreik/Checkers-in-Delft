@@ -1,14 +1,12 @@
 //set up WebSocket
 const websocket = (function initFrontendWS() {
-    const target = document.getElementById('x')
-
     const socket = new WebSocket(Setup.WEB_SOCKET_URL)
 
     socket.onmessage = function (event) {
         console.log(event)
         let inMsg = JSON.parse(event.data)
-        if (inMsg.type === 'MOVE') {
-            target.innerHTML = inMsg.x
+        if (inMsg.type === 'move') {
+
         }
 
         // target.innerHTML = parseInt(event.data)
@@ -32,4 +30,4 @@ const websocket = (function initFrontendWS() {
     socket.onerror = function () {}
 
     return socket
-})() //execute immediately
+})()
