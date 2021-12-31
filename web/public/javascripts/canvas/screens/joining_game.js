@@ -4,17 +4,17 @@ const joiningScreenElems = {
     soundBtn: soundBtn,
 
     fieldID: new Elem(
-        (pos = new RatioCnvPos(
+        (ratioPos = new RatioCnvPos(
             0.35 * WIDTH_RATIO,
             0.5,
             0.3 * WIDTH_RATIO,
             0.1
-        ).toAbsCnvPos()),
+        )),
         [
-            new Rect(pos, '#3c3f41', convertRatioToAbs(0.01), '#a9abad'),
-            new Text(pos, '', '#fff', '25px Arial'),
+            new Rect(ratioPos, '#3c3f41', 0.01, '#a9abad'),
+            new Text(ratioPos, '', '#fff', '25px Arial'),
             new Text(
-                pos.shift(convertRatioToAbs(0), convertRatioToAbs(-0.1)),
+                ratioPos.shift(0,-0.1),
                 'Game ID:',
                 '#fff',
                 '25px Arial'

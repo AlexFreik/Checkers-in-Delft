@@ -1,6 +1,6 @@
 const background = new Elem(
-    (pos = new RatioCnvPos(0, 0, WIDTH_RATIO, 1).toAbsCnvPos()),
-    [new Rect(pos, '#333333', convertRatioToAbs(0.01), '#a9abad')]
+    (ratioPos = new RatioCnvPos(0, 0, WIDTH_RATIO, 1)),
+    [new Rect(ratioPos, '#333333', 0.01, '#a9abad')]
 )
 const soundBtn = getCornerBtnElem('\uf028', { left: false, down: false })
 const homeBtn = getCornerBtnElem('\uf015', { left: true, down: false })

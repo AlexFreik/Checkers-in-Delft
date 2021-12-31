@@ -5,19 +5,19 @@ const gameScreenElems = {
     homeBtn: homeBtn,
     undoBtn: getCornerBtnElem('\uf0e2', { left: true, down: true }),
 
-    board: new Elem(
-        (pos = new RatioCnvPos(
+    board: new Board(
+        new RatioCnvPos(
             (WIDTH_RATIO - (1 - 0.1 * 2)) / 2,
             0.1,
             1 - 0.1 * 2,
             1 - 0.1 * 2
-        ).toAbsCnvPos()),
-        [new Board(pos, 1, '#ddd')]
+        ),
+        1,
+        '#ddd'
     ),
 }
 
-const board = gameScreenElems.board.figs[0]
-
+const board = gameScreenElems.board
 
 gameScreenElems.board.onclick = (event) => {
     board.processClick(AbsCnvPos.constructFromEvent(event))

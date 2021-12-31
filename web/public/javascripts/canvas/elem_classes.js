@@ -1,11 +1,11 @@
 class Rect {
-    constructor(absCnvPos, fillStyle, lineWidth, strokeStyle) {
-        this.absCnvPos = absCnvPos
+    constructor(ratioPos, fillStyle, lineWidth, strokeStyle) {
+        this.absCnvPos = ratioPos.toAbsCnvPos()
         this.fillStyle = fillStyle
-        this.lineWidth = lineWidth
+        this.lineWidth = RatioCnvPos.ratioToAbs(lineWidth)
         this.strokeStyle = strokeStyle
     }
-    draw = () => {
+    draw() {
         ctx.fillStyle = this.fillStyle
         ctx.fillRect(
             this.absCnvPos.x,
@@ -27,11 +27,11 @@ class Rect {
     }
 }
 class Button {
-    constructor(pos, fillStyle, lineWidth, strokeStyle) {
-        this.rect = new Rect(pos, fillStyle, lineWidth, strokeStyle)
+    constructor(ratioPos, fillStyle, lineWidth, strokeStyle) {
+        this.rect = new Rect(ratioPos, fillStyle, lineWidth, strokeStyle)
         this.fillStyle = fillStyle
     }
-    draw = (state) => {
+    draw(state) {
         this.rect.fillStyle = state === 'ON' ? 'rgba(0,0,0,0)' : this.fillStyle
         this.rect.draw()
     }
@@ -39,15 +39,16 @@ class Button {
 function getCornerBtnElem(emoji, { left, down }) {
     const x = left === true ? 0.03 : WIDTH_RATIO - 0.13
     const y = down === true ? 1 - 0.13 : 0.03
-    return new Elem((pos = new RatioCnvPos(x, y, 0.1, 0.1).toAbsCnvPos()), [
-        new Button(pos, '#3c3f41', convertRatioToAbs(0.01), '#a9abad'),
-        new Text(pos, emoji, '#fff', '25px FontAwesome'),
+    let ratioPos;
+    return new Elem((ratioPos = new RatioCnvPos(x, y, 0.1, 0.1)), [
+        new Button(ratioPos, '#3c3f41', 0.01, '#a9abad'),
+        new Text(ratioPos, emoji, '#fff', '25px FontAwesome'),
     ])
 }
-function getDefaultBtnElem(pos, txtVal) {
-    return new Elem(pos, [
-        new Button(pos, '#3c3f41', convertRatioToAbs(0.01), '#a9abad'),
-        new Text(pos, txtVal, '#fff', '20px Arial'),
+function getDefaultBtnElem(ratioPos, txtVal) {
+    return new Elem(ratioPos, [
+        new Button(ratioPos, '#3c3f41', 0.01, '#a9abad'),
+        new Text(ratioPos, txtVal, '#fff', '20px Arial'),
     ])
 }
 
@@ -55,13 +56,13 @@ function getDefaultBtnElem(pos, txtVal) {
  * One-line text, which is centered in rectangle of pos.
  */
 class Text {
-    constructor(absCnvPos, val, fillStyle, font) {
-        this.absCnvPos = absCnvPos
+    constructor(ratioPos, val, fillStyle, font) {
+        this.absCnvPos = ratioPos.toAbsCnvPos()
         this.val = val
         this.fillStyle = fillStyle
         this.font = font
     }
-    draw = () => {
+    draw() {
         ctx.fillStyle = this.fillStyle
         ctx.font = this.font
         ctx.textAlign = 'center'
@@ -83,8 +84,8 @@ class Text {
  * @param {string} state -- whether it is hovered or not
  */
 class Elem {
-    constructor(absCnvPos, figs, draw, state = 'OFF') {
-        this.absCnvPos = absCnvPos
+    constructor(relPos, figs, draw, state = 'OFF') {
+        this.absCnvPos = relPos.toAbsCnvPos()
         this.figs = figs
         this.draw = draw
         if (!this.draw) {

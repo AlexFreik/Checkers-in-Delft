@@ -11,9 +11,6 @@ class Pos {
         this.w = w
         this.h = h
     }
-    shift(x, y) {
-        return new Pos(this.x + x, this.y + y, this.w, this.h)
-    }
     isInside(x, y) {
         return (
             this.x <= x &&
@@ -24,21 +21,24 @@ class Pos {
     }
 }
 
-let unifiedSize = 500
-function convertRatioToAbs(ratio) {
-    return unifiedSize * ratio
-}
 class RatioCnvPos extends Pos {
+    static unifiedSize = 500
     constructor(x, y, w, h) {
         super(x, y, w, h)
     }
     toAbsCnvPos() {
         return new AbsCnvPos(
-            convertRatioToAbs(this.x),
-            convertRatioToAbs(this.y),
-            convertRatioToAbs(this.w),
-            convertRatioToAbs(this.h)
+            RatioCnvPos.ratioToAbs(this.x),
+            RatioCnvPos.ratioToAbs(this.y),
+            RatioCnvPos.ratioToAbs(this.w),
+            RatioCnvPos.ratioToAbs(this.h)
         )
+    }
+    static ratioToAbs(ratio) {
+        return RatioCnvPos.unifiedSize * ratio
+    }
+    shift(x, y) {
+        return new RatioCnvPos(this.x + x, this.y + y, this.w, this.h)
     }
 }
 

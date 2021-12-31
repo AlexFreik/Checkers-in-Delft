@@ -8,16 +8,16 @@ const createGameScreenElems = {
             0.6,
             0.15 * WIDTH_RATIO,
             0.05
-        ).toAbsCnvPos()),
+        )),
         'ON'
     ),
     startBtn: getDefaultBtnElem(
-        (pos = new RatioCnvPos(
+        new RatioCnvPos(
             0.35 * WIDTH_RATIO,
             0.75,
             0.3 * WIDTH_RATIO,
             0.1
-        ).toAbsCnvPos()),
+        ),
         'Start'
     ),
 }

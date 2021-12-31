@@ -3,8 +3,8 @@
  * and for detecting which piece is selected, when user clicks on board
  */
 class Board {
-    constructor(absCnvPos, lineWidth, strokeStyle) {
-        this.absCnvPos = absCnvPos
+    constructor(ratioPos, lineWidth, strokeStyle) {
+        this.absCnvPos = ratioPos.toAbsCnvPos()
         this.n = ROW_COL_NUM
         this.lineWidth = lineWidth
         this.strokeStyle = strokeStyle
@@ -17,7 +17,7 @@ class Board {
         return new AbsCnvPos(x, y, d, d)
     }
 
-    _toCoords = (absCnvPos) => {
+    _toCoords(absCnvPos) {
         return {
             col: Math.floor(
                 ((absCnvPos.x - this.absCnvPos.x) / this.absCnvPos.w) *
@@ -29,7 +29,7 @@ class Board {
             ),
         }
     }
-    _drawPiece = (piece, isSelected) => {
+    _drawPiece(piece, isSelected) {
         const absPos = this._toAbsPiecePos(piece.coords)
         ctx.fillStyle = piece.color[piece.player]
         ctx.beginPath()
@@ -46,12 +46,12 @@ class Board {
         ctx.stroke()
         ctx.fill()
     }
-    _drawAllPieces = () => {
+    _drawAllPieces() {
         for (const piece of game.pieces) {
             this._drawPiece(piece, piece === this.selectedPiece)
         }
     }
-    draw = () => {
+    draw() {
         ctx.beginPath()
         for (let x = 0; x <= this.absCnvPos.w; x += this.absCnvPos.w / this.n) {
             ctx.moveTo(this.absCnvPos.x + x, this.absCnvPos.y)
@@ -81,7 +81,7 @@ class Board {
      * When user clicks on board it detects at which coords this click
      * was and if needed erases selection or moves piece.
      */
-    processClick = (absCnvPos) => {
+    processClick(absCnvPos) {
         const coords = this._toCoords(absCnvPos)
         const chosenPiece = game.pieces.filter(
             (piece) =>

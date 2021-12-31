@@ -1,21 +1,17 @@
-function isSelected(mousePos, elem) {
-    return elem && elem.absCnvPos.isInside(mousePos.x, mousePos.y)
-}
-
 canvas.onclick = (event) => {
-    const mouseAbsCnvPos = AbsCnvPos.constructFromEvent(event)
+    const mousePos = AbsCnvPos.constructFromEvent(event)
     for (const [name, elem] of Object.entries(currScreenElems)) {
-        if (elem.onclick && isSelected(mouseAbsCnvPos, elem)) {
+        if (elem.onclick && elem.absCnvPos.isInside(mousePos.x, mousePos.y)) {
             elem.onclick(event)
         }
     }
     requestAnimationFrame(drawScreen)
 }
 canvas.onmousemove = (event) => {
-    const mouseAbsCnvPos = AbsCnvPos.constructFromEvent(event)
+    const mousePos = AbsCnvPos.constructFromEvent(event)
     for (const [name, elem] of Object.entries(currScreenElems)) {
         if (elem.state) {
-            if (elem.absCnvPos.isInside(mouseAbsCnvPos.x, mouseAbsCnvPos.y)) {
+            if (elem.absCnvPos.isInside(mousePos.x, mousePos.y)) {
                 elem.state = 'ON'
             } else {
                 elem.state = 'OFF'
