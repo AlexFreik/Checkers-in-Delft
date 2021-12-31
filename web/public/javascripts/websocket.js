@@ -1,5 +1,5 @@
 //set up WebSocket
-const websocket = (function initFrontendWS() {
+function initFrontendWS() {
     const socket = new WebSocket(Setup.WEB_SOCKET_URL)
 
     socket.onmessage = function (event) {
@@ -30,4 +30,5 @@ const websocket = (function initFrontendWS() {
     socket.onerror = function () {}
 
     return socket
-})()
+}
+let websocket = undefined

@@ -12,7 +12,6 @@ function addGameIdInput(pos) {
     input.style.background = 'rgba(0,0,0,0)'
     input.style.color = '#eee'
     input.style['font-size'] = '25px'
-    input.onkeydown = function handleEnter(event) {}
 
     document.body.appendChild(input)
 }

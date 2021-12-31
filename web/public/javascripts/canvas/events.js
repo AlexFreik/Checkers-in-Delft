@@ -1,12 +1,3 @@
-canvas.onclick = (event) => {
-    const mousePos = AbsCnvPos.constructFromEvent(event)
-    for (const [name, elem] of Object.entries(currScreenElems)) {
-        if (elem.onclick && elem.absCnvPos.isInside(mousePos.x, mousePos.y)) {
-            elem.onclick(event)
-        }
-    }
-    requestAnimationFrame(drawScreen)
-}
 canvas.onmousemove = (event) => {
     const mousePos = AbsCnvPos.constructFromEvent(event)
     for (const [name, elem] of Object.entries(currScreenElems)) {
@@ -20,11 +11,19 @@ canvas.onmousemove = (event) => {
     }
     requestAnimationFrame(drawScreen)
 }
-window.addEventListener('keydown', function (event) {
-    if (currScreenElems.fieldID && event.key === 'Enter') {
-        removeGameIdInput()
-        game = new Game(true) // TODO
-        currScreenElems = gameScreenElems
-        requestAnimationFrame(drawScreen)
+canvas.onclick = (event) => {
+    const mousePos = AbsCnvPos.constructFromEvent(event)
+    for (const [name, elem] of Object.entries(currScreenElems)) {
+        if (elem.onclick && elem.absCnvPos.isInside(mousePos.x, mousePos.y)) {
+            elem.onclick(event)
+        }
     }
+}
+window.addEventListener('keydown', function (event) {
+    for (const [name, elem] of Object.entries(currScreenElems)) {
+        if (elem.onkeydown) {
+            elem.onkeydown(event)
+        }
+    }
+    requestAnimationFrame(drawScreen)
 })

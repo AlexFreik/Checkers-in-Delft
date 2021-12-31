@@ -22,3 +22,13 @@ const joiningScreenElems = {
         ]
     ),
 }
+
+joiningScreenElems.fieldID.onkeydown = (event) => {
+    if (event.key === 'Enter') {
+        removeGameIdInput()
+        game = new Game(true) // TODO
+        currScreenElems = gameScreenElems
+
+        const websocket = initFrontendWS()
+    }
+}

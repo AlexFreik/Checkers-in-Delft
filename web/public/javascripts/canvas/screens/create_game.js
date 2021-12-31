@@ -23,6 +23,8 @@ const createGameScreenElems = {
 }
 
 createGameScreenElems.startBtn.onclick = (event) => {
+    websocket = initFrontendWS()
+
     const forceJumps = currScreenElems.forceJumpsChoseBtn.figs[1].val === 'ON'
     game = new Game(forceJumps)
     currScreenElems = gameScreenElems
