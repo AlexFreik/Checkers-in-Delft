@@ -30,11 +30,11 @@ const gameScreenElems = {
         function () {
             this.drawDynamicTxt(
                 1,
-                '"1" - ' + game.getEatenPiecesNum(Setup.PLAYER_0)
+                '"1" - ' + game.getEatenPiecesNum(Setup.PLAYER_1)
             )
             this.drawDynamicTxt(
                 2,
-                '"2" - ' + game.getEatenPiecesNum(Setup.PLAYER_1)
+                '"2" - ' + game.getEatenPiecesNum(Setup.PLAYER_2)
             )
         }
     ),

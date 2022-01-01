@@ -48,7 +48,7 @@ function joinGame(status, data, gameId) {
             showGameIdElem
         )
     } else if (status === 200) {
-        game = new Game(gameId)
+        game = new Game(gameId, data.playerToken)
         websocket = initFrontendWS()
 
         removeGameIdInput()

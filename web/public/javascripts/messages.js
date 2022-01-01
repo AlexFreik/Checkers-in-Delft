@@ -1,15 +1,18 @@
-;(function (exports) {
-
-    // From a player to server
-    exports.MOVE = {
-        type: 'MOVE',
-        from: {
-            x: -1,
-            y: -1,
-        },
-        to: {
-            x: -1,
-            y: -1,
-        },
+function createMoveMsg(from, to) {
+    return {
+        type: 'move',
+        from: from,
+        to: to,
     }
-})(typeof exports === 'undefined' ? (this.Messages = {}) : exports)
+}
+function createLoginMsg(playerToken) {
+    return {
+        type: 'login',
+        playerToken: playerToken,
+    }
+}
+function createSurrenderMsg() {
+    return {
+        type: 'surrender',
+    }
+}

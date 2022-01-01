@@ -83,7 +83,7 @@ class Board {
             2 * Math.PI
         )
         ctx.closePath()
-        ctx.strokeStyle = piece.player === Setup.PLAYER_0 ? '#333' : '#eee'
+        ctx.strokeStyle = piece.player === Setup.PLAYER_1 ? '#333' : '#eee'
         ctx.lineWidth = 5
         ctx.stroke()
         ctx.fill()

@@ -41,8 +41,7 @@ createGameScreenElems.startBtn.onclick = () => {
 
 function createGame(status, data) {
     if (status === 200) {
-        game = new Game(data.gameId)
-        playerToken = data.playerToken
+        game = new Game(data.gameId, data.playerToken)
         websocket = initFrontendWS()
 
         currScreenElems = gameScreenElems
