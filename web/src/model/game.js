@@ -7,7 +7,16 @@ class Game {
         this.gameId = gameId
         this.settings = settings
         this.state = Game.STATE_WAITING_FOR_START
-        this.playerCount = 0
+        this.players = []
+    }
+
+    addPlayer(playerToken) {
+        this.players.push(playerToken)
+    }
+
+    start() {
+        this.state = Game.STATE_IN_PROGRESS
+        this.currentPlayer = this.players[0]
     }
 }
 

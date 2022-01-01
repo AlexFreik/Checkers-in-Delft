@@ -1,5 +1,7 @@
 const { v4: uuid } = require('uuid')
 const Game = require('../model/game')
+const { sendMessage } = require('../controller/ws-controller')
+const { createGameStateMessage } = require('../controller/ws-messages')
 
 const MAX_GAME_ID = 9999
 const MAX_GAMES = 10
@@ -9,7 +11,7 @@ const players = new Map()
 
 /**
  * Creates a new game
- * @param settings game params
+ * @param settings {object} game params
  * @returns id of the new game or null if it could not be created
  */
 function createGame(settings) {
@@ -29,7 +31,7 @@ function createNewGameId() {
 
 /**
  * Joins an existing game
- * @param gameId id of the game to join
+ * @param gameId {number} id of the game to join
  * @returns player token or null if joining was impossible
  */
 function joinGame(gameId) {
@@ -37,18 +39,21 @@ function joinGame(gameId) {
     if (!game) return null
 
     if (game.state !== Game.STATE_WAITING_FOR_START) return
-    game.playerCount++
 
     const playerToken = uuid()
     players.set(playerToken, gameId)
 
-    if (game.playerCount === 2) startGame(game)
+    game.addPlayer(playerToken)
+
+    if (game.players.length === 2) startGame(game)
 
     return playerToken
 }
 
 function startGame(game) {
     console.log("Game started: " + game.gameId)
+    game.start()
+    broadcastGameState(game)
 }
 
 function getGameByPlayer(playerToken) {
@@ -56,4 +61,12 @@ function getGameByPlayer(playerToken) {
     return games.get(gameId)
 }
 
-module.exports = { createGame, joinGame, getGameByPlayer }
+function sendGameState(playerToken, game) {
+    sendMessage(playerToken, createGameStateMessage(game.state, game.currentPlayer, game.winnerId))
+}
+
+function broadcastGameState(game) {
+    game.players.forEach(playerToken => sendGameState(playerToken, game))
+}
+
+module.exports = { createGame, joinGame, getGameByPlayer, sendGameState }
