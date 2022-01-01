@@ -49,8 +49,8 @@ class AbsCnvPos extends Pos {
     toAbsPagePos() {
         const rect = canvas.getBoundingClientRect()
         return new AbsPagePos(
-            this.x + rect.left + window.scrollX,
-            this.y + rect.top + window.scrollY,
+            this.x + rect.left + window.scrollX - 1,
+            this.y + rect.top + window.scrollY - 2,
             this.w,
             this.h
         )
