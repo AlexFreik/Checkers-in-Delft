@@ -1,3 +1,6 @@
+let inProgressGamesNum = 'undefined'
+let finishedGamesNum = 'undefined'
+
 const homeScreenElems = {
     background: background,
     soundBtn: soundBtn,
@@ -30,25 +33,15 @@ const homeScreenElems = {
                 '#fff',
                 '25px Arial'
             ),
-            new Text(
-                ratioPos.shift(0, 0.03),
-                'finished games: ',
-                '#fff',
-                '20px Arial'
-            ),
-            new Text(
-                ratioPos.shift(0, 0.1),
-                'in progress games: ',
-                '#fff',
-                '20px Arial'
-            ),
-            new Text(
-                ratioPos.shift(0, 0.17),
-                'some third stat: ',
-                '#fff',
-                '20px Arial'
-            ),
-        ]
+            new Text(ratioPos.shift(0, 0.03), '', '#fff', '20px Arial'),
+            new Text(ratioPos.shift(0, 0.1), '', '#fff', '20px Arial'),
+            new Text(ratioPos.shift(0, 0.17), '', '#fff', '20px Arial'),
+        ],
+        function () {
+            this.drawDynamicTxt(3, 'finished games: ' + finishedGamesNum)
+            this.drawDynamicTxt(4, 'in progress games: ' + inProgressGamesNum)
+            this.drawDynamicTxt(5, 'some third stat: ')
+        }
     ),
 }
 

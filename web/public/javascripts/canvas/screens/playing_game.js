@@ -17,8 +17,7 @@ const gameScreenElems = {
         (ratioPos = new RatioCnvPos(0, 0, WIDTH_RATIO, 0.1)),
         [new Text(ratioPos, '', '#ddd', '20px Arial')],
         function () {
-            this.figs[0].val = 'Turn: ' + '"' + game.turn + '"'
-            this.figs[0].draw()
+            this.drawDynamicTxt(0, 'Turn: ' + '"' + game.turn + '"')
         }
     ),
     eatenPiecesStat: new Elem(
@@ -29,12 +28,21 @@ const gameScreenElems = {
             new Text(ratioPos.shift(0, 0.1), '', '#ddd', '20px Arial'),
         ],
         function () {
-            this.figs[1].val = '"1" - ' + game.getEatenPiecesNum(Setup.PLAYER_0)
-            this.figs[2].val = '"2" - ' + game.getEatenPiecesNum(Setup.PLAYER_1)
-
-            this.figs[0].draw()
-            this.figs[1].draw()
-            this.figs[2].draw()
+            this.drawDynamicTxt(
+                1,
+                '"1" - ' + game.getEatenPiecesNum(Setup.PLAYER_0)
+            )
+            this.drawDynamicTxt(
+                2,
+                '"2" - ' + game.getEatenPiecesNum(Setup.PLAYER_1)
+            )
+        }
+    ),
+    gameId: new Elem(
+        (ratioPos = new RatioCnvPos(0, 0.9, WIDTH_RATIO, 0.1)),
+        [new Text(ratioPos, '', '#ddd', '20px Arial')],
+        function () {
+            this.drawDynamicTxt(0, 'gameId: ' + game.gameId)
         }
     ),
 }

@@ -15,7 +15,8 @@ class Game {
     /**
      * @param {boolean} forceJumps
      */
-    constructor(settings) {
+    constructor(gameId, settings) {
+        this.gameId = gameId
         this.settings = settings
         this.pieces = this._initialisePieces()
         this.turn = Setup.PLAYER_0

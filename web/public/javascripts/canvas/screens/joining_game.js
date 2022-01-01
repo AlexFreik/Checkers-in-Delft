@@ -30,13 +30,16 @@ joiningScreenElems.fieldID.onkeydown = (event) => {
             body: JSON.stringify({ gameId: gameId }),
         })
             .then((res) => res.json())
-            .then((data) => (playerToken = data.playerToken))
+            .then((data) => joinGame(data))
             .catch((e) => console.log(e))
-
-        removeGameIdInput()
-        game = new Game() // TODO
-        currScreenElems = gameScreenElems
-
-        const websocket = initFrontendWS()
     }
+}
+
+function joinGame(data) {
+    game = new Game(data.gameId)
+    websocket = initFrontendWS()
+
+    removeGameIdInput()
+    currScreenElems = gameScreenElems
+    window.requestAnimationFrame(drawScreen)
 }

@@ -42,7 +42,7 @@ class Button {
 function getCornerBtnElem(emoji, { left, down }) {
     const x = left === true ? 0.03 : WIDTH_RATIO - 0.13
     const y = down === true ? 1 - 0.13 : 0.03
-    let ratioPos;
+    let ratioPos
     return new Elem((ratioPos = new RatioCnvPos(x, y, 0.1, 0.1)), [
         new Button(ratioPos, '#3c3f41', 0.01, '#a9abad'),
         new Text(ratioPos, emoji, '#fff', '25px FontAwesome'),
@@ -77,6 +77,10 @@ class Text {
             this.absCnvPos.w
         )
     }
+    dynamicDraw(state, val) {
+        this.val = val
+        this.draw()
+    }
 }
 
 /**
@@ -87,17 +91,19 @@ class Text {
  * @param {string} state -- whether it is hovered or not
  */
 class Elem {
-    constructor(relPos, figs, draw, state = 'OFF') {
+    constructor(relPos, figs, draw = this._draw, state = 'OFF') {
         this.absCnvPos = relPos.toAbsCnvPos()
         this.figs = figs
         this.draw = draw
-        if (!this.draw) {
-            this.draw = () => {
-                for (const fig of this.figs) {
-                    fig.draw(this.state)
-                }
-            }
-        }
         this.state = state
+    }
+    _draw() {
+        for (const fig of this.figs) {
+            fig.draw(this.state)
+        }
+    }
+    drawDynamicTxt(id, txtVal) {
+        this.figs[id].val = txtVal
+        this._draw()
     }
 }
