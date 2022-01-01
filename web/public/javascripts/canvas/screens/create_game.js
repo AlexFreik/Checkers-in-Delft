@@ -12,12 +12,7 @@ const createGameScreenElems = {
         'ON'
     ),
     startBtn: getDefaultBtnElem(
-        new RatioCnvPos(
-            0.35 * WIDTH_RATIO,
-            0.75,
-            0.3 * WIDTH_RATIO,
-            0.1
-        ),
+        new RatioCnvPos(0.35 * WIDTH_RATIO, 0.75, 0.3 * WIDTH_RATIO, 0.1),
         'Start'
     ),
 }
@@ -27,6 +22,7 @@ createGameScreenElems.forceJumpsChoseBtn.onclick = (event) => {
     txt.val = txt.val === 'ON' ? 'OFF' : 'ON'
 }
 createGameScreenElems.startBtn.onclick = () => {
+    let status
     fetch('/api/create-game', {
         method: 'POST',
         cache: 'no-cache',
@@ -35,22 +31,28 @@ createGameScreenElems.startBtn.onclick = () => {
         },
         body: JSON.stringify(getGameSettingsInput()),
     })
-        .then((res) => res.json())
-        .then((data) => createGame(data))
+        .then((res) => {
+            status = res.status
+            return res.json()
+        })
+        .then((data) => createGame(status, data))
         .catch((e) => console.log(e))
 }
 
-function createGame(data) {
-    game = new Game(data.gameId)
-    playerToken = data.playerToken
-    websocket = initFrontendWS()
+function createGame(status, data) {
+    if (status === 200) {
+        game = new Game(data.gameId)
+        playerToken = data.playerToken
+        websocket = initFrontendWS()
 
-    currScreenElems = gameScreenElems
-    window.requestAnimationFrame(drawScreen)
+        currScreenElems = gameScreenElems
+        window.requestAnimationFrame(drawScreen)
+    }
 }
 
 function getGameSettingsInput() {
     return {
-        forceJumps: createGameScreenElems.forceJumpsChoseBtn.figs[1].val === 'ON'
+        forceJumps:
+            createGameScreenElems.forceJumpsChoseBtn.figs[1].val === 'ON',
     }
 }

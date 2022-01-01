@@ -107,3 +107,28 @@ class Elem {
         this._draw()
     }
 }
+
+class AlertMsg extends Elem {
+    constructor(titleTxt, bodyTxt, onremove) {
+        let ratioPos
+        super(
+            (ratioPos = new RatioCnvPos(
+                0.25 * WIDTH_RATIO,
+                0.25,
+                0.5 * WIDTH_RATIO,
+                0.5
+            )),
+            [
+                new Rect(ratioPos, '#333333', 0.01, '#a9abad'),
+                new Text(
+                    ratioPos.shift(0, -0.15),
+                    titleTxt,
+                    '#ddd',
+                    '25px Arial'
+                ),
+                new Text(ratioPos.shift(0, 0), bodyTxt, '#ddd', '15px Arial'),
+            ]
+        )
+        this.onremove = onremove
+    }
+}

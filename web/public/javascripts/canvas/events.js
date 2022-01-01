@@ -23,6 +23,7 @@ canvas.onclick = (event) => {
             }
         }
     }
+    processAlert()
     window.requestAnimationFrame(drawScreen)
 }
 window.addEventListener('keydown', function (event) {
@@ -33,6 +34,14 @@ window.addEventListener('keydown', function (event) {
     }
     window.requestAnimationFrame(drawScreen)
 })
+
+function processAlert() {
+    const alert = currScreenElems.alertMsg
+    if (alert) {
+        alert.onremove()
+        delete currScreenElems.alertMsg
+    }
+}
 
 // ===== stats processing =====
 window.onload = () => {

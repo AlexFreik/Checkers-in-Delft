@@ -25,6 +25,15 @@ function removeGameIdInput() {
     return false
 }
 
+function getGameIdElem() {
+    return document.getElementById('gameID')
+}
 function getGameIdInputTxt() {
-    return document.getElementById('gameID').value
+    return getGameIdElem().value
+}
+function hideGameIdElem() {
+    getGameIdElem().style.display = 'none'
+}
+function showGameIdElem() {
+    getGameIdElem().style.display = 'block'
 }

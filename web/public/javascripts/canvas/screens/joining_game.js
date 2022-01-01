@@ -20,6 +20,7 @@ const joiningScreenElems = {
 
 joiningScreenElems.fieldID.onkeydown = (event) => {
     const gameId = getGameIdInputTxt()
+    let status
     if (event.key === 'Enter') {
         fetch('/api/join-game', {
             method: 'POST',
@@ -29,17 +30,29 @@ joiningScreenElems.fieldID.onkeydown = (event) => {
             },
             body: JSON.stringify({ gameId: gameId }),
         })
-            .then((res) => res.json())
-            .then((data) => joinGame(data))
+            .then((res) => {
+                status = res.status
+                return res.json()
+            })
+            .then((res) => joinGame(status, res, gameId))
             .catch((e) => console.log(e))
     }
 }
 
-function joinGame(data) {
-    game = new Game(data.gameId)
-    websocket = initFrontendWS()
+function joinGame(status, data, gameId) {
+    if (status === 400) {
+        hideGameIdElem()
+        currScreenElems.alertMsg = new AlertMsg(
+            'Error',
+            data.message,
+            showGameIdElem
+        )
+    } else if (status === 200) {
+        game = new Game(gameId)
+        websocket = initFrontendWS()
 
-    removeGameIdInput()
-    currScreenElems = gameScreenElems
+        removeGameIdInput()
+        currScreenElems = gameScreenElems
+    }
     window.requestAnimationFrame(drawScreen)
 }
