@@ -13,3 +13,4 @@ homeBtn.onclick = (event) => {
     removeGameIdInput()
     currScreenElems = homeScreenElems
 }
+clickSound = new Audio('../data/click.wav')

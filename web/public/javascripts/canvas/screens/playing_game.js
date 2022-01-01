@@ -3,15 +3,14 @@ const gameScreenElems = {
     soundBtn: soundBtn,
     homeBtn: homeBtn,
 
-    board: new Board(
-        new RatioCnvPos(
+    board: new Elem(
+        (ratioPos = new RatioCnvPos(
             (WIDTH_RATIO - (1 - 0.1 * 2)) / 2,
             0.1,
             1 - 0.1 * 2,
             1 - 0.1 * 2
-        ),
-        1,
-        '#ddd'
+        )),
+        [new Board(ratioPos, 1, '#ddd')]
     ),
 
     turn: new Elem(
@@ -40,7 +39,7 @@ const gameScreenElems = {
     ),
 }
 
-const board = gameScreenElems.board
+const board = gameScreenElems.board.figs[0]
 
 gameScreenElems.board.onclick = (event) => {
     board.processClick(AbsCnvPos.constructFromEvent(event))

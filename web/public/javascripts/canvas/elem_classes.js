@@ -35,6 +35,9 @@ class Button {
         this.rect.fillStyle = state === 'ON' ? 'rgba(0,0,0,0)' : this.fillStyle
         this.rect.draw()
     }
+    onclick() {
+        clickSound.play()
+    }
 }
 function getCornerBtnElem(emoji, { left, down }) {
     const x = left === true ? 0.03 : WIDTH_RATIO - 0.13

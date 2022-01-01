@@ -16,6 +16,11 @@ canvas.onclick = (event) => {
     for (const [name, elem] of Object.entries(currScreenElems)) {
         if (elem.onclick && elem.absCnvPos.isInside(mousePos.x, mousePos.y)) {
             elem.onclick(event)
+            for (const fig of elem.figs) {
+                if (fig.onclick) {
+                    fig.onclick(event)
+                }
+            }
         }
     }
     requestAnimationFrame(drawScreen)
