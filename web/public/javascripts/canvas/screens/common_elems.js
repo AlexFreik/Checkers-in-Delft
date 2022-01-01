@@ -14,3 +14,4 @@ homeBtn.onclick = (event) => {
     currScreenElems = homeScreenElems
 }
 clickSound = new Audio('../data/click.wav')
+clickSound.volume = 0.1;
