@@ -43,18 +43,3 @@ function processAlert() {
     }
 }
 
-// ===== stats processing =====
-window.onload = () => {
-    processStats()
-}
-function processStats() {
-    fetch('/data/stats.json')
-        .then((res) => res.json())
-        .then((data) => this.setStats(data))
-        .catch((e) => console.log(e))
-}
-function setStats(stats) {
-    inProgressGamesNum = stats.inProgressGamesNum
-    finishedGamesNum = stats.finishedGamesNum
-    window.requestAnimationFrame(drawScreen)
-}
