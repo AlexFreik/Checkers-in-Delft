@@ -23,7 +23,7 @@ canvas.onclick = (event) => {
             }
         }
     }
-    requestAnimationFrame(drawScreen)
+    window.requestAnimationFrame(drawScreen)
 }
 window.addEventListener('keydown', function (event) {
     for (const [name, elem] of Object.entries(currScreenElems)) {
@@ -33,19 +33,3 @@ window.addEventListener('keydown', function (event) {
     }
     window.requestAnimationFrame(drawScreen)
 })
-
-// ===== stats processing =====
-function processStats() {
-    fetch('/data/stats.json')
-        .then((res) => res.json())
-        .then((data) => this.setCnvStats(data))
-        .catch((e) => console.log(e))
-}
-function setCnvStats(stats) {
-    homeScreenElems.titleDesc.figs[3].val += stats.inProgressGamesNum
-    homeScreenElems.titleDesc.figs[4].val += stats.finishedGamesNum
-    window.requestAnimationFrame(drawScreen)
-}
-window.onload = () => {
-    processStats()
-}

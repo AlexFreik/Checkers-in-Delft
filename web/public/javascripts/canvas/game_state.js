@@ -33,7 +33,7 @@ class Game {
     }
     getEatenPiecesNum(player) {
         return (
-            PlAYER_PIECES_NUM -
+            PLAYER_PIECES_NUM -
             this.pieces.filter((piece) => piece.player === player).length
         )
     }
