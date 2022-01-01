@@ -15,9 +15,10 @@ class Game {
     /**
      * @param {boolean} forceJumps
      */
-    constructor(forceJumps) {
-        this.forceJumps = forceJumps
+    constructor(settings) {
+        this.settings = settings
         this.pieces = this._initialisePieces()
+        this.turn = Setup.PLAYER_0
     }
 
     movePiece(from, to) {
@@ -29,6 +30,12 @@ class Game {
     }
     removePiece(coords) {
         this.pieces.splice(0, this.getPiece(coords))
+    }
+    getEatenPiecesNum(player) {
+        return (
+            PlAYER_PIECES_NUM -
+            this.pieces.filter((piece) => piece.player === player).length
+        )
     }
     _initialisePieces() {
         let pieces = []

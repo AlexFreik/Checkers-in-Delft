@@ -34,7 +34,7 @@ joiningScreenElems.fieldID.onkeydown = (event) => {
             .catch((e) => console.log(e))
 
         removeGameIdInput()
-        game = new Game(true) // TODO
+        game = new Game() // TODO
         currScreenElems = gameScreenElems
 
         const websocket = initFrontendWS()
