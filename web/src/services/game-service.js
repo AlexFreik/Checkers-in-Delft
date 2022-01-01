@@ -16,7 +16,7 @@ function createGame(settings) {
     if (games.size >= MAX_GAMES) return null
 
     const gameId = createNewGameId()
-    const game = new Game(gameId)
+    const game = new Game(gameId, settings)
     games.set(gameId, game)
 
     return gameId
@@ -51,4 +51,9 @@ function startGame(game) {
     console.log("Game started: " + game.gameId)
 }
 
-module.exports = { createGame, joinGame }
+function getGameByPlayer(playerToken) {
+    const gameId = players.get(playerToken)
+    return games.get(gameId)
+}
+
+module.exports = { createGame, joinGame, getGameByPlayer }
