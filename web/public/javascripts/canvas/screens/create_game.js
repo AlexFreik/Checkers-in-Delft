@@ -33,3 +33,31 @@ createGameScreenElems.forceJumpsChoseBtn.onclick = (event) => {
     const txt = currScreenElems.forceJumpsChoseBtn.figs[1]
     txt.val = txt.val === 'ON' ? 'OFF' : 'ON'
 }
+createGameScreenElems.startBtn.onkeydown = (event) => {
+    const settings = getGameSettingsInput()
+    if (event.key === 'Enter') {
+        fetch('/api/create-game', {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(settings),
+        })
+            .then((res) => res.json())
+            .then((data) => (playerToken = data.playerToken))
+            .catch((e) => console.log(e))
+
+        removeGameIdInput()
+        game = new Game(true) // TODO
+        currScreenElems = gameScreenElems
+
+        const websocket = initFrontendWS()
+    }
+}
+
+function getGameSettingsInput() {
+    return {
+        forceJumps: createGameScreenElems.forceJumpsChoseBtn.figs[1].val === 'ON'
+    }
+}
