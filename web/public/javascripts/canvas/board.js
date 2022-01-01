@@ -52,7 +52,7 @@ class Board {
             this.selectedPieceCoords = coords
         }
     }
-    _toAbsPiecePos = (coords) => {
+    _toAbsPiecePos(coords) {
         const d = this.absCnvPos.w / this.n
         const x = this.absCnvPos.x + coords.col * d
         const y = this.absCnvPos.y + this.absCnvPos.h - (coords.row + 1) * d
