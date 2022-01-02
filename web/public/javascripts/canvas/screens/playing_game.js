@@ -4,12 +4,7 @@ const gameScreenElems = {
     homeBtn: homeBtn,
 
     board: new Elem(
-        (ratioPos = new RatioCnvPos(
-            (WIDTH_RATIO - (1 - 0.1 * 2)) / 2,
-            0.1,
-            1 - 0.1 * 2,
-            1 - 0.1 * 2
-        )),
+        (ratioPos = new RatioCnvPos((WIDTH_RATIO - 0.8) / 2, 0.1, 0.8, 0.8)),
         [new Board(ratioPos, 1, '#ddd')]
     ),
 
@@ -21,7 +16,7 @@ const gameScreenElems = {
         }
     ),
     eatenPiecesStat: new Elem(
-        (ratioPos = new RatioCnvPos(WIDTH_RATIO - 0.15, 0, 0.1, 1)),
+        (ratioPos = new RatioCnvPos(0, 0, (WIDTH_RATIO - 0.8) / 2, 1)),
         [
             new Text(ratioPos, 'Eaten:', '#ddd', '20px Arial'),
             new Text(ratioPos.shift(0, 0.05), '', '#ddd', '20px Arial'),

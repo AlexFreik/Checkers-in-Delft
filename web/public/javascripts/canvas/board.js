@@ -19,7 +19,7 @@ class Board {
     }
     _drawGrid() {
         ctx.beginPath()
-        for (let x = 0; x <= this.absCnvPos.w; x += this.absCnvPos.w / this.n) {
+        for (let x = 0; x <= Math.ceil(this.absCnvPos.w); x += this.absCnvPos.w / this.n) {
             ctx.moveTo(this.absCnvPos.x + x, this.absCnvPos.y)
             ctx.lineTo(
                 this.absCnvPos.x + x,
@@ -27,7 +27,7 @@ class Board {
             )
         }
 
-        for (let y = 0; y <= this.absCnvPos.h; y += this.absCnvPos.h / this.n) {
+        for (let y = 0; y <= Math.ceil(this.absCnvPos.h); y += this.absCnvPos.h / this.n) {
             ctx.moveTo(this.absCnvPos.x, this.absCnvPos.y + y)
             ctx.lineTo(
                 this.absCnvPos.x + this.absCnvPos.w,
