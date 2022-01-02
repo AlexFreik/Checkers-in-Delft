@@ -6,8 +6,8 @@ const logger = require('morgan')
 const http = require('http')
 const websocket = require('ws')
 
-const indexRouter = require('./routes/index')
-const apiRouter = require('./routes/api')
+const indexRouter = require('./route/index')
+const apiRouter = require('./route/api')
 
 const { handleConnection } = require('./controller/ws-controller')
 

@@ -1,16 +1,12 @@
 class Connection {
+    /**
+     * Creates a new connection
+     * @param sendMessage {function(string)} function for sending messages
+     */
     constructor(sendMessage) {
         this.sendMessage = sendMessage
-    }
-
-    requirePlayerToken() {
-        if (!this.playerToken) throw Error('Not logged in')
-        return this.playerToken
-    }
-
-    setPlayerToken(playerToken) {
-        this.playerToken = playerToken
+        this.playerToken = undefined
     }
 }
 
-module.exports = { Connection }
+module.exports = Connection

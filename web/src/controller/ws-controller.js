@@ -1,7 +1,8 @@
 const { createErrorMessage } = require('./messages')
 const handleLogin = require('../handler/login-handler')
 const handleMove = require('../handler/move-handler')
-const { Connection } = require('./connection')
+const Connection = require('./connection')
+const ApiError = require('../util/api-error')
 
 const handlers = {
     'login': handleLogin,
@@ -22,6 +23,7 @@ function handleMessage(ws, rawMessage) {
         const type = data.type
         handlers[type](ws.connection, data)
     } catch (e) {
+        if (!(e instanceof ApiError)) throw e
         sendMessage(ws, createErrorMessage('Error: ' + e))
     }
 }

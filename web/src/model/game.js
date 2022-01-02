@@ -3,6 +3,11 @@ class Game {
     static STATE_IN_PROGRESS = 'in-progress'
     static STATE_FINISHED = 'finished'
 
+    /**
+     * Creates a new game
+     * @param gameId {string}
+     * @param settings {object}
+     */
     constructor(gameId, settings) {
         this.gameId = gameId
         this.settings = settings
@@ -10,10 +15,18 @@ class Game {
         this.players = []
     }
 
+    /**
+     * Adds player to the player list
+     * @param playerToken {string}
+     */
     addPlayer(playerToken) {
         this.players.push(playerToken)
     }
 
+    /**
+     * Marks the game as started.
+     * TODO Pick the first player randomly
+     */
     start() {
         this.state = Game.STATE_IN_PROGRESS
         this.currentPlayer = this.players[0]
