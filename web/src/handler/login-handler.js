@@ -1,5 +1,4 @@
 const gameService = require('../services/game-service')
-const { createWelcomeMessage } = require('../controller/messages')
 const connectionRegistry = require('../controller/connection-registry')
 const ApiError = require('../util/api-error')
 
@@ -11,7 +10,7 @@ function handleLogin(connection, message) {
     const playerId = message.playerId
 
     const game = gameService.getGameByPlayer(playerId)
-    if (!game) throw new ApiError('Invalid player token')
+    if (!game) throw new ApiError('Invalid player id')
 
     connectionRegistry.registerConnection(playerId, connection)
     gameService.sendWelcome(playerId, game)

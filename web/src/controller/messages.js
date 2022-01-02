@@ -4,7 +4,9 @@
  * @returns {object}
  */
 const createWelcomeMessage = (settings, sideId) => ({
-    type: 'welcome', settings, sideId
+    type: 'welcome',
+    settings,
+    sideId: transformSideId(sideId)
 })
 
 /**
@@ -14,7 +16,10 @@ const createWelcomeMessage = (settings, sideId) => ({
  * @returns {object}
  */
 const createGameStateMessage = (state, currentSideId, winnerSideId) => ({
-    type: 'game-state', state, currentSideId, winnerSideId
+    type: 'game-state',
+    state,
+    currentSideId: transformSideId(currentSideId),
+    winnerSideId: transformSideId(winnerSideId)
 })
 
 /**
@@ -46,5 +51,7 @@ const createMoveMessage = (from, to, eaten) => ({
 const createErrorMessage = (message) => ({
     type: 'error', message
 })
+
+const transformSideId = (sideId) => sideId !== undefined ? sideId + 1 : undefined
 
 module.exports = { createWelcomeMessage, createGameStateMessage, createMoveMessage, createErrorMessage }
