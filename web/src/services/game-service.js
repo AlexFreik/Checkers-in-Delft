@@ -1,6 +1,6 @@
 const { v4: uuid } = require('uuid')
 const Game = require('../model/game')
-const { sendMessage } = require('../controller/ws-controller')
+const { sendMessage } = require('../controller/output-gateway')
 const { createGameStateMessage } = require('../controller/ws-messages')
 
 const MAX_GAME_ID = 9999

@@ -1,55 +1,35 @@
-const { createErrorMessage, createWelcomeMessage } = require('./ws-messages')
-const { getGameByPlayer, sendGameState } = require('../services/game-service')
+const { createErrorMessage } = require('./ws-messages')
+const handleLogin = require('../handler/login-handler')
+const handleMove = require('../handler/move-handler')
+const { Connection } = require('./connection')
 
-const connections = new Map()
+const handlers = {
+    'login': handleLogin,
+    'move': handleMove
+}
+
+function handleConnection(ws) {
+    ws.connection = new Connection(message => sendMessage(ws, message))
+    ws.on('message', function(message) {
+        handleMessage(ws, message)
+    })
+}
 
 function handleMessage(ws, rawMessage) {
     try {
         console.log('< ' + rawMessage)
         const data = JSON.parse(rawMessage)
         const type = data.type
-        handlers[type](ws, data)
+        handlers[type](ws.connection, data)
     } catch (e) {
-        sendMessageToSocket(ws, createErrorMessage('Error: ' + e))
+        sendMessage(ws, createErrorMessage('Error: ' + e))
     }
 }
 
-const handlers = {
-    'login': handleLoginMessage,
-    'move': handleMoveMessage
-}
-
-function handleLoginMessage(ws, message) {
-    const token = message.playerToken
-
-    const game = getGameByPlayer(token)
-    if (!game) throw Error('Invalid player token')
-
-    connections.set(token, ws)
-    sendMessageToSocket(ws, createWelcomeMessage(game.settings))
-    sendGameState(token)
-}
-
-function handleMoveMessage(ws, message) {
-    const token = requireToken(ws)
-    // TODO
-}
-
-function requireToken(ws) {
-    const playerToken = ws.playerToken
-    if (!playerToken) throw Error('Not logged in')
-    return playerToken
-}
-
-function sendMessage(playerToken, message) {
-    const ws = connections.get(playerToken)
-    sendMessageToSocket(ws, message)
-}
-
-function sendMessageToSocket(ws, message) {
+function sendMessage(ws, message) {
     const rawMessage = JSON.stringify(message)
     console.log('> ' + rawMessage)
     ws.send(rawMessage)
 }
 
-module.exports = { handleMessage, sendMessage }
+module.exports = { handleConnection }

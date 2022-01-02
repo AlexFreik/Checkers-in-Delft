@@ -9,7 +9,7 @@ const websocket = require('ws')
 const indexRouter = require('./routes/index')
 const apiRouter = require('./routes/api')
 
-const { handleMessage } = require('./controller/ws-controller')
+const { handleConnection } = require('./controller/ws-controller')
 
 function createApp(port) {
     const app = express()
@@ -54,11 +54,7 @@ function createServer(port) {
 
 function createWebsocketServer(httpServer) {
     const wss = new websocket.Server({ server: httpServer })
-    wss.on('connection', function(ws) {
-        ws.on('message', function(message) {
-            handleMessage(ws, message)
-        })
-    })
+    wss.on('connection', handleConnection)
 }
 
 module.exports = createServer
