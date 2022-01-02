@@ -97,14 +97,13 @@ class Text {
  * @param {string} state -- whether it is hovered or not
  */
 class Elem {
-    constructor(ratioPos, figs, draw = this._draw, state = 'OFF') {
+    constructor(ratioPos, figs, draw = this._draw) {
         this.ratioPos = ratioPos
         this.figs = figs
         this.draw = draw
-        this.state = state
         this.eventListeners = {
-            mousemove: [this._onmousemove],
             click: [this._onclick],
+            mousemove: [],
             resize: [],
             keydown: [],
         }
@@ -124,14 +123,6 @@ class Elem {
         this.figs[id].val = txtVal
         this._draw()
     }
-    _onmousemove = (event) => {
-        const mousePos = AbsCnvPos.constructFromEvent(event)
-        if (this.absCnvPos.isInside(mousePos.x, mousePos.y)) {
-            this.state = 'ON'
-        } else {
-            this.state = 'OFF'
-        }
-    }
     _onclick = (event) => {
         for (const fig of this.figs) {
             if (fig.onclick) fig.onclick(event)
@@ -140,21 +131,33 @@ class Elem {
 }
 
 class Button extends Elem {
+    constructor(rect, text) {
+        super(rect.ratioPos, [rect, text])
+        this.fillStyle = rect.fillStyle
+        this.text = text
+        this.eventListeners.click.push(() => {
+            Button.clickSound.play()
+        })
+        this.eventListeners.mousemove.push(this._onmousemove)
+    }
     static clickSound = (() => {
         const audio = new Audio('../data/click.wav')
         audio.volume = 0.15
         return audio
     })()
-    constructor(rect, text) {
-        super(rect.ratioPos, [rect, text])
-        this.text = text
-        this.eventListeners.click.push(() => {
-            Button.clickSound.play()
-        })
+    static mute() {
+        Button.clickSound.volume = 0
     }
-    draw(state) {
-        this.rect.fillStyle = state === 'ON' ? 'rgba(0,0,0,0)' : this.fillStyle
-        this.rect.draw()
+    static unmute() {
+        Button.clickSound.volume = 0.15
+    }
+    _onmousemove = (event) => {
+        const mousePos = AbsCnvPos.constructFromEvent(event)
+        if (this.absCnvPos.isInside(mousePos.x, mousePos.y)) {
+            this.figs[0].fillStyle = 'rgba(0,0,0,0)'
+        } else {
+            this.figs[0].fillStyle = this.fillStyle
+        }
     }
 }
 function getCornerBtnElem(emoji, { left, down }) {

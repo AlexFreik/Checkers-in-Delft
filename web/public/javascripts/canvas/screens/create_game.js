@@ -17,7 +17,7 @@ const createGameScreenElems = {
     ),
 }
 
-createGameScreenElems.forceJumpsChoseBtn.addEventListener('click', (event) => {
+createGameScreenElems.forceJumpsChoseBtn.addEventListener('click', () => {
     const txt = currScreenElems.forceJumpsChoseBtn.figs[1]
     txt.val = txt.val === 'ON' ? 'OFF' : 'ON'
 })
@@ -39,9 +39,14 @@ createGameScreenElems.startBtn.addEventListener('click', () => {
         .catch((e) => console.log(e))
 })
 
+/**
+ *
+ * @param {number} status
+ * @param {{gameId: string, playerId: string}} data
+ */
 function createGame(status, data) {
     if (status === 200) {
-        game = new Game(data.gameId, data.playerToken)
+        game = new Game(data.gameId, data.playerId)
         websocket = initFrontendWS()
 
         currScreenElems = gameScreenElems

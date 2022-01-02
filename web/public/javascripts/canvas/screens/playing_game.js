@@ -12,7 +12,7 @@ const gameScreenElems = {
         (ratioPos = new RatioCnvPos(0, 0, WIDTH_RATIO, 0.1)),
         [new Text(ratioPos, '', '#ddd', Font.middle)],
         function () {
-            this.drawDynamicTxt(0, 'Turn: ' + '"' + game.currentPlayer + '"')
+            this.drawDynamicTxt(0, 'Turn: ' + '"' + game.currentSideId + '"')
         }
     ),
     eatenPiecesStat: new Elem(
@@ -25,11 +25,11 @@ const gameScreenElems = {
         function () {
             this.drawDynamicTxt(
                 1,
-                '"1" - ' + game.getEatenPiecesNum(Setup.PLAYER_1)
+                '"1" - ' + game.getEatenPiecesNum(SIDE_ID_1)
             )
             this.drawDynamicTxt(
                 2,
-                '"2" - ' + game.getEatenPiecesNum(Setup.PLAYER_2)
+                '"2" - ' + game.getEatenPiecesNum(SIDE_ID_2)
             )
         }
     ),

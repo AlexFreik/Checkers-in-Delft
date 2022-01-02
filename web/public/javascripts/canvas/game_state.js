@@ -1,11 +1,24 @@
 class Piece {
-    constructor(col, row, player) {
+    /**
+     *
+     * @param {number} col
+     * @param {number} row
+     * @param {1 | 2} sideId
+     */
+    constructor(col, row, sideId) {
         this.coords = { col, row }
-        this.player = player
+        this.sideId = sideId
         this.color = {}
-        this.color[Setup.PLAYER_1] = PIECE_COL_1
-        this.color[Setup.PLAYER_2] = PIECE_COL_2
+        this.color[SIDE_ID_1] = PIECE_COL_1
+        this.color[SIDE_ID_2] = PIECE_COL_2
     }
+
+    /**
+     *
+     * @param {number} col
+     * @param {number} row
+     * @return {boolean}
+     */
     coordsEqual({ col, row }) {
         return this.coords.col === col && this.coords.row === row
     }
@@ -24,17 +37,17 @@ class Coords {
 class Game {
     /**
      * @param {string} gameId
-     * @param {string} playerToken
+     * @param {string} playerId
      * @param {{forceJumps: boolean}} settings
      * @param {1 | 2} side
      */
-    constructor(gameId, playerToken, settings, side) {
+    constructor(gameId, playerId, settings= undefined, side= undefined) {
         this.gameId = gameId
-        this.playerToken = playerToken
+        this.playerId = playerId
         this.settings = settings
         this.side = side
         this.pieces = this._initialisePieces()
-        this.currentPlayer = Setup.PLAYER_1
+        this.currentSideId = SIDE_ID_1
     }
 
     /**
@@ -62,12 +75,12 @@ class Game {
         let pieces = []
         for (let y = 0; y < PIECES_COL_NUM; ++y) {
             for (let x = y % 2; x < ROW_COL_NUM; x += 2) {
-                pieces.push(new Piece(x, y, Setup.PLAYER_1))
+                pieces.push(new Piece(x, y, SIDE_ID_1))
             }
         }
         for (let row = ROW_COL_NUM - PIECES_COL_NUM; row < ROW_COL_NUM; ++row) {
             for (let col = row % 2; col < ROW_COL_NUM; col += 2) {
-                pieces.push(new Piece(col, row, Setup.PLAYER_2))
+                pieces.push(new Piece(col, row, SIDE_ID_2))
             }
         }
         return pieces

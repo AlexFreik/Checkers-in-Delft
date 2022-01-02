@@ -25,16 +25,12 @@ class Board {
         return this.ratioPos.toAbsCnvPos()
     }
 
-    /**
-     * @return {undefined}
-     */
     draw() {
         this._drawGrid()
         this._drawAllPieces()
     }
 
     /**
-     * @return {undefined}
      * @private
      */
     _drawGrid() {
@@ -113,12 +109,11 @@ class Board {
      *
      * @param {Piece} piece
      * @param {boolean} isSelected
-     * @return {undefined}
      * @private
      */
     _drawPiece(piece, isSelected) {
         const absPos = this._toAbsPiecePos(piece.coords)
-        ctx.fillStyle = piece.color[piece.player]
+        ctx.fillStyle = piece.color[piece.sideId]
         ctx.beginPath()
         ctx.arc(
             absPos.x + absPos.w / 2,
@@ -128,14 +123,13 @@ class Board {
             2 * Math.PI
         )
         ctx.closePath()
-        ctx.strokeStyle = piece.player === Setup.PLAYER_1 ? '#333' : '#eee'
+        ctx.strokeStyle = piece.sideId === SIDE_ID_1 ? '#333' : '#eee'
         ctx.lineWidth = 5
         ctx.stroke()
         ctx.fill()
     }
 
     /**
-     * @return {undefined}
      * @private
      */
     _drawAllPieces() {
