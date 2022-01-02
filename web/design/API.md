@@ -33,6 +33,13 @@
     "playerToken": "<token-value>"
   }
   ```
+  
+### General HTTP error response body
+```json
+{
+  "message": "<message>"
+}
+```
 
 ## Websocket API
 
@@ -97,7 +104,9 @@
   - `finished` - after the game is finished and the result is known
 
 
-- **Move** - broadcasted to both players after a move is made
+- **Move** - broadcasted to both players after a move is made;
+  longer moves are sent as multiple Move messages;
+  `eatenPiece` field is sent only if a piece has been eaten
   ```json
   {
     "type": "move",
@@ -106,6 +115,10 @@
       "row": 1
     },
     "to": {
+      "col": 3,
+      "row": 3
+    },
+    "eatenPiece": {
       "col": 2,
       "row": 2
     }
