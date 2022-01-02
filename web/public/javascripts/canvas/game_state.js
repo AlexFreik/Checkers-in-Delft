@@ -11,12 +11,22 @@ class Piece {
     }
 }
 
+class Coords {
+    /**
+     * @param {number} col
+     * @param {number} row
+     */
+    constructor(col, row) {
+        this.col = col
+        this.row = row
+    }
+}
 class Game {
     /**
-     * @param gameId
-     * @param playerToken
-     * @param settings
-     * @param side
+     * @param {string} gameId
+     * @param {string} playerToken
+     * @param {{forceJumps: boolean}} settings
+     * @param {1 | 2} side
      */
     constructor(gameId, playerToken, settings, side) {
         this.gameId = gameId
@@ -27,8 +37,13 @@ class Game {
         this.currentPlayer = Setup.PLAYER_1
     }
 
+    /**
+     *
+     * @param {Coords} from
+     * @param {Coords} to
+     */
     movePiece(from, to) {
-        this.getPiece(from).coords = to
+        senders['move'](from, to)
     }
     getPiece(coords) {
         const piece = this.pieces.filter((piece) => piece.coordsEqual(coords))

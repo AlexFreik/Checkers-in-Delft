@@ -50,6 +50,26 @@ function handleGameStateMsg(data) {
     }
 }
 
+const senders = {
+    move: sendMoveMsg,
+    surrender: sendSurrenderMsg,
+}
+
+/**
+ *
+ * @param {Coords} from
+ * @param {Coords} to
+ */
+function sendMoveMsg(from, to) {
+    sendMsg(createMoveMsg(from, to))
+}
+function sendSurrenderMsg() {
+    sendMsg(createSurrenderMsg())
+}
+/**
+ *
+ * @param {{type: string, }}msg
+ */
 function sendMsg(msg) {
     websocket.send(JSON.stringify(msg))
 }

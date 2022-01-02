@@ -3,6 +3,12 @@
  * and for detecting which piece is selected, when user clicks on board
  */
 class Board {
+    /**
+     *
+     * @param {RatioCnvPos} ratioPos
+     * @param {number} lineWidth
+     * @param {string} strokeStyle
+     */
     constructor(ratioPos, lineWidth, strokeStyle) {
         this.ratioPos = ratioPos
         this.n = ROW_COL_NUM
@@ -10,13 +16,27 @@ class Board {
         this.strokeStyle = strokeStyle
         this.selectedPieceCoords = undefined
     }
+
+    /**
+     *
+     * @return {AbsCnvPos}
+     */
     get absCnvPos() {
         return this.ratioPos.toAbsCnvPos()
     }
+
+    /**
+     * @return {undefined}
+     */
     draw() {
         this._drawGrid()
         this._drawAllPieces()
     }
+
+    /**
+     * @return {undefined}
+     * @private
+     */
     _drawGrid() {
         ctx.beginPath()
         for (let x = 0; x <= Math.ceil(this.absCnvPos.w); x += this.absCnvPos.w / this.n) {
@@ -44,6 +64,7 @@ class Board {
     /**
      * When user clicks on board it detects at which coords this click
      * was and if needed erases selection or moves piece.
+     * @param {AbsCnvPos} absCnvPos
      */
     processClick(absCnvPos) {
         const coords = this._toCoords(absCnvPos)
@@ -55,6 +76,13 @@ class Board {
             this.selectedPieceCoords = coords
         }
     }
+
+    /**
+     *
+     * @param {{col: number, row: number}} coords
+     * @return {AbsCnvPos}
+     * @private
+     */
     _toAbsPiecePos(coords) {
         const d = this.absCnvPos.w / this.n
         const x = this.absCnvPos.x + coords.col * d
@@ -62,6 +90,12 @@ class Board {
         return new AbsCnvPos(x, y, d, d)
     }
 
+    /**
+     *
+     * @param {AbsCnvPos} absCnvPos
+     * @return {{col: number, row: number}}
+     * @private
+     */
     _toCoords(absCnvPos) {
         return {
             col: Math.floor(
@@ -74,6 +108,14 @@ class Board {
             ),
         }
     }
+
+    /**
+     *
+     * @param {Piece} piece
+     * @param {boolean} isSelected
+     * @return {undefined}
+     * @private
+     */
     _drawPiece(piece, isSelected) {
         const absPos = this._toAbsPiecePos(piece.coords)
         ctx.fillStyle = piece.color[piece.player]
@@ -91,6 +133,11 @@ class Board {
         ctx.stroke()
         ctx.fill()
     }
+
+    /**
+     * @return {undefined}
+     * @private
+     */
     _drawAllPieces() {
         for (const piece of game.pieces) {
             this._drawPiece(
