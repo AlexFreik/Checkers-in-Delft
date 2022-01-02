@@ -1,7 +1,7 @@
 const { v4: uuid } = require('uuid')
 const Game = require('../model/game')
 const { sendMessage } = require('../controller/connection-registry')
-const { createGameStateMessage, createMoveMessage } = require('../controller/messages')
+const { createGameStateMessage, createMoveMessage, createWelcomeMessage } = require('../controller/messages')
 const ApiError = require('../util/api-error')
 
 const MAX_GAME_ID = 9999
@@ -59,7 +59,7 @@ function joinGame(gameId) {
  */
 function startGame(game) {
     console.log("Game started: " + game.gameId)
-    game.start()
+    game.start(Math.random() < 0.5 ? Game.SIDE_A : Game.SIDE_B)
     sendGameState(game.players, game)
 }
 
@@ -72,8 +72,8 @@ function startGame(game) {
  */
 function performMove(playerId, from, to) {
     const game = getGameByPlayer(playerId)
-    if (game.state !== Game.STATE_IN_PROGRESS) throw new ApiError('Game not in progress')
-    if (game.currentPlayer !== playerId) throw new ApiError('Move not possible now')
+    if (!game || game.state !== Game.STATE_IN_PROGRESS) throw new ApiError('Game not in progress')
+    if (game.currentSideId !== game.getPlayerSide(playerId)) throw new ApiError('Move not possible now')
     // TODO Implement move validation
     sendMessage(game.players, createMoveMessage(from, to))
 }
@@ -90,12 +90,21 @@ function getGameByPlayer(playerId) {
 }
 
 /**
- * Sends the current game state to the specified players
- * @param playerIds {string[]} receivers
- * @param game {Game} game whose state will be sent
+ * Sends the welcome message to the specified player
+ * @param playerId {string}
+ * @param game {Game}
  */
-function sendGameState(playerIds, game) {
-    sendMessage(playerIds, createGameStateMessage(game.state, game.currentPlayer, game.winnerId))
+function sendWelcome(playerId, game) {
+    sendMessage([playerId], createWelcomeMessage(game.settings, game.getPlayerSide(playerId)))
 }
 
-module.exports = { createGame, joinGame, performMove, getGameByPlayer, sendGameState }
+/**
+ * Sends the current game state to the specified players
+ * @param playerIds {string[]}
+ * @param game {Game}
+ */
+function sendGameState(playerIds, game) {
+    sendMessage(playerIds, createGameStateMessage(game.state, game.currentSideId, game.winnerSideId))
+}
+
+module.exports = { createGame, joinGame, performMove, getGameByPlayer, sendWelcome, sendGameState }

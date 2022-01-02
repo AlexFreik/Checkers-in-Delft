@@ -1,19 +1,20 @@
 /**
  * @param settings {object}
+ * @param sideId {number}
  * @returns {object}
  */
-const createWelcomeMessage = (settings) => ({
-    type: 'welcome', settings
+const createWelcomeMessage = (settings, sideId) => ({
+    type: 'welcome', settings, sideId
 })
 
 /**
  * @param state {string} game state
- * @param currentPlayerId {string=} current player's id
- * @param winnerId {string=} winner player's id
+ * @param currentSideId {number=} current side id
+ * @param winnerSideId {number=} winner side id
  * @returns {object}
  */
-const createGameStateMessage = (state, currentPlayerId, winnerId) => ({
-    type: 'game-state', state, currentPlayerId, winnerId
+const createGameStateMessage = (state, currentSideId, winnerSideId) => ({
+    type: 'game-state', state, currentSideId, winnerSideId
 })
 
 /**

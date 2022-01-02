@@ -12,7 +12,7 @@ router.post('/create-game', handle((req, res) => {
 
     res.send({
         'gameId': gameId,
-        'playerToken': playerId
+        'playerId': playerId
     })
 }))
 
@@ -23,7 +23,7 @@ router.post('/join-game', handle((req, res) => {
     const playerId = joinGame(gameId)
 
     res.send({
-        'playerToken': playerId
+        'playerId': playerId
     })
 }))
 
