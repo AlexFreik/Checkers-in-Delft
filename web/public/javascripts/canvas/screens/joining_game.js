@@ -51,6 +51,12 @@ joiningScreenElems.fieldID.addEventListener('mousemove', () => {
     )
 })
 
+/**
+ *
+ * @param {number} status
+ * @param {{playerId: string, message: string}} data
+ * @param {string} gameId
+ */
 function joinGame(status, data, gameId) {
     if (status === 400) {
         hideGameIdElem()
@@ -60,7 +66,7 @@ function joinGame(status, data, gameId) {
             showGameIdElem
         )
     } else if (status === 200) {
-        game = new Game(gameId, data.playerToken)
+        game = new Game(gameId, data.playerId)
         websocket = initFrontendWS()
 
         removeGameIdInput()
