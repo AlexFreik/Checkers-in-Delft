@@ -25,22 +25,16 @@ const homeScreenElems = {
                 ratioPos.shift(0, -0.1),
                 'THE BEST CHECKERS IN DELFT',
                 '#fff',
-                '25px Arial'
+                Font.Middle
             ),
-            new Text(
-                ratioPos.shift(0, -0.1),
-                'THE BEST CHECKERS IN DELFT',
-                '#fff',
-                '25px Arial'
-            ),
-            new Text(ratioPos.shift(0, 0.03), '', '#fff', '20px Arial'),
-            new Text(ratioPos.shift(0, 0.1), '', '#fff', '20px Arial'),
-            new Text(ratioPos.shift(0, 0.17), '', '#fff', '20px Arial'),
+            new Text(ratioPos.shift(0, 0.03), '', '#fff', Font.middle),
+            new Text(ratioPos.shift(0, 0.1), '', '#fff', Font.middle),
+            new Text(ratioPos.shift(0, 0.17), '', '#fff', Font.middle),
         ],
         function () {
-            this.drawDynamicTxt(3, 'finished games: ' + finishedGamesNum)
-            this.drawDynamicTxt(4, 'in progress games: ' + inProgressGamesNum)
-            this.drawDynamicTxt(5, 'some third stat: ')
+            this.drawDynamicTxt(2, 'Finished games: ' + finishedGamesNum)
+            this.drawDynamicTxt(3, 'In progress games: ' + inProgressGamesNum)
+            this.drawDynamicTxt(4, 'Some third stat: ')
         }
     ),
 }

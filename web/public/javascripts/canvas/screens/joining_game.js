@@ -12,8 +12,8 @@ const joiningScreenElems = {
         )),
         [
             new Rect(ratioPos, '#3c3f41', 0.01, '#a9abad'),
-            new Text(ratioPos, '', '#fff', '25px Arial'),
-            new Text(ratioPos.shift(0, -0.1), 'Game ID:', '#fff', '25px Arial'),
+            new Text(ratioPos, '', '#fff', Font.Middle),
+            new Text(ratioPos.shift(0, -0.1), 'Game ID:', '#fff', Font.Middle),
         ]
     ),
 }

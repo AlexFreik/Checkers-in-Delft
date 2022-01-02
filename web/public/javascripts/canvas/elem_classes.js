@@ -29,6 +29,39 @@ class Rect {
         ctx.stroke()
     }
 }
+class Font {
+    static FONTS_SIZES = {
+        small: 10,
+        Small: 15,
+        middle: 20,
+        Middle: 25,
+        big: 30,
+        Big: 35,
+    }
+    static DEFAULT_FONT = 'Arial'
+    static _getFont(size) {
+        return Font.FONTS_SIZES[size] + 'px ' + Font.DEFAULT_FONT
+    }
+    static get small() {
+        return Font._getFont('small')
+    }
+    static get Small() {
+        return Font._getFont('Small')
+    }
+    static get middle() {
+        return Font._getFont('middle')
+    }
+    static get Middle() {
+        return Font._getFont('Middle')
+    }
+    static get big() {
+        return Font._getFont('big')
+    }
+    static get Big() {
+        return Font._getFont('Big')
+    }
+}
+
 /**
  * One-line text, which is centered in rectangle of pos.
  */
@@ -137,7 +170,7 @@ function getCornerBtnElem(emoji, { left, down }) {
 function getDefaultBtnElem(ratioPos, txtVal) {
     return new Button(
         new Rect(ratioPos, '#3c3f41', 0.01, '#a9abad'),
-        new Text(ratioPos, txtVal, '#fff', '20px Arial')
+        new Text(ratioPos, txtVal, '#fff', Font.middle)
     )
 }
 
@@ -157,9 +190,9 @@ class AlertMsg extends Elem {
                     ratioPos.shift(0, -0.15),
                     titleTxt,
                     '#ddd',
-                    '25px Arial'
+                    Font.Middle
                 ),
-                new Text(ratioPos.shift(0, 0), bodyTxt, '#ddd', '15px Arial'),
+                new Text(ratioPos.shift(0, 0), bodyTxt, '#ddd', Font.Small),
             ]
         )
         this.onremove = onremove

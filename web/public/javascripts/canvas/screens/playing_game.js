@@ -10,17 +10,17 @@ const gameScreenElems = {
 
     turn: new Elem(
         (ratioPos = new RatioCnvPos(0, 0, WIDTH_RATIO, 0.1)),
-        [new Text(ratioPos, '', '#ddd', '20px Arial')],
+        [new Text(ratioPos, '', '#ddd', Font.middle)],
         function () {
-            this.drawDynamicTxt(0, 'Turn: ' + '"' + game.turn + '"')
+            this.drawDynamicTxt(0, 'Turn: ' + '"' + game.currentPlayer + '"')
         }
     ),
     eatenPiecesStat: new Elem(
         (ratioPos = new RatioCnvPos(0, 0, (WIDTH_RATIO - 0.8) / 2, 1)),
         [
-            new Text(ratioPos, 'Eaten:', '#ddd', '20px Arial'),
-            new Text(ratioPos.shift(0, 0.05), '', '#ddd', '20px Arial'),
-            new Text(ratioPos.shift(0, 0.1), '', '#ddd', '20px Arial'),
+            new Text(ratioPos, 'Eaten:', '#ddd', Font.middle),
+            new Text(ratioPos.shift(0, 0.05), '', '#ddd', Font.middle),
+            new Text(ratioPos.shift(0, 0.1), '', '#ddd', Font.middle),
         ],
         function () {
             this.drawDynamicTxt(
@@ -35,7 +35,7 @@ const gameScreenElems = {
     ),
     gameId: new Elem(
         (ratioPos = new RatioCnvPos(0, 0.9, WIDTH_RATIO, 0.1)),
-        [new Text(ratioPos, '', '#ddd', '20px Arial')],
+        [new Text(ratioPos, '', '#ddd', Font.middle)],
         function () {
             this.drawDynamicTxt(0, 'gameId: ' + game.gameId)
         }
