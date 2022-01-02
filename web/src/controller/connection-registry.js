@@ -1,11 +1,16 @@
 const connections = new Map()
 
 function registerConnection(playerToken, connection) {
+    connection.setPlayerToken(playerToken)
     connections.set(playerToken, connection)
 }
 
-function getConnection(playerToken) {
-    return connections.get(playerToken)
+function sendMessage(playerTokens, message) {
+    playerTokens.forEach(token => {
+        const connection = connections.get(token)
+        if (!connection) return
+        connection.sendMessage(message)
+    })
 }
 
-module.exports = { registerConnection, getConnection }
+module.exports = { registerConnection, sendMessage }

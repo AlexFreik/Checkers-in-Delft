@@ -1,6 +1,5 @@
 const gameService = require('../services/game-service')
-const { createWelcomeMessage } = require('../controller/ws-messages')
-const outputGateway = require('../controller/output-gateway')
+const { createWelcomeMessage } = require('../controller/messages')
 const connectionRegistry = require('../controller/connection-registry')
 
 function handleLogin(connection, message) {
@@ -9,9 +8,8 @@ function handleLogin(connection, message) {
     const game = gameService.getGameByPlayer(token)
     if (!game) throw Error('Invalid player token')
 
-    connection.setPlayerToken(token)
     connectionRegistry.registerConnection(token, connection)
-    outputGateway.sendMessage(token, createWelcomeMessage(game.settings))
+    connectionRegistry.sendMessage([token], createWelcomeMessage(game.settings))
     gameService.sendGameState(token, game)
 }
 

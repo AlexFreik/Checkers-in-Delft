@@ -1,4 +1,4 @@
-const { createErrorMessage } = require('./ws-messages')
+const { createErrorMessage } = require('./messages')
 const handleLogin = require('../handler/login-handler')
 const handleMove = require('../handler/move-handler')
 const { Connection } = require('./connection')

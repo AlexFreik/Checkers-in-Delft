@@ -1,7 +1,7 @@
 const { v4: uuid } = require('uuid')
 const Game = require('../model/game')
-const { sendMessage } = require('../controller/output-gateway')
-const { createGameStateMessage } = require('../controller/ws-messages')
+const { sendMessage } = require('../controller/connection-registry')
+const { createGameStateMessage } = require('../controller/messages')
 
 const MAX_GAME_ID = 9999
 const MAX_GAMES = 10
@@ -53,7 +53,7 @@ function joinGame(gameId) {
 function startGame(game) {
     console.log("Game started: " + game.gameId)
     game.start()
-    broadcastGameState(game)
+    sendGameState(game.players, game)
 }
 
 function getGameByPlayer(playerToken) {
@@ -61,12 +61,8 @@ function getGameByPlayer(playerToken) {
     return games.get(gameId)
 }
 
-function sendGameState(playerToken, game) {
-    sendMessage(playerToken, createGameStateMessage(game.state, game.currentPlayer, game.winnerId))
-}
-
-function broadcastGameState(game) {
-    game.players.forEach(playerToken => sendGameState(playerToken, game))
+function sendGameState(playerTokens, game) {
+    sendMessage(playerTokens, createGameStateMessage(game.state, game.currentPlayer, game.winnerId))
 }
 
 module.exports = { createGame, joinGame, getGameByPlayer, sendGameState }
