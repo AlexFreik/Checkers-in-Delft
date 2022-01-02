@@ -17,10 +17,10 @@ class Game {
 
     /**
      * Adds player to the player list
-     * @param playerToken {string}
+     * @param playerId {string}
      */
-    addPlayer(playerToken) {
-        this.players.push(playerToken)
+    addPlayer(playerId) {
+        this.players.push(playerId)
     }
 
     /**

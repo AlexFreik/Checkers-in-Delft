@@ -24,7 +24,7 @@ function handleMessage(ws, rawMessage) {
         handlers[type](ws.connection, data)
     } catch (e) {
         if (!(e instanceof ApiError)) throw e
-        sendMessage(ws, createErrorMessage('Error: ' + e))
+        sendMessage(ws, createErrorMessage('Error: ' + e.message))
     }
 }
 

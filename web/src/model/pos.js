@@ -9,3 +9,5 @@ class Pos {
         this.y = y
     }
 }
+
+module.exports = Pos

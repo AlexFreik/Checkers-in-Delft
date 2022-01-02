@@ -3,22 +3,22 @@ const connections = new Map()
 /**
  * Associates given player token with given connection.
  * Allows messages to be sent to this player.
- * @param playerToken {string}
+ * @param playerId {string}
  * @param connection {Connection}
  */
-function registerConnection(playerToken, connection) {
-    connection.playerToken = playerToken
-    connections.set(playerToken, connection)
+function registerConnection(playerId, connection) {
+    connection.playerId = playerId
+    connections.set(playerId, connection)
 }
 
 /**
  * Sends a message to given players
- * @param playerTokens {string[]} receivers
+ * @param playerIds {string[]} receivers
  * @param message {object} message to send
  */
-function sendMessage(playerTokens, message) {
-    playerTokens.forEach(token => {
-        const connection = connections.get(token)
+function sendMessage(playerIds, message) {
+    playerIds.forEach(id => {
+        const connection = connections.get(id)
         if (!connection) return
         connection.sendMessage(message)
     })

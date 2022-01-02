@@ -8,11 +8,11 @@ router.post('/create-game', handle((req, res) => {
     const settings = req.body.settings
 
     const gameId = createGame(settings)
-    const playerToken = joinGame(gameId)
+    const playerId = joinGame(gameId)
 
     res.send({
         'gameId': gameId,
-        'playerToken': playerToken
+        'playerToken': playerId
     })
 }))
 
@@ -20,10 +20,10 @@ router.post('/join-game', handle((req, res) => {
     const gameId = req.body.gameId
     if (!gameId) throw new ApiError('gameId is missing')
 
-    const playerToken = joinGame(gameId)
+    const playerId = joinGame(gameId)
 
     res.send({
-        'playerToken': playerToken
+        'playerToken': playerId
     })
 }))
 
@@ -34,7 +34,7 @@ function handle(handler) {
         } catch (e) {
             if (!(e instanceof ApiError)) throw e
             res.status(400).send({
-                'message': e
+                'message': e.message
             })
         }
     }

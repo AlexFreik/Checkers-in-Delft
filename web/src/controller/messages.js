@@ -8,12 +8,12 @@ const createWelcomeMessage = (settings) => ({
 
 /**
  * @param state {string} game state
- * @param currentPlayer {string} current player's token
- * @param winnerId winner player's token
+ * @param currentPlayerId {string=} current player's id
+ * @param winnerId {string=} winner player's id
  * @returns {object}
  */
-const createGameStateMessage = (state, currentPlayer, winnerId) => ({
-    type: 'game-state', state, currentPlayer, winnerId
+const createGameStateMessage = (state, currentPlayerId, winnerId) => ({
+    type: 'game-state', state, currentPlayerId, winnerId
 })
 
 /**

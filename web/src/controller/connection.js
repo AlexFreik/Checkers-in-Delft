@@ -5,7 +5,7 @@ class Connection {
      */
     constructor(sendMessage) {
         this.sendMessage = sendMessage
-        this.playerToken = undefined
+        this.playerId = undefined
     }
 }
 

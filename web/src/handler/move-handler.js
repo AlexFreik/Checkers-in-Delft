@@ -1,15 +1,16 @@
 const gameService = require('../services/game-service')
-const { requirePlayerToken } = require('./handler-utils')
+const { requirePlayerId } = require('./handler-utils')
+const Pos = require('../model/pos')
 
 /**
  * @param connection {Connection}
  * @param message {object}
  */
 function handleMove(connection, message) {
-    const token = requirePlayerToken(connection)
+    const playerId = requirePlayerId(connection)
     const from = new Pos(message.from.col, message.from.row)
     const to = new Pos(message.to.col, message.to.row)
-    gameService.performMove(token, from, to)
+    gameService.performMove(playerId, from, to)
 }
 
 module.exports = handleMove

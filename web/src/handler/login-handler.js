@@ -8,14 +8,14 @@ const ApiError = require('../util/api-error')
  * @param message {object}
  */
 function handleLogin(connection, message) {
-    const token = message.playerToken
+    const playerId = message.playerToken
 
-    const game = gameService.getGameByPlayer(token)
+    const game = gameService.getGameByPlayer(playerId)
     if (!game) throw new ApiError('Invalid player token')
 
-    connectionRegistry.registerConnection(token, connection)
-    connectionRegistry.sendMessage([token], createWelcomeMessage(game.settings))
-    gameService.sendGameState(token, game)
+    connectionRegistry.registerConnection(playerId, connection)
+    connectionRegistry.sendMessage([playerId], createWelcomeMessage(game.settings))
+    gameService.sendGameState([playerId], game)
 }
 
 module.exports = handleLogin

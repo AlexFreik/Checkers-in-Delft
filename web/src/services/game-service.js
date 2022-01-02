@@ -34,7 +34,7 @@ function createNewGameId() {
 /**
  * Joins an existing game
  * @param gameId {string} id of the game to join
- * @returns player token
+ * @returns player id
  * @throws {Error} if joining was impossible
  */
 function joinGame(gameId) {
@@ -43,14 +43,14 @@ function joinGame(gameId) {
 
     if (game.state !== Game.STATE_WAITING_FOR_START) throw new ApiError('Game already started')
 
-    const playerToken = uuid()
-    players.set(playerToken, gameId)
+    const playerId = uuid()
+    players.set(playerId, gameId)
 
-    game.addPlayer(playerToken)
+    game.addPlayer(playerId)
 
     if (game.players.length === 2) startGame(game)
 
-    return playerToken
+    return playerId
 }
 
 /**
@@ -65,37 +65,37 @@ function startGame(game) {
 
 /**
  * Performs a move
- * @param playerToken {string} player performing the move
+ * @param playerId {string} player performing the move
  * @param from {Pos} origin
  * @param to {Pos} target
  * @throws {Error} if move was impossible
  */
-function performMove(playerToken, from, to) {
-    const game = getGameByPlayer(playerToken)
+function performMove(playerId, from, to) {
+    const game = getGameByPlayer(playerId)
     if (game.state !== Game.STATE_IN_PROGRESS) throw new ApiError('Game not in progress')
-    if (game.currentPlayer !== playerToken) throw new ApiError('Move not possible now')
+    if (game.currentPlayer !== playerId) throw new ApiError('Move not possible now')
     // TODO Implement move validation
     sendMessage(game.players, createMoveMessage(from, to))
 }
 
 /**
  * Returns the game the player is participating in
- * @param playerToken {string} token of the player to check
+ * @param playerId {string} token of the player to check
  * @returns {Game | undefined}
  */
-function getGameByPlayer(playerToken) {
-    const gameId = players.get(playerToken)
+function getGameByPlayer(playerId) {
+    const gameId = players.get(playerId)
     if (!gameId) return undefined
     return games.get(gameId)
 }
 
 /**
  * Sends the current game state to the specified players
- * @param playerTokens {string[]} receivers
+ * @param playerIds {string[]} receivers
  * @param game {Game} game whose state will be sent
  */
-function sendGameState(playerTokens, game) {
-    sendMessage(playerTokens, createGameStateMessage(game.state, game.currentPlayer, game.winnerId))
+function sendGameState(playerIds, game) {
+    sendMessage(playerIds, createGameStateMessage(game.state, game.currentPlayer, game.winnerId))
 }
 
 module.exports = { createGame, joinGame, performMove, getGameByPlayer, sendGameState }
