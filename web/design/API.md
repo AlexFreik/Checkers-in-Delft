@@ -16,7 +16,7 @@
   ```json
   {
     "gameId": "<game-id>",
-    "playerToken": "<token-value>"
+    "playerId": "<player-id>"
   }
   ```
 
@@ -30,7 +30,7 @@
   Response body (in case of success):
   ```json
   {
-    "playerToken": "<token-value>"
+    "playerId": "<player-id>"
   }
   ```
   
@@ -49,7 +49,7 @@
   ```json
   {
     "type": "login",
-    "playerToken": "<token-value>"
+    "playerId": "<player-id>"
   }
   ```
 
@@ -81,12 +81,10 @@
   ```json
   {
     "type": "welcome",
-    "side": 2,
+    "sideId": <side-id>, // number, can have two values: 1 or 2
     "settings": {}
   }
   ```
-  `Side` can have two values: 1 or 2.
-
 
 - **GameState** - broadcasted to both players every time game state changes (including after every move),
   and also directly after `Welcome` message.
@@ -94,8 +92,8 @@
   {
     "type": "game-state",
     "state": "<game-state>",
-    "currentPlayer": "<player-id>", // included only in in-progress state
-    "winnerId": "<player-id>" // included only in finished state
+    "currentSideId": <side-id>, // included only in in-progress state
+    "winnerSideId": <side-id> // included only in finished state
   }
   ```
   Possible game states:
