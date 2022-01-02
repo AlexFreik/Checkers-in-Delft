@@ -45,28 +45,30 @@ const homeScreenElems = {
     ),
 }
 
-let currScreenElems = homeScreenElems
-
-homeScreenElems.createGameBtn.onclick = () => {
+homeScreenElems.createGameBtn.addEventListener('click', () => {
     currScreenElems = createGameScreenElems
-}
-homeScreenElems.joinGameBtn.onclick = () => {
+})
+homeScreenElems.joinGameBtn.addEventListener('click', () => {
     addGameIdInput(joiningScreenElems.fieldID.absCnvPos.toAbsPagePos())
     currScreenElems = joiningScreenElems
-}
+})
 
 // ===== stats processing =====
-window.onload = () => {
+window.addEventListener('load', () => {
     processStats()
-}
+    resizeCanvas()
+    window.requestAnimationFrame(drawScreen)
+})
 function processStats() {
     fetch('/data/stats.json')
-      .then((res) => res.json())
-      .then((data) => this.setStats(data))
-      .catch((e) => console.log(e))
+        .then((res) => res.json())
+        .then((data) => this.setStats(data))
+        .catch((e) => console.log(e))
 }
 function setStats(stats) {
     inProgressGamesNum = stats.inProgressGamesNum
     finishedGamesNum = stats.finishedGamesNum
     window.requestAnimationFrame(drawScreen)
 }
+
+let currScreenElems = homeScreenElems

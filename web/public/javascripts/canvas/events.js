@@ -1,40 +1,32 @@
-canvas.onmousemove = (event) => {
-    const mousePos = AbsCnvPos.constructFromEvent(event)
+canvas.addEventListener('mousemove', (event) => {
     for (const [name, elem] of Object.entries(currScreenElems)) {
-        if (elem.state) {
-            if (elem.absCnvPos.isInside(mousePos.x, mousePos.y)) {
-                elem.state = 'ON'
-            } else {
-                elem.state = 'OFF'
-            }
-        }
+        for (const listener of elem.eventListeners['mousemove']) listener(event)
     }
     window.requestAnimationFrame(drawScreen)
-}
-canvas.onclick = (event) => {
+})
+canvas.addEventListener('click', (event) => {
     const mousePos = AbsCnvPos.constructFromEvent(event)
     for (const [name, elem] of Object.entries(currScreenElems)) {
-        if (elem.onclick && elem.absCnvPos.isInside(mousePos.x, mousePos.y)) {
-            elem.onclick(event)
-            for (const fig of elem.figs) {
-                if (fig.onclick) {
-                    fig.onclick(event)
-                }
-            }
+        if (elem.absCnvPos.isInside(mousePos.x, mousePos.y)) {
+            for (const listener of elem.eventListeners['click']) listener(event)
         }
     }
     processAlert()
     window.requestAnimationFrame(drawScreen)
-}
+})
 window.addEventListener('keydown', function (event) {
     for (const [name, elem] of Object.entries(currScreenElems)) {
-        if (elem.onkeydown) {
-            elem.onkeydown(event)
-        }
+        for (const listener of elem.eventListeners['keydown']) listener(event)
     }
     window.requestAnimationFrame(drawScreen)
 })
-
+window.addEventListener('resize', function () {
+    for (const [name, elem] of Object.entries(currScreenElems)) {
+        for (const listener of elem.eventListeners['resize']) listener(event)
+    }
+    resizeCanvas()
+    window.requestAnimationFrame(drawScreen)
+})
 function processAlert() {
     const alert = currScreenElems.alertMsg
     if (alert) {
@@ -42,4 +34,3 @@ function processAlert() {
         delete currScreenElems.alertMsg
     }
 }
-

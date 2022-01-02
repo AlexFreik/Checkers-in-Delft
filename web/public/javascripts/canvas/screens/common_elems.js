@@ -5,13 +5,11 @@ const background = new Elem(
 const soundBtn = getCornerBtnElem('\uf028', { left: false, down: false })
 const homeBtn = getCornerBtnElem('\uf015', { left: true, down: false })
 
-soundBtn.onclick = () => {
+soundBtn.addEventListener('click', () => {
     const emoji = currScreenElems.soundBtn.figs[1]
     emoji.val = emoji.val === '\uf028' ? '\uf026' : '\uf028'
-}
-homeBtn.onclick = () => {
+})
+homeBtn.addEventListener('click', () => {
     removeGameIdInput()
     currScreenElems = homeScreenElems
-}
-clickSound = new Audio('../data/click.wav')
-clickSound.volume = 0.1
+})

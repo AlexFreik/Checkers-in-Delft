@@ -1,19 +1,20 @@
-function addGameIdInput(pos) {
+function addGameIdInput(absCnvPos) {
     const input = document.createElement('input')
 
     input.id = 'gameID'
     input.type = 'text'
-    input.style.position = 'absolute'
-    input.style.left = pos.x + 'px'
-    input.style.top = pos.y + 'px'
-    input.style.width = Math.floor(pos.w) + 'px'
-    input.style.height = Math.floor(pos.h) + 'px'
 
-    input.style.background = 'rgba(0,0,0,0)'
-    input.style.color = '#eee'
-    input.style['font-size'] = '25px'
+    setGameInputPos(input, absCnvPos)
 
     document.body.appendChild(input)
+}
+
+function setGameInputPos(input, absPagePos) {
+    input.style.position = 'absolute'
+    input.style.left = absPagePos.x + 'px'
+    input.style.top = absPagePos.y + 'px'
+    input.style.width = Math.floor(absPagePos.w) + 'px'
+    input.style.height = Math.floor(absPagePos.h) + 'px'
 }
 
 function removeGameIdInput() {

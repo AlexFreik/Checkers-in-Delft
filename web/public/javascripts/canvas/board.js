@@ -4,11 +4,14 @@
  */
 class Board {
     constructor(ratioPos, lineWidth, strokeStyle) {
-        this.absCnvPos = ratioPos.toAbsCnvPos()
+        this.ratioPos = ratioPos
         this.n = ROW_COL_NUM
         this.lineWidth = lineWidth
         this.strokeStyle = strokeStyle
         this.selectedPieceCoords = undefined
+    }
+    get absCnvPos() {
+        return this.ratioPos.toAbsCnvPos()
     }
     draw() {
         this._drawGrid()

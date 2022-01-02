@@ -18,7 +18,7 @@ const joiningScreenElems = {
     ),
 }
 
-joiningScreenElems.fieldID.onkeydown = (event) => {
+joiningScreenElems.fieldID.addEventListener('keydown', (event) => {
     const gameId = getGameIdInputTxt()
     let status
     if (event.key === 'Enter') {
@@ -37,7 +37,19 @@ joiningScreenElems.fieldID.onkeydown = (event) => {
             .then((res) => joinGame(status, res, gameId))
             .catch((e) => console.log(e))
     }
-}
+})
+joiningScreenElems.fieldID.addEventListener('resize', () => {
+    setGameInputPos(
+        getGameIdElem(),
+        joiningScreenElems.fieldID.absCnvPos.toAbsPagePos()
+    )
+})
+joiningScreenElems.fieldID.addEventListener('mousemove', () => {
+    setGameInputPos(
+        getGameIdElem(),
+        joiningScreenElems.fieldID.absCnvPos.toAbsPagePos()
+    )
+})
 
 function joinGame(status, data, gameId) {
     if (status === 400) {

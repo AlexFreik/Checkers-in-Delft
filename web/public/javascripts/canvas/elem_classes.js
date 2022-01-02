@@ -1,9 +1,12 @@
 class Rect {
     constructor(ratioPos, fillStyle, lineWidth, strokeStyle) {
-        this.absCnvPos = ratioPos.toAbsCnvPos()
+        this.ratioPos = ratioPos
         this.fillStyle = fillStyle
         this.lineWidth = RatioCnvPos.ratioToAbs(lineWidth)
         this.strokeStyle = strokeStyle
+    }
+    get absCnvPos() {
+        return this.ratioPos.toAbsCnvPos()
     }
     draw() {
         ctx.fillStyle = this.fillStyle
@@ -26,44 +29,18 @@ class Rect {
         ctx.stroke()
     }
 }
-class Button {
-    constructor(ratioPos, fillStyle, lineWidth, strokeStyle) {
-        this.rect = new Rect(ratioPos, fillStyle, lineWidth, strokeStyle)
-        this.fillStyle = fillStyle
-    }
-    draw(state) {
-        this.rect.fillStyle = state === 'ON' ? 'rgba(0,0,0,0)' : this.fillStyle
-        this.rect.draw()
-    }
-    onclick() {
-        clickSound.play()
-    }
-}
-function getCornerBtnElem(emoji, { left, down }) {
-    const x = left === true ? 0.03 : WIDTH_RATIO - 0.13
-    const y = down === true ? 1 - 0.13 : 0.03
-    let ratioPos
-    return new Elem((ratioPos = new RatioCnvPos(x, y, 0.1, 0.1)), [
-        new Button(ratioPos, '#3c3f41', 0.01, '#a9abad'),
-        new Text(ratioPos, emoji, '#fff', '25px FontAwesome'),
-    ])
-}
-function getDefaultBtnElem(ratioPos, txtVal) {
-    return new Elem(ratioPos, [
-        new Button(ratioPos, '#3c3f41', 0.01, '#a9abad'),
-        new Text(ratioPos, txtVal, '#fff', '20px Arial'),
-    ])
-}
-
 /**
  * One-line text, which is centered in rectangle of pos.
  */
 class Text {
     constructor(ratioPos, val, fillStyle, font) {
-        this.absCnvPos = ratioPos.toAbsCnvPos()
+        this.ratioPos = ratioPos
         this.val = val
         this.fillStyle = fillStyle
         this.font = font
+    }
+    get absCnvPos() {
+        return this.ratioPos.toAbsCnvPos()
     }
     draw() {
         ctx.fillStyle = this.fillStyle
@@ -77,10 +54,6 @@ class Text {
             this.absCnvPos.w
         )
     }
-    dynamicDraw(state, val) {
-        this.val = val
-        this.draw()
-    }
 }
 
 /**
@@ -91,11 +64,23 @@ class Text {
  * @param {string} state -- whether it is hovered or not
  */
 class Elem {
-    constructor(relPos, figs, draw = this._draw, state = 'OFF') {
-        this.absCnvPos = relPos.toAbsCnvPos()
+    constructor(ratioPos, figs, draw = this._draw, state = 'OFF') {
+        this.ratioPos = ratioPos
         this.figs = figs
         this.draw = draw
         this.state = state
+        this.eventListeners = {
+            mousemove: [this._onmousemove],
+            click: [this._onclick],
+            resize: [],
+            keydown: [],
+        }
+    }
+    get absCnvPos() {
+        return this.ratioPos.toAbsCnvPos()
+    }
+    addEventListener(type, func) {
+        this.eventListeners[type].push(func)
     }
     _draw() {
         for (const fig of this.figs) {
@@ -106,6 +91,54 @@ class Elem {
         this.figs[id].val = txtVal
         this._draw()
     }
+    _onmousemove = (event) => {
+        const mousePos = AbsCnvPos.constructFromEvent(event)
+        if (this.absCnvPos.isInside(mousePos.x, mousePos.y)) {
+            this.state = 'ON'
+        } else {
+            this.state = 'OFF'
+        }
+    }
+    _onclick = (event) => {
+        for (const fig of this.figs) {
+            if (fig.onclick) fig.onclick(event)
+        }
+    }
+}
+
+class Button extends Elem {
+    static clickSound = (() => {
+        const audio = new Audio('../data/click.wav')
+        audio.volume = 0.15
+        return audio
+    })()
+    constructor(rect, text) {
+        super(rect.ratioPos, [rect, text])
+        this.text = text
+        this.eventListeners.click.push(() => {
+            Button.clickSound.play()
+        })
+    }
+    draw(state) {
+        this.rect.fillStyle = state === 'ON' ? 'rgba(0,0,0,0)' : this.fillStyle
+        this.rect.draw()
+    }
+}
+function getCornerBtnElem(emoji, { left, down }) {
+    const x = left === true ? 0.03 : WIDTH_RATIO - 0.13
+    const y = down === true ? 1 - 0.13 : 0.03
+    let ratioPos = new RatioCnvPos(x, y, 0.1, 0.1)
+    return new Button(
+        new Rect(ratioPos, '#3c3f41', 0.01, '#a9abad'),
+        new Text(ratioPos, emoji, '#fff', '25px FontAwesome')
+    )
+}
+
+function getDefaultBtnElem(ratioPos, txtVal) {
+    return new Button(
+        new Rect(ratioPos, '#3c3f41', 0.01, '#a9abad'),
+        new Text(ratioPos, txtVal, '#fff', '20px Arial')
+    )
 }
 
 class AlertMsg extends Elem {

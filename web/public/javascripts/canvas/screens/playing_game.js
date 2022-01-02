@@ -47,8 +47,8 @@ const gameScreenElems = {
     ),
 }
 
-const board = gameScreenElems.board.figs[0]
-
-gameScreenElems.board.onclick = (event) => {
+gameScreenElems.board.addEventListener('click', (event) => {
     board.processClick(AbsCnvPos.constructFromEvent(event))
-}
+})
+
+const board = gameScreenElems.board.figs[0]

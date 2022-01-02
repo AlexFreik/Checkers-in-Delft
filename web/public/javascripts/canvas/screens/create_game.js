@@ -17,11 +17,11 @@ const createGameScreenElems = {
     ),
 }
 
-createGameScreenElems.forceJumpsChoseBtn.onclick = (event) => {
+createGameScreenElems.forceJumpsChoseBtn.addEventListener('click', (event) => {
     const txt = currScreenElems.forceJumpsChoseBtn.figs[1]
     txt.val = txt.val === 'ON' ? 'OFF' : 'ON'
-}
-createGameScreenElems.startBtn.onclick = () => {
+})
+createGameScreenElems.startBtn.addEventListener('click', () => {
     let status
     fetch('/api/create-game', {
         method: 'POST',
@@ -37,7 +37,7 @@ createGameScreenElems.startBtn.onclick = () => {
         })
         .then((data) => createGame(status, data))
         .catch((e) => console.log(e))
-}
+})
 
 function createGame(status, data) {
     if (status === 200) {
