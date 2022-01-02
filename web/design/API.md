@@ -94,8 +94,8 @@
   {
     "type": "game-state",
     "state": "<game-state>",
-    "currentPlayer": "<player-id>, included only in in-progress state",
-    "winnerId": "<player-id>, included only in finished state"
+    "currentPlayer": "<player-id>", // included only in in-progress state
+    "winnerId": "<player-id>" // included only in finished state
   }
   ```
   Possible game states:
@@ -105,8 +105,7 @@
 
 
 - **Move** - broadcasted to both players after a move is made;
-  longer moves are sent as multiple Move messages;
-  `eatenPiece` field is sent only if a piece has been eaten
+  longer moves are sent as multiple Move messages
   ```json
   {
     "type": "move",
@@ -118,7 +117,7 @@
       "col": 3,
       "row": 3
     },
-    "eatenPiece": {
+    "eatenPiece": { // sent only if a piece has been eaten
       "col": 2,
       "row": 2
     }
