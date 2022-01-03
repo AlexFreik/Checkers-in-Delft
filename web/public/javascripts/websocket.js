@@ -12,6 +12,7 @@ function initFrontendWS() {
         let data = JSON.parse(event.data)
         console.log('server >> ' + JSON.stringify(data))
         handlers[data.type](data)
+        window.requestAnimationFrame(drawScreen)
     }
 
     // server sends a close event only if the game was aborted from some side
