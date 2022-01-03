@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
-const { createGame, joinGame } = require('../services/game-service')
+const { createGame, joinGame } = require('../service/game-service')
 const ApiError = require('../util/api-error')
 
+// prettier-ignore
 router.post('/create-game', handle((req, res) => {
     const settings = req.body.settings
 
@@ -11,19 +12,20 @@ router.post('/create-game', handle((req, res) => {
     const playerId = joinGame(gameId)
 
     res.send({
-        'gameId': gameId,
-        'playerId': playerId
+        gameId: gameId,
+        playerId: playerId,
     })
 }))
 
+// prettier-ignore
 router.post('/join-game', handle((req, res) => {
     const gameId = req.body.gameId
-    if (!gameId) throw new ApiError('gameId is missing')
+    if (gameId === undefined) throw new ApiError('gameId is missing')
 
     const playerId = joinGame(gameId)
 
     res.send({
-        'playerId': playerId
+        playerId: playerId,
     })
 }))
 
@@ -34,7 +36,7 @@ function handle(handler) {
         } catch (e) {
             if (!(e instanceof ApiError)) throw e
             res.status(400).send({
-                'message': e.message
+                message: e.message,
             })
         }
     }

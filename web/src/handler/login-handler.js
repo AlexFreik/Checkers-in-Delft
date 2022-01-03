@@ -1,4 +1,4 @@
-const gameService = require('../services/game-service')
+const gameService = require('../service/game-service')
 const connectionRegistry = require('../controller/connection-registry')
 const ApiError = require('../util/api-error')
 

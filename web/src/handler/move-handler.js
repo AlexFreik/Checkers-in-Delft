@@ -1,4 +1,4 @@
-const gameService = require('../services/game-service')
+const gameService = require('../service/game-service')
 const { requirePlayerId } = require('./handler-utils')
 const Pos = require('../model/pos')
 

@@ -13,7 +13,7 @@ const players = new Map()
 /**
  * Creates a new game
  * @param settings {object} game params
- * @returns id of the new game
+ * @returns {string} id of the new game
  * @throws {Error} if game could not be created
  */
 function createGame(settings) {
@@ -34,7 +34,7 @@ function createNewGameId() {
 /**
  * Joins an existing game
  * @param gameId {string} id of the game to join
- * @returns player id
+ * @returns {string} player id
  * @throws {Error} if joining was impossible
  */
 function joinGame(gameId) {
@@ -58,7 +58,7 @@ function joinGame(gameId) {
  * @param game {Game} game to start
  */
 function startGame(game) {
-    console.log("Game started: " + game.gameId)
+    console.log('Game started: ' + game.gameId)
     game.start(Math.random() < 0.5 ? Game.SIDE_A : Game.SIDE_B)
     sendGameState(game.players, game)
 }
@@ -75,7 +75,7 @@ function performMove(playerId, from, to) {
     if (!game || game.state !== Game.STATE_IN_PROGRESS) throw new ApiError('Game not in progress')
     if (game.currentSideId !== game.getPlayerSide(playerId)) throw new ApiError('Move not possible now')
     // TODO Implement move validation
-    sendMessage(game.players, createMoveMessage(from, to))
+    sendMove(game.players, from, to)
 }
 
 /**
@@ -107,4 +107,22 @@ function sendGameState(playerIds, game) {
     sendMessage(playerIds, createGameStateMessage(game.state, game.currentSideId, game.winnerSideId))
 }
 
-module.exports = { createGame, joinGame, performMove, getGameByPlayer, sendWelcome, sendGameState }
+/**
+ * Sends the move to the specified players
+ * @param playerIds {string[]}
+ * @param from {Pos}
+ * @param to {Pos}
+ * @param eaten {Pos=}
+ */
+function sendMove(playerIds, from, to, eaten) {
+    sendMessage(playerIds, createMoveMessage(from, to, eaten))
+}
+
+module.exports = {
+    createGame,
+    joinGame,
+    performMove,
+    getGameByPlayer,
+    sendWelcome,
+    sendGameState,
+}

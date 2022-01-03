@@ -5,13 +5,13 @@ const Connection = require('./connection')
 const ApiError = require('../util/api-error')
 
 const handlers = {
-    'login': handleLogin,
-    'move': handleMove
+    login: handleLogin,
+    move: handleMove,
 }
 
 function handleConnection(ws) {
-    ws.connection = new Connection(message => sendMessage(ws, message))
-    ws.on('message', function(message) {
+    ws.connection = new Connection((message) => sendMessage(ws, message))
+    ws.on('message', function (message) {
         handleMessage(ws, message)
     })
 }

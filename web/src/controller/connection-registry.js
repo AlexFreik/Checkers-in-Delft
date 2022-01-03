@@ -17,7 +17,7 @@ function registerConnection(playerId, connection) {
  * @param message {object} message to send
  */
 function sendMessage(playerIds, message) {
-    playerIds.forEach(id => {
+    playerIds.forEach((id) => {
         const connection = connections.get(id)
         if (!connection) return
         connection.sendMessage(message)
