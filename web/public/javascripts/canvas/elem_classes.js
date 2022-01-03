@@ -1,4 +1,11 @@
 class Rect {
+    /**
+     *
+     * @param {RatioCnvPos} ratioPos
+     * @param {string} fillStyle
+     * @param {number} lineWidth
+     * @param {string} strokeStyle
+     */
     constructor(ratioPos, fillStyle, lineWidth, strokeStyle) {
         this.ratioPos = ratioPos
         this.fillStyle = fillStyle
@@ -8,7 +15,7 @@ class Rect {
     get absCnvPos() {
         return this.ratioPos.toAbsCnvPos()
     }
-    draw() {
+    draw = () => {
         ctx.fillStyle = this.fillStyle
         ctx.fillRect(
             this.absCnvPos.x,
@@ -39,6 +46,14 @@ class Font {
         Big: 35,
     }
     static DEFAULT_FONT = 'Arial'
+    static DEFAULT_COLOR = '#ddd'
+
+    /**
+     *
+     * @param {string} size
+     * @return {string}
+     * @private
+     */
     static _getFont(size) {
         return Font.FONTS_SIZES[size] + 'px ' + Font.DEFAULT_FONT
     }
@@ -66,6 +81,13 @@ class Font {
  * One-line text, which is centered in rectangle of pos.
  */
 class Text {
+    /**
+     *
+     * @param {RatioCnvPos} ratioPos
+     * @param {string} val
+     * @param {string} fillStyle
+     * @param {string} font
+     */
     constructor(ratioPos, val, fillStyle, font) {
         this.ratioPos = ratioPos
         this.val = val
@@ -75,7 +97,7 @@ class Text {
     get absCnvPos() {
         return this.ratioPos.toAbsCnvPos()
     }
-    draw() {
+    draw = () => {
         ctx.fillStyle = this.fillStyle
         ctx.font = this.font
         ctx.textAlign = 'center'
@@ -97,35 +119,64 @@ class Text {
  * @param {string} state -- whether it is hovered or not
  */
 class Elem {
+    /**
+     *
+     * @param {RatioCnvPos} ratioPos
+     * @param {[]} figs
+     * @param {function} draw
+     */
     constructor(ratioPos, figs, draw = this._draw) {
         this.ratioPos = ratioPos
         this.figs = figs
         this.draw = draw
         this.eventListeners = {
-            click: [this._onclick],
-            mousemove: [],
-            resize: [],
-            keydown: [],
+            click: [
+                (event) => {
+                    this._listen('click', event)
+                },
+            ],
+            mousemove: [
+                (event) => {
+                    this._listen('mousemove', event)
+                },
+            ],
+            resize: [
+                (event) => {
+                    this._listen('resize', event)
+                },
+            ],
+            keydown: [
+                (event) => {
+                    this._listen('keydown', event)
+                },
+            ],
         }
     }
     get absCnvPos() {
         return this.ratioPos.toAbsCnvPos()
     }
-    addEventListener(type, func) {
+
+    /**
+     *
+     * @param {string} type
+     * @param {function} func
+     */
+    addEventListener = (type, func) => {
         this.eventListeners[type].push(func)
     }
-    _draw() {
+    _draw = () => {
         for (const fig of this.figs) {
-            fig.draw(this.state)
+            fig.draw()
         }
     }
-    drawDynamicTxt(id, txtVal) {
+    drawDynamicTxt = (id, txtVal) => {
         this.figs[id].val = txtVal
         this._draw()
     }
-    _onclick = (event) => {
+    _listen(type, event) {
         for (const fig of this.figs) {
-            if (fig.onclick) fig.onclick(event)
+            if (fig.eventListeners)
+                for (const listener of fig.eventListeners[type]) listener(event)
         }
     }
 }
@@ -136,7 +187,7 @@ class Button extends Elem {
         this.fillStyle = rect.fillStyle
         this.text = text
         this.eventListeners.click.push(() => {
-            Button.clickSound.play()
+            Button.clickSound.play().catch((e) => console.log(e))
         })
         this.eventListeners.mousemove.push(this._onmousemove)
     }
@@ -145,10 +196,10 @@ class Button extends Elem {
         audio.volume = 0.15
         return audio
     })()
-    static mute() {
+    static mute = () => {
         Button.clickSound.volume = 0
     }
-    static unmute() {
+    static unmute = () => {
         Button.clickSound.volume = 0.15
     }
     _onmousemove = (event) => {
@@ -173,31 +224,36 @@ function getCornerBtnElem(emoji, { left, down }) {
 function getDefaultBtnElem(ratioPos, txtVal) {
     return new Button(
         new Rect(ratioPos, '#3c3f41', 0.01, '#a9abad'),
-        new Text(ratioPos, txtVal, '#fff', Font.middle)
+        new Text(ratioPos, txtVal, Font.DEFAULT_COLOR, Font.middle)
     )
 }
 
 class AlertMsg extends Elem {
-    constructor(titleTxt, bodyTxt, onremove) {
-        let ratioPos
-        super(
-            (ratioPos = new RatioCnvPos(
-                0.25 * WIDTH_RATIO,
-                0.25,
-                0.5 * WIDTH_RATIO,
-                0.5
-            )),
-            [
-                new Rect(ratioPos, '#333333', 0.01, '#a9abad'),
-                new Text(
-                    ratioPos.shift(0, -0.15),
-                    titleTxt,
-                    '#ddd',
-                    Font.Middle
-                ),
-                new Text(ratioPos.shift(0, 0), bodyTxt, '#ddd', Font.Small),
-            ]
+    /**
+     *
+     * @param {string} titleTxt
+     * @param {string} bodyTxt
+     * @param {function} onaccept
+     */
+    constructor(titleTxt, bodyTxt, onaccept) {
+        let ratioPos = new RatioCnvPos(
+            0.25 * WIDTH_RATIO,
+            0.25,
+            0.5 * WIDTH_RATIO,
+            0.5
         )
-        this.onremove = onremove
+        super(ratioPos, [
+            new Rect(ratioPos, '#333333', 0.01, '#a9abad'),
+            getDefaultBtnElem(
+                new RatioCnvPos(0.4 * WIDTH_RATIO, 0.6, 0.2 * WIDTH_RATIO, 0.1),
+                'OK'
+            ),
+            new Text(ratioPos.shift(0, -0.15), titleTxt, '#ddd', Font.Middle),
+            new Text(ratioPos.shift(0, 0), bodyTxt, '#ddd', Font.Small),
+        ])
+        this.figs[1].addEventListener('click', () => {
+            onaccept()
+            delete currScreenElems.alertMsg
+        })
     }
 }

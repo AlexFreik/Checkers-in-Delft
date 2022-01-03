@@ -10,7 +10,7 @@ const PIECE_COL_1 = '#fcc'
 const PIECE_COL_2 = '#ccf'
 
 const EMOJIS = {
-  SOUND: '\uf028',
-  NO_SOUND: '\uf026',
-  HOME: '\uf015',
+    SOUND: '\uf028',
+    NO_SOUND: '\uf026',
+    HOME: '\uf015',
 }

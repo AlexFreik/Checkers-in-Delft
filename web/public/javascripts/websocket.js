@@ -1,23 +1,25 @@
+const WEB_SOCKET_URL = 'ws://localhost:3000'
+
 //set up WebSocket
 function initFrontendWS() {
-    const socket = new WebSocket(Setup.WEB_SOCKET_URL)
+    const socket = new WebSocket(WEB_SOCKET_URL)
 
-    socket.onopen = function () {
-        sendMsg(createLoginMsg(game.playerToken))
+    socket.onopen = () => {
+        sendMsg(createLoginMsg(game.playerId))
     }
 
-    socket.onmessage = function (event) {
-        console.log(event)
+    socket.onmessage = (event) => {
         let data = JSON.parse(event.data)
+        console.log('server >> ' + JSON.stringify(data))
         handlers[data.type](data)
     }
 
     // server sends a close event only if the game was aborted from some side
-    socket.onclose = function () {
+    socket.onclose = () => {
         console.log('game aborted')
     }
 
-    socket.onerror = function () {}
+    socket.onerror = () => {}
 
     return socket
 }
@@ -28,20 +30,34 @@ const handlers = {
     error: () => {},
 }
 
+/**
+ *
+ * @param {{type: 'welcome', settings: {forceJumps: boolean}, side: 1|2}} data
+ */
 function handleWelcomeMsg(data) {
     game.settings = data.settings
     game.side = data.side
 }
+
+/**
+ *
+ * @param {{type: 'move', from: {col: number, row: number}, to: {col: number, row: number}, eatenPiece: {col: number, row: number}}} data
+ */
 function handleMoveMsg(data) {
     game.movePiece(data.from, data.to)
     if (data.eatenPiece) game.removePiece(data.eatenPiece)
 }
+
+/**
+ *
+ * @param {{type: 'game-state', state: string, currentSideId: 1|2, currentPlayerId: string, winnerSideId: 1|2}} data
+ */
 function handleGameStateMsg(data) {
-    if (data.state === 'in-progress') game.currentPlayer = data.currentPlayer
+    if (data.state === 'in-progress') game.currentSideId = data.currentSideId
     if (data.state === 'finished') {
         currScreenElems.alertMsg = new AlertMsg(
             'GAME OVER',
-            'You' + game.side === data.winnerId ? 'won!' : 'lost...',
+            'You' + game.side === data.winnerSideId ? 'won!' : 'lost...',
             function () {
                 game = undefined
                 currScreenElems = homeScreenElems
@@ -71,6 +87,7 @@ function sendSurrenderMsg() {
  * @param {{type: string, }}msg
  */
 function sendMsg(msg) {
+    console.log('server << ' + JSON.stringify(msg))
     websocket.send(JSON.stringify(msg))
 }
 let websocket = undefined

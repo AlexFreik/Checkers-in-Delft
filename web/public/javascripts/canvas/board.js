@@ -25,7 +25,7 @@ class Board {
         return this.ratioPos.toAbsCnvPos()
     }
 
-    draw() {
+    draw = () => {
         this._drawGrid()
         this._drawAllPieces()
     }
@@ -33,9 +33,13 @@ class Board {
     /**
      * @private
      */
-    _drawGrid() {
+    _drawGrid = () => {
         ctx.beginPath()
-        for (let x = 0; x <= Math.ceil(this.absCnvPos.w); x += this.absCnvPos.w / this.n) {
+        for (
+            let x = 0;
+            x <= Math.ceil(this.absCnvPos.w);
+            x += this.absCnvPos.w / this.n
+        ) {
             ctx.moveTo(this.absCnvPos.x + x, this.absCnvPos.y)
             ctx.lineTo(
                 this.absCnvPos.x + x,
@@ -43,7 +47,11 @@ class Board {
             )
         }
 
-        for (let y = 0; y <= Math.ceil(this.absCnvPos.h); y += this.absCnvPos.h / this.n) {
+        for (
+            let y = 0;
+            y <= Math.ceil(this.absCnvPos.h);
+            y += this.absCnvPos.h / this.n
+        ) {
             ctx.moveTo(this.absCnvPos.x, this.absCnvPos.y + y)
             ctx.lineTo(
                 this.absCnvPos.x + this.absCnvPos.w,
@@ -62,11 +70,11 @@ class Board {
      * was and if needed erases selection or moves piece.
      * @param {AbsCnvPos} absCnvPos
      */
-    processClick(absCnvPos) {
+    processClick = (absCnvPos) => {
         const coords = this._toCoords(absCnvPos)
         if (!game.getPiece(coords)) {
             if (this.selectedPieceCoords === undefined) return
-            game.movePiece(this.selectedPieceCoords, coords)
+            game.requestPieceMove(this.selectedPieceCoords, coords)
             this.selectedPieceCoords = undefined
         } else {
             this.selectedPieceCoords = coords
@@ -79,7 +87,7 @@ class Board {
      * @return {AbsCnvPos}
      * @private
      */
-    _toAbsPiecePos(coords) {
+    _toAbsPiecePos = (coords) => {
         const d = this.absCnvPos.w / this.n
         const x = this.absCnvPos.x + coords.col * d
         const y = this.absCnvPos.y + this.absCnvPos.h - (coords.row + 1) * d
@@ -92,7 +100,7 @@ class Board {
      * @return {{col: number, row: number}}
      * @private
      */
-    _toCoords(absCnvPos) {
+    _toCoords = (absCnvPos) => {
         return {
             col: Math.floor(
                 ((absCnvPos.x - this.absCnvPos.x) / this.absCnvPos.w) *
@@ -111,7 +119,7 @@ class Board {
      * @param {boolean} isSelected
      * @private
      */
-    _drawPiece(piece, isSelected) {
+    _drawPiece = (piece, isSelected) => {
         const absPos = this._toAbsPiecePos(piece.coords)
         ctx.fillStyle = piece.color[piece.sideId]
         ctx.beginPath()
@@ -132,7 +140,7 @@ class Board {
     /**
      * @private
      */
-    _drawAllPieces() {
+    _drawAllPieces = () => {
         for (const piece of game.pieces) {
             this._drawPiece(
                 piece,

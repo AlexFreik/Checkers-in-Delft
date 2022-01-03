@@ -41,7 +41,7 @@ class Game {
      * @param {{forceJumps: boolean}} settings
      * @param {1 | 2} side
      */
-    constructor(gameId, playerId, settings= undefined, side= undefined) {
+    constructor(gameId, playerId, settings = undefined, side = undefined) {
         this.gameId = gameId
         this.playerId = playerId
         this.settings = settings
@@ -56,19 +56,44 @@ class Game {
      * @param {Coords} to
      */
     movePiece(from, to) {
+        this.getPiece(from).coords = to
+    }
+    /**
+     *
+     * @param {Coords} from
+     * @param {Coords} to
+     */
+    requestPieceMove(from, to) {
         senders['move'](from, to)
     }
+
+    /**
+     *
+     * @param {Coords} coords
+     * @return {Piece}
+     */
     getPiece(coords) {
         const piece = this.pieces.filter((piece) => piece.coordsEqual(coords))
         return piece[0]
     }
+
+    /**
+     *
+     * @param {Coords} coords
+     */
     removePiece(coords) {
-        this.pieces.splice(0, this.getPiece(coords))
+        this.pieces.splice(this.pieces.indexOf(this.getPiece(coords)), 1)
     }
-    getEatenPiecesNum(player) {
+
+    /**
+     *
+     * @param {1 | 2} sideId
+     * @return {number}
+     */
+    getEatenPiecesNum(sideId) {
         return (
             PLAYER_PIECES_NUM -
-            this.pieces.filter((piece) => piece.player === player).length
+            this.pieces.filter((piece) => piece.sideId === sideId).length
         )
     }
     _initialisePieces() {

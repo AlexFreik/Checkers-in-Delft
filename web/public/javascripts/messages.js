@@ -7,16 +7,27 @@
 function createMoveMsg(from, to) {
     return {
         type: 'move',
-        from: {col: from.col, row: from.row},
-        to: {col: to.col, row: to.row},
+        from: { col: from.col, row: from.row },
+        to: { col: to.col, row: to.row },
     }
 }
-function createLoginMsg(playerToken) {
+
+/**
+ *
+ * @param {string} playerId
+ * @return {{type: string, playerId: string}}
+ */
+function createLoginMsg(playerId) {
     return {
         type: 'login',
-        playerToken: playerToken,
+        playerId: playerId,
     }
 }
+
+/**
+ *
+ * @return {{type: string}}
+ */
 function createSurrenderMsg() {
     return {
         type: 'surrender',

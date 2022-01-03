@@ -54,6 +54,10 @@ function createGame(status, data) {
     }
 }
 
+/**
+ *
+ * @return {{forceJumps: boolean}}
+ */
 function getGameSettingsInput() {
     return {
         forceJumps:

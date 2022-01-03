@@ -53,12 +53,18 @@ window.addEventListener('load', () => {
     resizeCanvas()
     window.requestAnimationFrame(drawScreen)
 })
+
 function processStats() {
     fetch('/data/stats.json')
         .then((res) => res.json())
         .then((data) => this.setStats(data))
         .catch((e) => console.log(e))
 }
+
+/**
+ *
+ * @param {{inProgressGamesNum: number, finishedGamesNum: number}} stats
+ */
 function setStats(stats) {
     inProgressGamesNum = stats.inProgressGamesNum
     finishedGamesNum = stats.finishedGamesNum
