@@ -1,31 +1,55 @@
 const { createErrorMessage } = require('./messages')
 const handleLogin = require('../handler/login-handler')
 const handleMove = require('../handler/move-handler')
+const handleDisconnect = require('../handler/disconnect-handler')
 const Connection = require('./connection')
 const ApiError = require('../util/api-error')
 
+const TYPE_LOGIN = 'login'
+const TYPE_MOVE = 'move'
+const TYPE_DISCONNECT = 'disconnect'
+
 const handlers = {
-    login: handleLogin,
-    move: handleMove,
+    [TYPE_LOGIN]: handleLogin,
+    [TYPE_MOVE]: handleMove,
+    [TYPE_DISCONNECT]: handleDisconnect,
 }
 
 function handleConnection(ws) {
     ws.connection = new Connection((message) => sendMessage(ws, message))
     ws.on('message', function (message) {
-        handleMessage(ws, message)
+        handleRawMessage(ws, message)
+    })
+    ws.on('close', function () {
+        handleMessage(ws, { type: TYPE_DISCONNECT })
     })
 }
 
-function handleMessage(ws, rawMessage) {
+function handleRawMessage(ws, rawMessage) {
+    console.log('< ' + rawMessage)
+    const message = tryParseJSON(rawMessage)
+    if (message === undefined) sendError(ws, 'Malformed JSON')
+    handleMessage(ws, message)
+}
+
+function handleMessage(ws, message) {
     try {
-        console.log('< ' + rawMessage)
-        const data = JSON.parse(rawMessage)
-        const type = data.type
-        handlers[type](ws.connection, data)
+        const type = message.type
+        handlers[type](ws.connection, message)
     } catch (e) {
         if (!(e instanceof ApiError)) throw e
-        sendMessage(ws, createErrorMessage('Error: ' + e.message))
+        sendError(ws, e.message)
     }
+}
+
+function tryParseJSON(json) {
+    try {
+        return JSON.parse(json)
+    } catch (e) {}
+}
+
+function sendError(ws, message) {
+    sendMessage(ws, createErrorMessage('Error: ' + message))
 }
 
 function sendMessage(ws, message) {

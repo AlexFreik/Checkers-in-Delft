@@ -20,7 +20,7 @@ class Game {
         this.gameId = gameId
         this.settings = settings
         this.state = Game.STATE_WAITING_FOR_START
-        this.players = []
+        this.players = [] // TODO Use Map for higher flexibility of side management
         this.pieces = createPieces()
     }
 

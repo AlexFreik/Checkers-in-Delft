@@ -1,7 +1,7 @@
 const connections = new Map()
 
 /**
- * Associates given player token with given connection.
+ * Associates given player id with given connection.
  * Allows messages to be sent to this player.
  * @param playerId {string}
  * @param connection {Connection}
@@ -9,6 +9,14 @@ const connections = new Map()
 function registerConnection(playerId, connection) {
     connection.playerId = playerId
     connections.set(playerId, connection)
+}
+
+/**
+ * Unregisters given player
+ * @param playerId {string}
+ */
+function unregisterConnection(playerId) {
+    connections.delete(playerId)
 }
 
 /**
@@ -24,4 +32,4 @@ function sendMessage(playerIds, message) {
     })
 }
 
-module.exports = { registerConnection, sendMessage }
+module.exports = { registerConnection, unregisterConnection, sendMessage }
