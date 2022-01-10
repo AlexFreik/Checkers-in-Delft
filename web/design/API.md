@@ -1,7 +1,8 @@
 # API
 
 ## Notes
-1. Coordinate system: `col: (0-7), row: (0-7)`
+1. Coordinate system: `col: (0-7), row: (0-7)`.
+   (0, 0) is the bottom-left corner of the board.
 
 ## HTTP API
 
@@ -118,7 +119,8 @@
     "eatenPiece": { // sent only if a piece has been eaten
       "col": 2,
       "row": 2
-    }
+    },
+    "becameKing": true // sent only if a piece has been promoted to a king
   }
   ```
 

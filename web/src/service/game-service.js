@@ -3,6 +3,7 @@ const Game = require('../model/game')
 const { sendMessage } = require('../controller/connection-registry')
 const { createGameStateMessage, createMoveMessage, createWelcomeMessage } = require('../controller/messages')
 const ApiError = require('../util/api-error')
+const { getLegalMoves, canContinueAfterMove } = require('./logic-service')
 
 const MAX_GAME_ID = 9999
 const MAX_GAMES = 10
@@ -12,7 +13,7 @@ const players = new Map()
 
 /**
  * Creates a new game
- * @param settings {object} game params
+ * @param settings {GameSettings} game params
  * @returns {string} id of the new game
  * @throws {Error} if game could not be created
  */
@@ -72,10 +73,27 @@ function startGame(game) {
  */
 function performMove(playerId, from, to) {
     const game = getGameByPlayer(playerId)
+    const playerSide = game.getPlayerSide(playerId)
     if (!game || game.state !== Game.STATE_IN_PROGRESS) throw new ApiError('Game not in progress')
-    if (game.currentSideId !== game.getPlayerSide(playerId)) throw new ApiError('Move not possible now')
-    // TODO Implement move validation
-    sendMove(game.players, from, to)
+    if (game.currentSideId !== playerSide) throw new ApiError('Move not possible now')
+
+    const movingPiece = game.getPieceAt(from)
+    if (!movingPiece || movingPiece.sideId !== playerSide) throw new ApiError('Invalid piece')
+
+    const legalMoves = getLegalMoves(game, movingPiece)
+    const foundMove = legalMoves.find((move) => move.pos.equals(to))
+    if (!foundMove) throw new ApiError('Illegal move')
+
+    if (foundMove.eating) game.removePiece(foundMove.eating)
+
+    sendMove(game.players, from, to, foundMove.eating?.pos, false)
+
+    // TODO Becoming a king
+
+    if (!canContinueAfterMove(game, movingPiece, foundMove)) {
+        game.switchSides()
+        sendGameState(game.players, game)
+    }
 }
 
 /**
@@ -113,9 +131,10 @@ function sendGameState(playerIds, game) {
  * @param from {Pos}
  * @param to {Pos}
  * @param eaten {Pos=}
+ * @param becameKing {boolean}
  */
-function sendMove(playerIds, from, to, eaten) {
-    sendMessage(playerIds, createMoveMessage(from, to, eaten))
+function sendMove(playerIds, from, to, eaten, becameKing) {
+    sendMessage(playerIds, createMoveMessage(from, to, eaten, becameKing))
 }
 
 module.exports = {
