@@ -8,7 +8,7 @@ const gameScreenElems = {
         (ratioPos = new RatioCnvPos(0, 0, WIDTH_RATIO, 0.1)),
         [new Text(ratioPos, '', '#ddd', Font.middle)],
         function () {
-            this.drawDynamicTxt(0, 'Turn: ' + '"' + game.currentSideId + '"')
+            this.drawDynamicTxt(0, 'Turn: ' + game.turn)
         }
     ),
     eatenPiecesStat: new Elem(

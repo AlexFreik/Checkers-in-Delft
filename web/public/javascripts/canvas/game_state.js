@@ -99,10 +99,7 @@ class Game {
      */
     getEatenPiecesNum = (sideId) => {
         console.assert(sideId === SIDE_ID_1 || sideId === SIDE_ID_2)
-        return (
-            PLAYER_PIECES_NUM -
-            this.pieces.filter((piece) => piece.sideId === sideId).length
-        )
+        return PLAYER_PIECES_NUM - this.pieces.filter((piece) => piece.sideId === sideId).length
     }
     _initialisePieces = () => {
         let pieces = []
@@ -117,6 +114,9 @@ class Game {
             }
         }
         return pieces
+    }
+    get turn() {
+        return this.side === this.currentSideId ? 'you' : 'opponent'
     }
 }
 
