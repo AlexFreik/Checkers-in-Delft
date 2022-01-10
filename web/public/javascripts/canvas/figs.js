@@ -37,6 +37,7 @@ class Font {
     }
     static DEFAULT_FONT = 'Arial'
     static DEFAULT_COLOR = '#ddd'
+    static DEFAULT_COLOR_DARK = '#333'
 
     /**
      *

@@ -116,6 +116,10 @@ class Board extends Elem {
         ctx.lineWidth = 5
         ctx.stroke()
         ctx.fill()
+
+        if (piece.isKing) {
+            new Text(absPos.toRatioCnvPos(), 'K', '#555', Font.big).draw()
+        }
     }
 
     /**

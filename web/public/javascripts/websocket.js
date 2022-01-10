@@ -42,11 +42,12 @@ function handleWelcomeMsg(data) {
 
 /**
  *
- * @param {{type: 'move', from: {col: number, row: number}, to: {col: number, row: number}, eatenPiece: {col: number, row: number}}} data
+ * @param {{type: 'move', from: {col: number, row: number}, to: {col: number, row: number}, eatenPiece: {col: number, row: number}, becameKing: boolean}} data
  */
 function handleMoveMsg(data) {
     game.movePiece(data.from, data.to)
     if (data.eatenPiece) game.removePiece(data.eatenPiece)
+    if (data.becameKing) game.makeKing(data.to)
 }
 
 /**
