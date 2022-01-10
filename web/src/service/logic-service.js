@@ -3,12 +3,21 @@ const Pos = require('../model/pos')
 const Move = require('../model/move')
 
 /**
+ * Checks whether for a current player there is any eating move possible
+ * @param game {Game}
+ */
+function isAnyEatingPossible(game) {
+    return game.pieces.some((piece) => getLegalMoves(game, piece, true).length !== 0)
+}
+
+/**
  * Returns all possible moves for a given piece in a given game
  * @param game {Game}
  * @param piece {Piece}
+ * @param onlyEating {boolean}
  * @return {Move[]}
  */
-function getLegalMoves(game, piece) {
+function getLegalMoves(game, piece, onlyEating) {
     let moves = []
     if (!piece.king) {
         moves.push(...getLegalOrdinaryMovesInDirection(game, piece, getForwardLeftOffset(piece), false))
@@ -22,8 +31,7 @@ function getLegalMoves(game, piece) {
         moves.push(...getLegalKingMovesInDirection(game, piece, getBackwardRightOffset(piece)))
     }
 
-    // Forced moves
-    if (moves.some((move) => move.eating)) {
+    if (onlyEating) {
         moves = moves.filter((move) => move.eating)
     }
 
@@ -84,6 +92,19 @@ function getLegalKingMovesInDirection(game, piece, direction) {
 }
 
 /**
+ * Returns whether the piece after the move becomes a king. Returns false if the piece already is a king
+ * @param game {Game}
+ * @param piece {Piece}
+ * @param move {Move}
+ * @return {boolean}
+ */
+function isBecomingKing(game, piece, move) {
+    if (piece.king) return false
+    const kingLine = piece.sideId === Game.SIDE_A ? 7 : 0
+    return move.pos.y === kingLine
+}
+
+/**
  * Returns whether the current player can continue (make another move in the same turn) after making this move
  * @param game {Game}
  * @param piece {Piece}
@@ -91,8 +112,9 @@ function getLegalKingMovesInDirection(game, piece, direction) {
  * @return {boolean}
  */
 function canContinueAfterMove(game, piece, move) {
+    if (!move.eating) return false
     const pieceAfterMove = piece.withPos(move.pos)
-    return getLegalMoves(game, pieceAfterMove).some((move) => move.eating)
+    return getLegalMoves(game, pieceAfterMove, true).length !== 0
 }
 
 /**
@@ -140,4 +162,4 @@ function isInTheBoard(pos) {
     return pos.x >= 0 && pos.y >= 0 && pos.x < 8 && pos.y < 8
 }
 
-module.exports = { getLegalMoves, canContinueAfterMove }
+module.exports = { isAnyEatingPossible, getLegalMoves, isBecomingKing, canContinueAfterMove }

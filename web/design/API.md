@@ -69,13 +69,6 @@
   }
   ```
 
-- **Surrender**
-  ```json
-  {
-    "type": "surrender"
-  }
-  ```
-
 ### Messages Server->Client
 
 - **Welcome** - sent as the response to the `Login` message

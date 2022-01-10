@@ -3,7 +3,7 @@ const Game = require('../model/game')
 const { sendMessage } = require('../controller/connection-registry')
 const { createGameStateMessage, createMoveMessage, createWelcomeMessage } = require('../controller/messages')
 const ApiError = require('../util/api-error')
-const { getLegalMoves, canContinueAfterMove } = require('./logic-service')
+const { getLegalMoves, canContinueAfterMove, isAnyEatingPossible, isBecomingKing } = require('./logic-service')
 
 const MAX_GAME_ID = 9999
 const MAX_GAMES = 10
@@ -79,20 +79,28 @@ function performMove(playerId, from, to) {
 
     const movingPiece = game.getPieceAt(from)
     if (!movingPiece || movingPiece.sideId !== playerSide) throw new ApiError('Invalid piece')
+    if (game.currentMovingPiece && movingPiece !== game.currentMovingPiece) throw new ApiError('Compound move in progress')
 
-    const legalMoves = getLegalMoves(game, movingPiece)
+    const mustEat = game.currentMovingPiece !== undefined || isAnyEatingPossible(game)
+    const legalMoves = getLegalMoves(game, movingPiece, mustEat)
     const foundMove = legalMoves.find((move) => move.pos.equals(to))
     if (!foundMove) throw new ApiError('Illegal move')
 
+    movingPiece.pos = foundMove.pos
+
+    const becomingKing = isBecomingKing(game, movingPiece, foundMove)
+    if (becomingKing) movingPiece.king = true
+
     if (foundMove.eating) game.removePiece(foundMove.eating)
 
-    sendMove(game.players, from, to, foundMove.eating?.pos, false)
-
-    // TODO Becoming a king
+    sendMove(game.players, from, to, foundMove.eating?.pos, becomingKing)
 
     if (!canContinueAfterMove(game, movingPiece, foundMove)) {
         game.switchSides()
+        game.currentMovingPiece = undefined
         sendGameState(game.players, game)
+    } else {
+        game.currentCompoundMovePiece = movingPiece
     }
 }
 
