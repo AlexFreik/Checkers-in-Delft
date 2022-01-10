@@ -20,7 +20,7 @@ const gameScreenElems = {
         ],
         function () {
             this.drawDynamicTxt(1, 'you - ' + game.getEatenPiecesNum(game.sideId))
-            this.drawDynamicTxt(2, 'opp - ' + game.getEatenPiecesNum(2 - game.sideId))
+            this.drawDynamicTxt(2, 'opp - ' + game.getEatenPiecesNum(game.sideId === SIDE_ID_1 ? SIDE_ID_2 : SIDE_ID_1))
         }
     ),
     gameId: new Elem(
@@ -36,5 +36,5 @@ gameScreenElems.board.addEventListener('click', (event) => {
 })
 
 homeBtn.addEventListener('click', () => {
-  console.log(currScreenElems, gameScreenElems)
+    console.log(currScreenElems, gameScreenElems)
 })
