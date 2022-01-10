@@ -103,26 +103,20 @@ class Board extends Elem {
      * @private
      */
     _drawPiece = (piece, isSelected) => {
-        const absPos = this._toAbsPiecePos(piece.coords)
-        ctx.fillStyle = piece.color[piece.sideId]
-        ctx.beginPath()
-        ctx.arc(
-            absPos.x + absPos.w / 2,
-            absPos.y + absPos.w / 2,
-            absPos.w / 2 / (isSelected ? 1.3 : 1.5),
-            0,
-            2 * Math.PI
-        )
-        ctx.closePath()
-        ctx.strokeStyle = piece.sideId === SIDE_ID_1 ? '#333' : '#eee'
-        ctx.lineWidth = 5
-        ctx.stroke()
-        ctx.fill()
-
+        const absPos = this._toAbsPiecePos(piece.coords).scale(isSelected ? 1 : 0.9)
+        ctx.drawImage(Board.wheelImgs[piece.sideId], absPos.x, absPos.y, absPos.w, absPos.h)
         if (piece.isKing) {
-            new Text(absPos.toRatioCnvPos(), 'K', '#555', Font.big).draw()
+            new Text(absPos.toRatioCnvPos(), 'K', pieceCols[piece.sideId], Font.big).draw()
         }
     }
+    static wheelImgs = (() => {
+        const imgRed = new Image()
+        imgRed.src = 'data/img/bike_wheel_red.svg'
+
+        const imgBlue = new Image()
+        imgBlue.src = 'data/img/bike_wheel_blue.svg'
+        return { 1: imgRed, 2: imgBlue }
+    })()
 
     /**
      * @private

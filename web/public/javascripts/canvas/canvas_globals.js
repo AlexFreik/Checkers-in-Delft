@@ -8,6 +8,10 @@ const PLAYER_PIECES_NUM = 12
 
 const PIECE_COL_1 = '#fcc'
 const PIECE_COL_2 = '#ccf'
+const pieceCols = {
+    1: PIECE_COL_1,
+    2: PIECE_COL_2,
+}
 
 const EMOJIS = {
     SOUND: '\uf028',

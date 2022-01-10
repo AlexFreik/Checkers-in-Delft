@@ -48,7 +48,7 @@ class Game {
         this.settings = settings
         this.sideId = side
         this.pieces = this._initialisePieces()
-        this.currentSideId = SIDE_ID_1
+        this.currentSideId = -1
     }
 
     /**
@@ -116,7 +116,14 @@ class Game {
         return pieces
     }
     get turn() {
-        return this.sideId === this.currentSideId ? 'you' : 'opp'
+        switch (this.currentSideId) {
+            case -1:
+                return 'waiting for the opp'
+            case this.sideId:
+                return 'you'
+            default:
+                return 'opp'
+        }
     }
 }
 

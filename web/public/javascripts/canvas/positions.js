@@ -109,6 +109,18 @@ class AbsCnvPos extends Pos {
         const rect = canvas.getBoundingClientRect()
         return new AbsCnvPos(evt.clientX - rect.left, evt.clientY - rect.top, 0, 0)
     }
+
+    /**
+     *
+     * @param {number} scale
+     * @return {AbsCnvPos}
+     */
+    scale(scale) {
+        const cX = this.x + this.w / 2
+        const cY = this.y + this.h / 2
+        const w = this.w * scale, h = this.h * scale
+        return new AbsCnvPos(cX - w /2, cY - h / 2, w, h)
+    }
 }
 
 /**

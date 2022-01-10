@@ -17,5 +17,15 @@ soundBtn.addEventListener('click', () => {
 })
 homeBtn.addEventListener('click', () => {
     removeGameIdInput()
+    closeWS()
+    game = undefined
     currScreenElems = homeScreenElems
 })
+function closeWS() {
+    if (currScreenElems === gameScreenElems) {
+        if (websocket) {
+            websocket.close()
+            websocket = undefined
+        }
+    }
+}

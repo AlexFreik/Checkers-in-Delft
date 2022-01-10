@@ -19,8 +19,8 @@ const gameScreenElems = {
             new Text(ratioPos.shift(0, 0.1), '', '#ddd', Font.middle),
         ],
         function () {
-            this.drawDynamicTxt(1, 'red  - ' + game.getEatenPiecesNum(SIDE_ID_1))
-            this.drawDynamicTxt(2, 'blue - ' + game.getEatenPiecesNum(SIDE_ID_2))
+            this.drawDynamicTxt(1, 'you - ' + game.getEatenPiecesNum(game.sideId))
+            this.drawDynamicTxt(2, 'opp - ' + game.getEatenPiecesNum(2 - game.sideId))
         }
     ),
     gameId: new Elem(
@@ -33,4 +33,8 @@ const gameScreenElems = {
 }
 gameScreenElems.board.addEventListener('click', (event) => {
     gameScreenElems.board.processClick(AbsCnvPos.constructFromEvent(event))
+})
+
+homeBtn.addEventListener('click', () => {
+  console.log(currScreenElems, gameScreenElems)
 })
