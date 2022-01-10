@@ -116,7 +116,7 @@ class Game {
         return pieces
     }
     get turn() {
-        return this.sideId === this.currentSideId ? 'you' : 'opponent'
+        return this.sideId === this.currentSideId ? 'you' : 'opp'
     }
 }
 

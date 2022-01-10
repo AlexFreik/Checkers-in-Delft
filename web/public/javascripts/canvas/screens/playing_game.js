@@ -19,8 +19,8 @@ const gameScreenElems = {
             new Text(ratioPos.shift(0, 0.1), '', '#ddd', Font.middle),
         ],
         function () {
-            this.drawDynamicTxt(1, '"1" - ' + game.getEatenPiecesNum(SIDE_ID_1))
-            this.drawDynamicTxt(2, '"2" - ' + game.getEatenPiecesNum(SIDE_ID_2))
+            this.drawDynamicTxt(1, 'red  - ' + game.getEatenPiecesNum(SIDE_ID_1))
+            this.drawDynamicTxt(2, 'blue - ' + game.getEatenPiecesNum(SIDE_ID_2))
         }
     ),
     gameId: new Elem(
