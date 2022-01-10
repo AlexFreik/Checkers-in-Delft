@@ -5,10 +5,14 @@ class Elem {
      * @param {array} figs -- array of drawable figures (rectangles, texts, etc)
      * @param {function} draw
      */
-    constructor(ratioPos, figs, draw = this._draw) {
+    constructor(ratioPos, figs, draw) {
         this.ratioPos = ratioPos
         this.figs = figs
         this.draw = draw
+            ? draw
+            : () => {
+                  this._draw()
+              }
         this.eventListeners = {
             click: [
                 (event) => {
