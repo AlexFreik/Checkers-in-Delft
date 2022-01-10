@@ -48,9 +48,6 @@ function createGame(status, data) {
     if (status === 200) {
         game = new Game(data.gameId, data.playerId)
         websocket = initFrontendWS()
-
-        currScreenElems = gameScreenElems
-        window.requestAnimationFrame(drawScreen)
     }
 }
 

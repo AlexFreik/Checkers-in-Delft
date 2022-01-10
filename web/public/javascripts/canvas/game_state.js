@@ -94,7 +94,7 @@ class Game {
     }
 
     /**
-     * @param {number} sideId
+     * @param {{number}} sideId
      * @return {number}
      */
     getEatenPiecesNum = (sideId) => {

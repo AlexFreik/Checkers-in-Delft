@@ -79,7 +79,6 @@ class Board extends Elem {
             game.requestPieceMove(this.selectedPieceCoords, coords)
             this.selectedPieceCoords = undefined
         } else {
-            console.log(piece.sideId, game.sideId)
             this.selectedPieceCoords =
                 piece.sideId === game.sideId ? piece.coords : undefined
         }

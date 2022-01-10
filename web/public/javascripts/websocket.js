@@ -33,11 +33,14 @@ const handlers = {
 
 /**
  *
- * @param {{type: 'welcome', settings: {forceJumps: boolean}, side: {number}}} data
+ * @param {{type: 'welcome', settings: {forceJumps: boolean}, sideId: {number}}} data
  */
 function handleWelcomeMsg(data) {
     game.settings = data.settings
     game.sideId = data.sideId
+
+    currScreenElems = gameScreenElems
+    window.requestAnimationFrame(drawScreen)
 }
 
 /**

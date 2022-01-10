@@ -47,7 +47,3 @@ const gameScreenElems = {
 gameScreenElems.board.addEventListener('click', (event) => {
     gameScreenElems.board.processClick(AbsCnvPos.constructFromEvent(event))
 })
-
-homeBtn.addEventListener('click', () => {
-    console.log(currScreenElems, gameScreenElems)
-})

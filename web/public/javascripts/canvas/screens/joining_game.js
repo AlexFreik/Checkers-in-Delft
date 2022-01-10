@@ -68,9 +68,7 @@ function joinGame(status, data, gameId) {
     } else if (status === 200) {
         game = new Game(gameId, data.playerId)
         websocket = initFrontendWS()
-
         removeGameIdInput()
-        currScreenElems = gameScreenElems
     }
     window.requestAnimationFrame(drawScreen)
 }
