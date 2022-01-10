@@ -3,7 +3,7 @@ class Piece {
      *
      * @param {number} col
      * @param {number} row
-     * @param {1 | 2} sideId
+     * @param {number} sideId
      */
     constructor(col, row, sideId) {
         this.coords = { col, row }
@@ -40,7 +40,7 @@ class Game {
      * @param {string} gameId
      * @param {string} playerId
      * @param {{forceJumps: boolean}} settings
-     * @param {1 | 2} side
+     * @param {number} side
      */
     constructor(gameId, playerId, settings = undefined, side = undefined) {
         this.gameId = gameId
@@ -94,11 +94,11 @@ class Game {
     }
 
     /**
-     *
-     * @param {1 | 2} sideId
+     * @param {number} sideId
      * @return {number}
      */
     getEatenPiecesNum = (sideId) => {
+        console.assert(sideId === SIDE_ID_1 || sideId === SIDE_ID_2)
         return (
             PLAYER_PIECES_NUM -
             this.pieces.filter((piece) => piece.sideId === sideId).length

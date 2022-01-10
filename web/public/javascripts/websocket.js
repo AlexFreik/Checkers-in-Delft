@@ -33,7 +33,7 @@ const handlers = {
 
 /**
  *
- * @param {{type: 'welcome', settings: {forceJumps: boolean}, side: 1|2}} data
+ * @param {{type: 'welcome', settings: {forceJumps: boolean}, side: {number}}} data
  */
 function handleWelcomeMsg(data) {
     game.settings = data.settings
@@ -52,14 +52,14 @@ function handleMoveMsg(data) {
 
 /**
  *
- * @param {{type: 'game-state', state: string, currentSideId: 1|2, currentPlayerId: string, winnerSideId: 1|2}} data
+ * @param {{type: 'game-state', state: {string}, currentSideId: {number}, currentPlayerId: {string}, winnerSideId: {number}}} data
  */
 function handleGameStateMsg(data) {
     if (data.state === 'in-progress') game.currentSideId = data.currentSideId
     if (data.state === 'finished') {
         currScreenElems.alertMsg = new AlertMsg(
             'GAME OVER',
-            'You' + game.side === data.winnerSideId ? 'won!' : 'lost...',
+            'You' + game.sideId === data.winnerSideId ? 'won!' : 'lost...',
             function () {
                 game = undefined
                 currScreenElems = homeScreenElems
