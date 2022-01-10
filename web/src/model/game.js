@@ -56,8 +56,7 @@ class Game {
     }
 
     switchSides() {
-        if (this.currentSideId === Game.SIDE_A) this.currentSideId = Game.SIDE_B
-        else if (this.currentSideId === Game.SIDE_B) this.currentSideId = Game.SIDE_A
+        this.currentSideId = Game.getOppositeSide(this.currentSideId)
     }
 
     /**
@@ -66,6 +65,15 @@ class Game {
      */
     removePiece(victim) {
         this.pieces = this.pieces.filter((piece) => piece !== victim)
+    }
+
+    /**
+     * Marks the game as finished and won by given player
+     * @param winnerSideId {number}
+     */
+    finish(winnerSideId) {
+        this.state = Game.STATE_FINISHED
+        this.winnerSideId = winnerSideId
     }
 
     /**
@@ -80,6 +88,17 @@ class Game {
     }
 
     /**
+     * Returns the id of the opponent of the player with given id
+     * @param playerId {string}
+     * @return {string | undefined}
+     */
+    getOpponentOf(playerId) {
+        const mySide = this.getPlayerSide(playerId)
+        if (mySide === undefined) return undefined
+        return this.playerMap.get(Game.getOppositeSide(mySide))
+    }
+
+    /**
      * Returns a piece at a given position
      * @param pos {Pos}
      * @return {Piece | undefined}
@@ -88,8 +107,19 @@ class Game {
         return this.pieces.find((piece) => piece.pos.equals(pos))
     }
 
+    /**
+     * @return {number}
+     */
     static getRandomSide() {
         return Math.random() < 0.5 ? Game.SIDE_A : Game.SIDE_B
+    }
+
+    /**
+     * @param sideId {number}
+     * @return {number}
+     */
+    static getOppositeSide(sideId) {
+        return sideId === this.SIDE_A ? Game.SIDE_B : Game.SIDE_A
     }
 }
 

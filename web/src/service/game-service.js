@@ -3,7 +3,7 @@ const Game = require('../model/game')
 const { sendMessage } = require('../controller/connection-registry')
 const { createGameStateMessage, createMoveMessage, createWelcomeMessage } = require('../controller/messages')
 const ApiError = require('../util/api-error')
-const { getLegalMoves, canContinueAfterMove, isAnyEatingPossible, isBecomingKing } = require('./logic-service')
+const { getLegalMoves, canContinueAfterMove, isAnyMovePossible, isBecomingKing } = require('./logic-service')
 
 const MAX_GAME_ID = 9999
 const MAX_GAMES = 10
@@ -73,15 +73,16 @@ function startGame(game) {
  */
 function performMove(playerId, from, to) {
     const game = getGameByPlayer(playerId)
-    const playerSide = game.getPlayerSide(playerId)
     if (!game || game.state !== Game.STATE_IN_PROGRESS) throw new ApiError('Game not in progress')
+
+    const playerSide = game.getPlayerSide(playerId)
     if (game.currentSideId !== playerSide) throw new ApiError('Move not possible now')
 
     const movingPiece = game.getPieceAt(from)
     if (!movingPiece || movingPiece.sideId !== playerSide) throw new ApiError('Invalid piece')
     if (game.currentMovingPiece && movingPiece !== game.currentMovingPiece) throw new ApiError('Compound move in progress')
 
-    const mustEat = game.currentMovingPiece !== undefined || isAnyEatingPossible(game)
+    const mustEat = game.currentMovingPiece !== undefined || isAnyMovePossible(game, true)
     const legalMoves = getLegalMoves(game, movingPiece, mustEat)
     const foundMove = legalMoves.find((move) => move.pos.equals(to))
     if (!foundMove) throw new ApiError('Illegal move')
@@ -98,10 +99,20 @@ function performMove(playerId, from, to) {
     if (!canContinueAfterMove(game, movingPiece, foundMove)) {
         game.switchSides()
         game.currentMovingPiece = undefined
+        if (!isAnyMovePossible(game, false)) {
+            game.finish(game.getOpponentOf(playerId))
+        }
         sendGameState(game.players, game)
     } else {
         game.currentMovingPiece = movingPiece
     }
+}
+
+function abandonGame(playerId) {
+    const game = getGameByPlayer(playerId)
+    if (!game || game.state !== Game.STATE_IN_PROGRESS) throw new ApiError('Game not in progress')
+
+    game.finish(game.getOpponentOf(playerId))
 }
 
 /**
@@ -149,6 +160,7 @@ module.exports = {
     createGame,
     joinGame,
     performMove,
+    abandonGame,
     getGameByPlayer,
     sendWelcome,
     sendGameState,

@@ -3,11 +3,15 @@ const Pos = require('../model/pos')
 const Move = require('../model/move')
 
 /**
- * Checks whether for a current player there is any eating move possible
+ * Returns whether any move is possible for the current player
  * @param game {Game}
+ * @param onlyEating {boolean}
+ * @return {boolean}
  */
-function isAnyEatingPossible(game) {
-    return game.pieces.some((piece) => getLegalMoves(game, piece, true).length !== 0)
+function isAnyMovePossible(game, onlyEating) {
+    return game.pieces
+        .filter((piece) => piece.sideId === game.currentSideId)
+        .some((piece) => getLegalMoves(game, piece, onlyEating).length !== 0)
 }
 
 /**
@@ -162,4 +166,4 @@ function isInTheBoard(pos) {
     return pos.x >= 0 && pos.y >= 0 && pos.x < 8 && pos.y < 8
 }
 
-module.exports = { isAnyEatingPossible, getLegalMoves, isBecomingKing, canContinueAfterMove }
+module.exports = { isAnyMovePossible, getLegalMoves, isBecomingKing, canContinueAfterMove }
