@@ -11,6 +11,7 @@ class Piece {
         this.color = {}
         this.color[SIDE_ID_1] = PIECE_COL_1
         this.color[SIDE_ID_2] = PIECE_COL_2
+        this.isKing = false
     }
 
     /**

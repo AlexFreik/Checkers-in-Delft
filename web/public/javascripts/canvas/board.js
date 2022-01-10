@@ -2,7 +2,7 @@
  * Board-class. It is responsible for drawing grid and pieces
  * and for detecting which piece is selected, when user clicks on board
  */
-class Board {
+class Board extends Elem {
     /**
      *
      * @param {RatioCnvPos} ratioPos
@@ -10,6 +10,7 @@ class Board {
      * @param {string} strokeStyle
      */
     constructor(ratioPos, lineWidth, strokeStyle) {
+        super(ratioPos, [])
         this.ratioPos = ratioPos
         this.n = ROW_COL_NUM
         this.lineWidth = lineWidth
@@ -35,28 +36,14 @@ class Board {
      */
     _drawGrid = () => {
         ctx.beginPath()
-        for (
-            let x = 0;
-            x <= Math.ceil(this.absCnvPos.w);
-            x += this.absCnvPos.w / this.n
-        ) {
+        for (let x = 0; x <= Math.ceil(this.absCnvPos.w); x += this.absCnvPos.w / this.n) {
             ctx.moveTo(this.absCnvPos.x + x, this.absCnvPos.y)
-            ctx.lineTo(
-                this.absCnvPos.x + x,
-                this.absCnvPos.y + this.absCnvPos.h
-            )
+            ctx.lineTo(this.absCnvPos.x + x, this.absCnvPos.y + this.absCnvPos.h)
         }
 
-        for (
-            let y = 0;
-            y <= Math.ceil(this.absCnvPos.h);
-            y += this.absCnvPos.h / this.n
-        ) {
+        for (let y = 0; y <= Math.ceil(this.absCnvPos.h); y += this.absCnvPos.h / this.n) {
             ctx.moveTo(this.absCnvPos.x, this.absCnvPos.y + y)
-            ctx.lineTo(
-                this.absCnvPos.x + this.absCnvPos.w,
-                this.absCnvPos.y + y
-            )
+            ctx.lineTo(this.absCnvPos.x + this.absCnvPos.w, this.absCnvPos.y + y)
         }
 
         ctx.lineWidth = this.lineWidth
@@ -102,14 +89,8 @@ class Board {
      */
     _toCoords = (absCnvPos) => {
         return {
-            col: Math.floor(
-                ((absCnvPos.x - this.absCnvPos.x) / this.absCnvPos.w) *
-                    ROW_COL_NUM
-            ),
-            row: Math.floor(
-                (1 - (absCnvPos.y - this.absCnvPos.y) / this.absCnvPos.h) *
-                    ROW_COL_NUM
-            ),
+            col: Math.floor(((absCnvPos.x - this.absCnvPos.x) / this.absCnvPos.w) * ROW_COL_NUM),
+            row: Math.floor((1 - (absCnvPos.y - this.absCnvPos.y) / this.absCnvPos.h) * ROW_COL_NUM),
         }
     }
 
@@ -142,11 +123,7 @@ class Board {
      */
     _drawAllPieces = () => {
         for (const piece of game.pieces) {
-            this._drawPiece(
-                piece,
-                this.selectedPieceCoords &&
-                    piece.coordsEqual(this.selectedPieceCoords)
-            )
+            this._drawPiece(piece, this.selectedPieceCoords && piece.coordsEqual(this.selectedPieceCoords))
         }
     }
 }

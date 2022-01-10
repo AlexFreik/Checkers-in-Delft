@@ -3,11 +3,7 @@ const gameScreenElems = {
     soundBtn: soundBtn,
     homeBtn: homeBtn,
 
-    board: new Elem(
-        (ratioPos = new RatioCnvPos((WIDTH_RATIO - 0.8) / 2, 0.1, 0.8, 0.8)),
-        [new Board(ratioPos, 1, '#ddd')]
-    ),
-
+    board: new Board(new RatioCnvPos((WIDTH_RATIO - 0.8) / 2, 0.1, 0.8, 0.8), 1, '#ddd'),
     turn: new Elem(
         (ratioPos = new RatioCnvPos(0, 0, WIDTH_RATIO, 0.1)),
         [new Text(ratioPos, '', '#ddd', Font.middle)],
@@ -35,9 +31,6 @@ const gameScreenElems = {
         }
     ),
 }
-
 gameScreenElems.board.addEventListener('click', (event) => {
-    board.processClick(AbsCnvPos.constructFromEvent(event))
+    gameScreenElems.board.processClick(AbsCnvPos.constructFromEvent(event))
 })
-
-const board = gameScreenElems.board.figs[0]

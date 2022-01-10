@@ -27,6 +27,9 @@
     <div id="canvas-holder">
         <canvas id="canvas-game"></canvas>
     </div>
+    <div id="inProgressGamesNum"><%= inProgressGamesNum %></div>
+    <div id="finishedGamesNum"><%= finishedGamesNum %></div>
+    <div id="waitingForStartGamesNum"><%= waitingForStartGamesNum %></div>
 </section>
 
 <section id="under-canvas">
@@ -170,9 +173,10 @@
 
 <script src="/javascripts/canvas/canvas_globals.js"></script>
 <script src="/javascripts/canvas/game_state.js"></script>
-<script src="/javascripts/canvas/board.js"></script>
 <script src="/javascripts/canvas/positions.js"></script>
+<script src="/javascripts/canvas/figs.js"></script>
 <script src="/javascripts/canvas/elem_classes.js"></script>
+<script src="/javascripts/canvas/board.js"></script>
 
 <script src="/javascripts/canvas/screens/common_elems.js"></script>
 <script src="/javascripts/canvas/screens/home.js"></script>

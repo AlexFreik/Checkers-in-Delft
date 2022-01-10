@@ -1,5 +1,6 @@
 let inProgressGamesNum = 'undefined'
 let finishedGamesNum = 'undefined'
+let waitingForStartGamesNum = 'undefined'
 
 const homeScreenElems = {
     background: background,
@@ -34,7 +35,7 @@ const homeScreenElems = {
         function () {
             this.drawDynamicTxt(2, 'Finished games: ' + finishedGamesNum)
             this.drawDynamicTxt(3, 'In progress games: ' + inProgressGamesNum)
-            this.drawDynamicTxt(4, 'Some third stat: ')
+            this.drawDynamicTxt(4, 'Waiting for start games: ' + waitingForStartGamesNum)
         }
     ),
 }
@@ -55,20 +56,9 @@ window.addEventListener('load', () => {
 })
 
 function processStats() {
-    fetch('/data/stats.json')
-        .then((res) => res.json())
-        .then((data) => this.setStats(data))
-        .catch((e) => console.log(e))
-}
-
-/**
- *
- * @param {{inProgressGamesNum: number, finishedGamesNum: number}} stats
- */
-function setStats(stats) {
-    inProgressGamesNum = stats.inProgressGamesNum
-    finishedGamesNum = stats.finishedGamesNum
-    window.requestAnimationFrame(drawScreen)
+    inProgressGamesNum = document.getElementById('inProgressGamesNum').innerHTML
+    finishedGamesNum =  document.getElementById('finishedGamesNum').innerHTML
+    waitingForStartGamesNum =  document.getElementById('waitingForStartGamesNum').innerHTML
 }
 
 let currScreenElems = homeScreenElems
