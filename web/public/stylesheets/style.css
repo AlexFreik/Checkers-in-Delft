@@ -1,6 +1,91 @@
 body {
-    padding: 50px;
-    font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+    margin: 0;
+    background: #e7dcc5;
+    color: #e7dcc5;
+    line-height: 1.6;
+    min-width: 550px;
+}
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 0;
+    padding: 0;
+}
+a::before {
+    content: "[Link] ";
+}
+a::after {
+    content: " [click me!]";
+}
+a:link {
+    color: #e7dcc5;
+}
+a:visited {
+    color: #ecbead;
+}
+a:hover {
+    color: #e1b29e;
+}
+a:active {
+    color: #444645;
+    background-color: #e7dcc5;
+}
+
+/* header */
+header,
+footer {
+    background: #444645;
+    text-align: center;
+}
+
+#logo {
+    margin: 0 auto;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 30px;
+
+    animation-name: logo;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+#logo-box {
+    padding: 2px 4px;
+    border: 2px solid #e7dcc5;
+}
+@keyframes logo {
+    0% {
+        letter-spacing: 0px;
+    }
+    100% {
+        letter-spacing: 2px;
+    }
+}
+
+/* canvas */
+#canvas-sec {
+    margin: auto;
+    text-align: center;
+}
+#canvas-holder {
+    background: #444645;
+    border-bottom-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+    padding: 30px 0 50px;
+}
+input {
+    padding: 0;
+    background: rgba(0, 0, 0, 0);
+    color: #eee;
+    font-size: 25px;
+    position: absolute;
+}
+#inProgressGamesNum,
+#finishedGamesNum,
+#waitingForStartGamesNum {
+    display: none;
 }
 
 a {

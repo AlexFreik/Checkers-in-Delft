@@ -1,4 +1,5 @@
 {
     "inProgressGamesNum": 0,
-    "finishedGamesNum": 0
+    "finishedGamesNum": 0,
+    "waitingForStartGamesNum": 0
 }
