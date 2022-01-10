@@ -20,25 +20,39 @@ class Game {
         this.gameId = gameId
         this.settings = settings
         this.state = Game.STATE_WAITING_FOR_START
-        this.players = [] // TODO Use Map for higher flexibility of side management
+        this.playerMap = new Map()
         this.pieces = createPieces()
+    }
+
+    /**
+     * @return {string[]}
+     */
+    get players() {
+        return Array.from(this.playerMap.values())
+    }
+
+    /**
+     * @return {number}
+     */
+    get playersCount() {
+        return this.playerMap.size
     }
 
     /**
      * Adds player to the player list
      * @param playerId {string}
+     * @param sideId {number}
      */
-    addPlayer(playerId) {
-        this.players.push(playerId)
+    addPlayer(playerId, sideId) {
+        this.playerMap.set(sideId, playerId)
     }
 
     /**
-     * Marks the game as started.
-     * @param startingSideId {number}
+     * Marks the game as started
      */
-    start(startingSideId) {
+    start() {
         this.state = Game.STATE_IN_PROGRESS
-        this.currentSideId = startingSideId
+        this.currentSideId = Game.SIDE_A
     }
 
     switchSides() {
@@ -57,10 +71,12 @@ class Game {
     /**
      * Returns the side the player plays on
      * @param playerId {string}
-     * @return {number}
+     * @return {number | undefined}
      */
     getPlayerSide(playerId) {
-        return this.players.indexOf(playerId)
+        return Array.from(this.playerMap.entries())
+            .find(([, p]) => p === playerId)
+            ?.at(0)
     }
 
     /**
@@ -69,7 +85,11 @@ class Game {
      * @return {Piece | undefined}
      */
     getPieceAt(pos) {
-        return this.pieces.find(piece => piece.pos.equals(pos))
+        return this.pieces.find((piece) => piece.pos.equals(pos))
+    }
+
+    static getRandomSide() {
+        return Math.random() < 0.5 ? Game.SIDE_A : Game.SIDE_B
     }
 }
 

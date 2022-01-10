@@ -47,9 +47,9 @@ function joinGame(gameId) {
     const playerId = uuid()
     players.set(playerId, gameId)
 
-    game.addPlayer(playerId)
+    game.addPlayer(playerId, Game.getRandomSide())
 
-    if (game.players.length === 2) startGame(game)
+    if (game.playersCount === 2) startGame(game)
 
     return playerId
 }
@@ -60,7 +60,7 @@ function joinGame(gameId) {
  */
 function startGame(game) {
     console.log('Game started: ' + game.gameId)
-    game.start(Math.random() < 0.5 ? Game.SIDE_A : Game.SIDE_B)
+    game.start()
     sendGameState(game.players, game)
 }
 
