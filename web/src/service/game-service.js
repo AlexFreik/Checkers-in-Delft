@@ -100,7 +100,7 @@ function performMove(playerId, from, to) {
         game.currentMovingPiece = undefined
         sendGameState(game.players, game)
     } else {
-        game.currentCompoundMovePiece = movingPiece
+        game.currentMovingPiece = movingPiece
     }
 }
 
