@@ -102,7 +102,7 @@ class AbsCnvPos extends Pos {
     }
 
     /**
-     * @param {event} evt
+     * @param {Event} evt
      * @return {AbsCnvPos}
      */
     static constructFromEvent(evt) {
