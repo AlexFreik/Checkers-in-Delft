@@ -28,16 +28,17 @@ function handleConnection(ws) {
 function handleRawMessage(ws, rawMessage) {
     console.log('< ' + rawMessage)
     const message = tryParseJSON(rawMessage)
-    if (message === undefined) sendError(ws, 'Malformed JSON')
+    if (message === undefined) return sendError(ws, 'Malformed JSON')
     handleMessage(ws, message)
 }
 
 function handleMessage(ws, message) {
     try {
-        const type = message.type
-        handlers[type](ws.connection, message)
+        const handler = handlers[message.type]
+        if (!handler) return sendError(ws, 'Invalid type')
+        handler(ws.connection, message)
     } catch (e) {
-        if (!(e instanceof ApiError)) throw e
+        if (!(e instanceof ApiError)) throw e // Should be commented out in production
         sendError(ws, e.message)
     }
 }
