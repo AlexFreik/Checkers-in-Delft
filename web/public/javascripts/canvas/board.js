@@ -36,28 +36,14 @@ class Board extends Elem {
      */
     _drawGrid = () => {
         ctx.beginPath()
-        for (
-            let x = 0;
-            x <= Math.ceil(this.absCnvPos.w);
-            x += this.absCnvPos.w / this.n
-        ) {
+        for (let x = 0; x <= Math.ceil(this.absCnvPos.w); x += this.absCnvPos.w / this.n) {
             ctx.moveTo(this.absCnvPos.x + x, this.absCnvPos.y)
-            ctx.lineTo(
-                this.absCnvPos.x + x,
-                this.absCnvPos.y + this.absCnvPos.h
-            )
+            ctx.lineTo(this.absCnvPos.x + x, this.absCnvPos.y + this.absCnvPos.h)
         }
 
-        for (
-            let y = 0;
-            y <= Math.ceil(this.absCnvPos.h);
-            y += this.absCnvPos.h / this.n
-        ) {
+        for (let y = 0; y <= Math.ceil(this.absCnvPos.h); y += this.absCnvPos.h / this.n) {
             ctx.moveTo(this.absCnvPos.x, this.absCnvPos.y + y)
-            ctx.lineTo(
-                this.absCnvPos.x + this.absCnvPos.w,
-                this.absCnvPos.y + y
-            )
+            ctx.lineTo(this.absCnvPos.x + this.absCnvPos.w, this.absCnvPos.y + y)
         }
 
         ctx.lineWidth = this.lineWidth
@@ -79,8 +65,7 @@ class Board extends Elem {
             game.requestPieceMove(this.selectedPieceCoords, coords)
             this.selectedPieceCoords = undefined
         } else {
-            this.selectedPieceCoords =
-                piece.sideId === game.sideId ? piece.coords : undefined
+            this.selectedPieceCoords = piece.sideId === game.sideId ? piece.coords : undefined
         }
     }
 
@@ -105,14 +90,8 @@ class Board extends Elem {
      */
     _toCoords = (absCnvPos) => {
         return {
-            col: Math.floor(
-                ((absCnvPos.x - this.absCnvPos.x) / this.absCnvPos.w) *
-                    ROW_COL_NUM
-            ),
-            row: Math.floor(
-                (1 - (absCnvPos.y - this.absCnvPos.y) / this.absCnvPos.h) *
-                    ROW_COL_NUM
-            ),
+            col: Math.floor(((absCnvPos.x - this.absCnvPos.x) / this.absCnvPos.w) * ROW_COL_NUM),
+            row: Math.floor((1 - (absCnvPos.y - this.absCnvPos.y) / this.absCnvPos.h) * ROW_COL_NUM),
         }
     }
 
@@ -123,23 +102,10 @@ class Board extends Elem {
      * @private
      */
     _drawPiece = (piece, isSelected) => {
-        const absPos = this._toAbsPiecePos(piece.coords).scale(
-            isSelected ? 1 : 0.9
-        )
-        ctx.drawImage(
-            Board.wheelImgs[piece.sideId],
-            absPos.x,
-            absPos.y,
-            absPos.w,
-            absPos.h
-        )
+        const absPos = this._toAbsPiecePos(piece.coords).scale(isSelected ? 1 : 0.9)
+        ctx.drawImage(Board.wheelImgs[piece.sideId], absPos.x, absPos.y, absPos.w, absPos.h)
         if (piece.isKing) {
-            new Text(
-                absPos.toRatioCnvPos(),
-                'K',
-                pieceCols[piece.sideId],
-                Font.big
-            ).draw()
+            new Text(absPos.toRatioCnvPos(), 'K', pieceCols[piece.sideId], Font.big).draw()
         }
     }
     static wheelImgs = (() => {
@@ -156,11 +122,7 @@ class Board extends Elem {
      */
     _drawAllPieces = () => {
         for (const piece of game.pieces) {
-            this._drawPiece(
-                piece,
-                this.selectedPieceCoords &&
-                    piece.coordsEqual(this.selectedPieceCoords)
-            )
+            this._drawPiece(piece, this.selectedPieceCoords && piece.coordsEqual(this.selectedPieceCoords))
         }
     }
 }

@@ -59,8 +59,7 @@ class Elem {
     }
     _listen(type, event) {
         for (const fig of this.figs) {
-            if (fig.eventListeners)
-                for (const listener of fig.eventListeners[type]) listener(event)
+            if (fig.eventListeners) for (const listener of fig.eventListeners[type]) listener(event)
         }
     }
 }
@@ -120,18 +119,10 @@ class AlertMsg extends Elem {
      * @param {function} onaccept
      */
     constructor(titleTxt, bodyTxt, onaccept) {
-        let ratioPos = new RatioCnvPos(
-            0.25 * WIDTH_RATIO,
-            0.25,
-            0.5 * WIDTH_RATIO,
-            0.5
-        )
+        let ratioPos = new RatioCnvPos(0.25 * WIDTH_RATIO, 0.25, 0.5 * WIDTH_RATIO, 0.5)
         super(ratioPos, [
             new Rect(ratioPos, '#333333', 0.01, '#a9abad'),
-            getDefaultBtnElem(
-                new RatioCnvPos(0.4 * WIDTH_RATIO, 0.6, 0.2 * WIDTH_RATIO, 0.1),
-                'OK'
-            ),
+            getDefaultBtnElem(new RatioCnvPos(0.4 * WIDTH_RATIO, 0.6, 0.2 * WIDTH_RATIO, 0.1), 'OK'),
             new Text(ratioPos.shift(0, -0.15), titleTxt, '#ddd', Font.Middle),
             new Text(ratioPos.shift(0, 0), bodyTxt, '#ddd', Font.Small),
         ])

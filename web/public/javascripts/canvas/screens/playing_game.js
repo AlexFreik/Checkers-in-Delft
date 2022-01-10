@@ -3,11 +3,7 @@ const gameScreenElems = {
     soundBtn: soundBtn,
     homeBtn: homeBtn,
 
-    board: new Board(
-        new RatioCnvPos((WIDTH_RATIO - 0.8) / 2, 0.1, 0.8, 0.8),
-        1,
-        '#ddd'
-    ),
+    board: new Board(new RatioCnvPos((WIDTH_RATIO - 0.8) / 2, 0.1, 0.8, 0.8), 1, '#ddd'),
     turn: new Elem(
         (ratioPos = new RatioCnvPos(0, 0, WIDTH_RATIO, 0.1)),
         [new Text(ratioPos, '', '#ddd', Font.middle)],
@@ -23,17 +19,8 @@ const gameScreenElems = {
             new Text(ratioPos.shift(0, 0.1), '', '#ddd', Font.middle),
         ],
         function () {
-            this.drawDynamicTxt(
-                1,
-                'you - ' + game.getEatenPiecesNum(game.sideId)
-            )
-            this.drawDynamicTxt(
-                2,
-                'opp - ' +
-                    game.getEatenPiecesNum(
-                        game.sideId === SIDE_ID_1 ? SIDE_ID_2 : SIDE_ID_1
-                    )
-            )
+            this.drawDynamicTxt(1, 'you - ' + game.getEatenPiecesNum(game.sideId))
+            this.drawDynamicTxt(2, 'opp - ' + game.getEatenPiecesNum(game.sideId === SIDE_ID_1 ? SIDE_ID_2 : SIDE_ID_1))
         }
     ),
     gameId: new Elem(

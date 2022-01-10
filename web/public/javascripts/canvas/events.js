@@ -7,9 +7,7 @@
 function addListener(element, type, condition = () => true) {
     element.addEventListener(type, (event) => {
         for (const [name, elem] of Object.entries(currScreenElems))
-            if (condition(event, elem))
-                for (const listener of elem.eventListeners[type])
-                    listener(event)
+            if (condition(event, elem)) for (const listener of elem.eventListeners[type]) listener(event)
         window.requestAnimationFrame(drawScreen)
     })
 }

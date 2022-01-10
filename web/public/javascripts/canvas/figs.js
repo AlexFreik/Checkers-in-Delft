@@ -17,20 +17,10 @@ class Rect {
     }
     draw = () => {
         ctx.fillStyle = this.fillStyle
-        ctx.fillRect(
-            this.absCnvPos.x,
-            this.absCnvPos.y,
-            this.absCnvPos.w,
-            this.absCnvPos.h
-        )
+        ctx.fillRect(this.absCnvPos.x, this.absCnvPos.y, this.absCnvPos.w, this.absCnvPos.h)
 
         ctx.beginPath()
-        ctx.rect(
-            this.absCnvPos.x,
-            this.absCnvPos.y,
-            this.absCnvPos.w,
-            this.absCnvPos.h
-        )
+        ctx.rect(this.absCnvPos.x, this.absCnvPos.y, this.absCnvPos.w, this.absCnvPos.h)
         ctx.lineWidth = this.lineWidth
         ctx.strokeStyle = this.strokeStyle
         ctx.stroke()

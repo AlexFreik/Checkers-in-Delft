@@ -31,14 +31,8 @@ function resizeCanvas() {
     const canvasDiv = document.getElementById('canvas-holder')
     const rect = canvasDiv.getBoundingClientRect()
     RatioCnvPos.unifiedSize = rect.width / WIDTH_RATIO - 30
-    RatioCnvPos.unifiedSize = Math.max(
-        RatioCnvPos.unifiedSize,
-        500 / WIDTH_RATIO
-    )
-    RatioCnvPos.unifiedSize = Math.min(
-        RatioCnvPos.unifiedSize,
-        850 / WIDTH_RATIO
-    )
+    RatioCnvPos.unifiedSize = Math.max(RatioCnvPos.unifiedSize, 500 / WIDTH_RATIO)
+    RatioCnvPos.unifiedSize = Math.min(RatioCnvPos.unifiedSize, 850 / WIDTH_RATIO)
     canvas.style.width = Math.floor(RatioCnvPos.ratioToAbs(WIDTH_RATIO)) + 'px'
     canvas.style.height = Math.floor(RatioCnvPos.ratioToAbs(1)) + 'px'
 

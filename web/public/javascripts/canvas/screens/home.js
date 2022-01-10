@@ -14,20 +14,10 @@ const homeScreenElems = {
         'Join Existing Game'
     ),
     titleDesc: new Elem(
-        (ratioPos = new RatioCnvPos(
-            0.15 * WIDTH_RATIO,
-            0.1,
-            0.7 * WIDTH_RATIO,
-            0.45
-        )),
+        (ratioPos = new RatioCnvPos(0.15 * WIDTH_RATIO, 0.1, 0.7 * WIDTH_RATIO, 0.45)),
         [
             new Rect(ratioPos, '#3c3f41', 0.01, '#a9abad'),
-            new Text(
-                ratioPos.shift(0, -0.1),
-                'THE BEST CHECKERS IN DELFT',
-                '#fff',
-                Font.Middle
-            ),
+            new Text(ratioPos.shift(0, -0.1), 'THE BEST CHECKERS IN DELFT', '#fff', Font.Middle),
             new Text(ratioPos.shift(0, 0.03), '', '#fff', Font.middle),
             new Text(ratioPos.shift(0, 0.1), '', '#fff', Font.middle),
             new Text(ratioPos.shift(0, 0.17), '', '#fff', Font.middle),
@@ -35,10 +25,7 @@ const homeScreenElems = {
         function () {
             this.drawDynamicTxt(2, 'Finished games: ' + finishedGamesNum)
             this.drawDynamicTxt(3, 'In progress games: ' + inProgressGamesNum)
-            this.drawDynamicTxt(
-                4,
-                'Waiting for start games: ' + waitingForStartGamesNum
-            )
+            this.drawDynamicTxt(4, 'Waiting for start games: ' + waitingForStartGamesNum)
         }
     ),
 }
@@ -61,9 +48,7 @@ window.addEventListener('load', () => {
 function processStats() {
     inProgressGamesNum = document.getElementById('inProgressGamesNum').innerHTML
     finishedGamesNum = document.getElementById('finishedGamesNum').innerHTML
-    waitingForStartGamesNum = document.getElementById(
-        'waitingForStartGamesNum'
-    ).innerHTML
+    waitingForStartGamesNum = document.getElementById('waitingForStartGamesNum').innerHTML
 }
 
 let currScreenElems = homeScreenElems

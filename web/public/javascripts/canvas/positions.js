@@ -22,12 +22,7 @@ class Pos {
      * @param {number} y
      */
     isInside(x, y) {
-        return (
-            this.x <= x &&
-            x <= this.x + this.w &&
-            this.y <= y &&
-            y <= this.y + this.h
-        )
+        return this.x <= x && x <= this.x + this.w && this.y <= y && y <= this.y + this.h
     }
 }
 
@@ -90,12 +85,7 @@ class AbsCnvPos extends Pos {
      */
     toRatioCnvPos() {
         const us = RatioCnvPos.unifiedSize
-        return new RatioCnvPos(
-            this.x / us,
-            this.y / us,
-            this.w / us,
-            this.h / us
-        )
+        return new RatioCnvPos(this.x / us, this.y / us, this.w / us, this.h / us)
     }
 
     /**
@@ -117,12 +107,7 @@ class AbsCnvPos extends Pos {
      */
     static constructFromEvent(evt) {
         const rect = canvas.getBoundingClientRect()
-        return new AbsCnvPos(
-            evt.clientX - rect.left,
-            evt.clientY - rect.top,
-            0,
-            0
-        )
+        return new AbsCnvPos(evt.clientX - rect.left, evt.clientY - rect.top, 0, 0)
     }
 
     /**

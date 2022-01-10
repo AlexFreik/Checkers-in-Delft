@@ -11,10 +11,7 @@ const createGameScreenElems = {
     //     )),
     //     'ON'
     // ),
-    startBtn: getDefaultBtnElem(
-        new RatioCnvPos(0.35 * WIDTH_RATIO, 0.75, 0.3 * WIDTH_RATIO, 0.1),
-        'Start'
-    ),
+    startBtn: getDefaultBtnElem(new RatioCnvPos(0.35 * WIDTH_RATIO, 0.75, 0.3 * WIDTH_RATIO, 0.1), 'Start'),
 }
 
 // createGameScreenElems.forceJumpsChoseBtn.addEventListener('click', () => {
