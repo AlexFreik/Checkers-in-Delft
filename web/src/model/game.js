@@ -1,4 +1,5 @@
 const Piece = require('./piece')
+const { getOnlyKey } = require('../util/map-utils')
 
 class Game {
     static STATE_WAITING_FOR_START = 'waiting-for-start'
@@ -39,11 +40,12 @@ class Game {
     }
 
     /**
-     * Adds player to the player list
+     * Adds player to the player list at random (or the remaining) side
      * @param playerId {string}
-     * @param sideId {number}
      */
-    addPlayer(playerId, sideId) {
+    addPlayer(playerId) {
+        const sideId =
+            this.playerMap.size === 1 ? Game.getOppositeSide(getOnlyKey(this.playerMap)) : Game.getRandomSide()
         this.playerMap.set(sideId, playerId)
     }
 
