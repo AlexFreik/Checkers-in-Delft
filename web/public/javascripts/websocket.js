@@ -73,7 +73,6 @@ function handleGameStateMsg(data) {
 
 const senders = {
     move: sendMoveMsg,
-    surrender: sendSurrenderMsg,
 }
 
 /**
@@ -84,9 +83,7 @@ const senders = {
 function sendMoveMsg(from, to) {
     sendMsg(createMoveMsg(from, to))
 }
-function sendSurrenderMsg() {
-    sendMsg(createSurrenderMsg())
-}
+
 /**
  *
  * @param {{type: string, }}msg

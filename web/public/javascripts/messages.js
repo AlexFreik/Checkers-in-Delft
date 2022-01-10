@@ -23,13 +23,3 @@ function createLoginMsg(playerId) {
         playerId: playerId,
     }
 }
-
-/**
- *
- * @return {{type: string}}
- */
-function createSurrenderMsg() {
-    return {
-        type: 'surrender',
-    }
-}
