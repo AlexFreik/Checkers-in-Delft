@@ -14,10 +14,10 @@ hr {
     padding: 0;
 }
 a::before {
-    content: "[Link] ";
+    content: '[Link] ';
 }
 a::after {
-    content: " [click me!]";
+    content: ' [click me!]';
 }
 a:link {
     color: #e7dcc5;

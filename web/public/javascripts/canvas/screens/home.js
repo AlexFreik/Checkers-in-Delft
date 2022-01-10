@@ -35,7 +35,10 @@ const homeScreenElems = {
         function () {
             this.drawDynamicTxt(2, 'Finished games: ' + finishedGamesNum)
             this.drawDynamicTxt(3, 'In progress games: ' + inProgressGamesNum)
-            this.drawDynamicTxt(4, 'Waiting for start games: ' + waitingForStartGamesNum)
+            this.drawDynamicTxt(
+                4,
+                'Waiting for start games: ' + waitingForStartGamesNum
+            )
         }
     ),
 }
@@ -57,8 +60,10 @@ window.addEventListener('load', () => {
 
 function processStats() {
     inProgressGamesNum = document.getElementById('inProgressGamesNum').innerHTML
-    finishedGamesNum =  document.getElementById('finishedGamesNum').innerHTML
-    waitingForStartGamesNum =  document.getElementById('waitingForStartGamesNum').innerHTML
+    finishedGamesNum = document.getElementById('finishedGamesNum').innerHTML
+    waitingForStartGamesNum = document.getElementById(
+        'waitingForStartGamesNum'
+    ).innerHTML
 }
 
 let currScreenElems = homeScreenElems
