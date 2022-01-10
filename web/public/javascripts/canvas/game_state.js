@@ -46,7 +46,7 @@ class Game {
         this.gameId = gameId
         this.playerId = playerId
         this.settings = settings
-        this.side = side
+        this.sideId = side
         this.pieces = this._initialisePieces()
         this.currentSideId = SIDE_ID_1
     }
@@ -116,7 +116,7 @@ class Game {
         return pieces
     }
     get turn() {
-        return this.side === this.currentSideId ? 'you' : 'opponent'
+        return this.sideId === this.currentSideId ? 'you' : 'opponent'
     }
 }
 

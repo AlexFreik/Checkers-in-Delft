@@ -59,12 +59,14 @@ class Board extends Elem {
      */
     processClick = (absCnvPos) => {
         const coords = this._toCoords(absCnvPos)
-        if (!game.getPiece(coords)) {
+        const piece = game.getPiece(coords)
+        if (!piece) {
             if (this.selectedPieceCoords === undefined) return
             game.requestPieceMove(this.selectedPieceCoords, coords)
             this.selectedPieceCoords = undefined
         } else {
-            this.selectedPieceCoords = coords
+            console.log(piece.sideId, game.sideId)
+            this.selectedPieceCoords = piece.sideId === game.sideId ? piece.coords : undefined
         }
     }
 

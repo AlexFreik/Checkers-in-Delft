@@ -37,7 +37,7 @@ const handlers = {
  */
 function handleWelcomeMsg(data) {
     game.settings = data.settings
-    game.side = data.side
+    game.sideId = data.sideId
 }
 
 /**
