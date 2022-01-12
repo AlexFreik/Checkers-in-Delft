@@ -3,12 +3,14 @@ const Game = require('../model/game')
 const { sendMessage } = require('../controller/connection-registry')
 const { createGameStateMessage, createMoveMessage, createWelcomeMessage } = require('../controller/messages')
 const ApiError = require('../util/api-error')
+const Stats = require('../model/stats')
 
 const MAX_GAME_ID = 9999
 const MAX_GAMES = 10
 
 const games = new Map()
 const players = new Map()
+const stats = new Stats()
 
 /**
  * Creates a new game
@@ -22,6 +24,7 @@ function createGame(settings) {
     const gameId = createNewGameId()
     const game = new Game(gameId, settings)
     games.set(gameId, game)
+    stats.waitingForStartGamesNum += 1
 
     return gameId
 }
@@ -60,6 +63,8 @@ function joinGame(gameId) {
 function startGame(game) {
     console.log('Game started: ' + game.gameId)
     game.start(Math.random() < 0.5 ? Game.SIDE_A : Game.SIDE_B)
+    stats.waitingForStartGamesNum -= 1
+    stats.inProgressGamesNum += 1
     sendGameState(game.players, game)
 }
 
@@ -119,6 +124,7 @@ function sendMove(playerIds, from, to, eaten) {
 }
 
 module.exports = {
+    stats,
     createGame,
     joinGame,
     performMove,
