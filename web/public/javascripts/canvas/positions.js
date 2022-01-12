@@ -138,14 +138,3 @@ class AbsPagePos extends Pos {
         super(x, y, w, h)
     }
 }
-
-/**
- * Pos with x, y relative to page (like clientX, clientY)
- */
-function AbsClientPos(x, y, w, h) {
-    this.x = x
-    this.y = y
-    this.w = w
-    this.h = h
-}
-new AbsClientPos()

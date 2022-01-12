@@ -88,7 +88,7 @@ class Board extends Elem {
      * @return {{col: number, row: number}}
      * @private
      */
-    _toCoords = (absCnvPos) => {
+    _toCoords(absCnvPos) {
         return {
             col: Math.floor(((absCnvPos.x - this.absCnvPos.x) / this.absCnvPos.w) * ROW_COL_NUM),
             row: Math.floor((1 - (absCnvPos.y - this.absCnvPos.y) / this.absCnvPos.h) * ROW_COL_NUM),
@@ -101,7 +101,7 @@ class Board extends Elem {
      * @param {boolean} isSelected
      * @private
      */
-    _drawPiece = (piece, isSelected) => {
+    _drawPiece(piece, isSelected) {
         const absPos = this._toAbsPiecePos(piece.coords).scale(isSelected ? 1 : 0.9)
         ctx.drawImage(Board.wheelImgs[piece.sideId], absPos.x, absPos.y, absPos.w, absPos.h)
         if (piece.isKing) {
@@ -120,7 +120,7 @@ class Board extends Elem {
     /**
      * @private
      */
-    _drawAllPieces = () => {
+    _drawAllPieces() {
         for (const piece of game.pieces) {
             this._drawPiece(piece, this.selectedPieceCoords && piece.coordsEqual(this.selectedPieceCoords))
         }

@@ -45,7 +45,7 @@ class Elem {
      * @param {string} type
      * @param {function} func
      */
-    addEventListener = (type, func) => {
+    addEventListener  (type, func)  {
         this.eventListeners[type].push(func)
     }
     _draw = () => {
@@ -53,7 +53,7 @@ class Elem {
             fig.draw()
         }
     }
-    drawDynamicTxt = (id, txtVal) => {
+    drawDynamicTxt (id, txtVal)  {
         this.figs[id].val = txtVal
         this._draw()
     }
@@ -79,13 +79,13 @@ class Button extends Elem {
         audio.volume = 0.15
         return audio
     })()
-    static mute = () => {
+    static mute() {
         Button.clickSound.volume = 0
     }
-    static unmute = () => {
+    static unmute() {
         Button.clickSound.volume = 0.15
     }
-    _onmousemove = (event) => {
+    _onmousemove(event) {
         const mousePos = AbsCnvPos.constructFromEvent(event)
         if (this.absCnvPos.isInside(mousePos.x, mousePos.y)) {
             this.figs[0].fillStyle = 'rgba(0,0,0,0)'

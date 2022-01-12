@@ -41,4 +41,4 @@ function resizeCanvas() {
 }
 
 const canvas = document.getElementById('canvas-game')
-let ctx
+let ctx = canvas.getContext('2d')
