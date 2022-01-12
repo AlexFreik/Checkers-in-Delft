@@ -15,7 +15,7 @@ function Piece(col, row, sideId) {
  * @param {number} row
  * @return {boolean}
  */
-Piece.prototype.coordsEqual = ({ col, row }) => {
+Piece.prototype.coordsEqual = function ({ col, row }) {
     return this.coords.col === col && this.coords.row === row
 }
 
@@ -48,7 +48,7 @@ class Game {
     /**
      * @param {Coords} coords
      */
-    makeKing(coords) {
+    makeKing = (coords) => {
         console.assert(this.getPiece(coords).isKing === false)
         this.getPiece(coords).isKing = true
     }
@@ -57,7 +57,7 @@ class Game {
      * @param {Coords} from
      * @param {Coords} to
      */
-    movePiece(from, to) {
+    movePiece = (from, to) => {
         this.getPiece(from).coords = to
     }
     /**
@@ -65,7 +65,7 @@ class Game {
      * @param {Coords} from
      * @param {Coords} to
      */
-    requestPieceMove(from, to) {
+    requestPieceMove = (from, to) => {
         senders['move'](from, to)
     }
 
@@ -74,7 +74,7 @@ class Game {
      * @param {Coords} coords
      * @return {Piece}
      */
-    getPiece(coords) {
+    getPiece = (coords) => {
         const piece = this.pieces.filter((piece) => piece.coordsEqual(coords))
         return piece[0]
     }
@@ -83,7 +83,7 @@ class Game {
      *
      * @param {Coords} coords
      */
-    removePiece(coords) {
+    removePiece = (coords) => {
         this.pieces.splice(this.pieces.indexOf(this.getPiece(coords)), 1)
     }
 
@@ -91,11 +91,11 @@ class Game {
      * @param {{number}} sideId
      * @return {number}
      */
-    getEatenPiecesNum(sideId) {
+    getEatenPiecesNum = (sideId) => {
         console.assert(sideId === SIDE_ID_1 || sideId === SIDE_ID_2)
         return PLAYER_PIECES_NUM - this.pieces.filter((piece) => piece.sideId === sideId).length
     }
-    _initialisePieces() {
+    _initialisePieces = () => {
         let pieces = []
         for (let y = 0; y < PIECES_COL_NUM; ++y) {
             for (let x = y % 2; x < ROW_COL_NUM; x += 2) {

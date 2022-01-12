@@ -15,7 +15,7 @@ class Rect {
     get absCnvPos() {
         return this.ratioPos.toAbsCnvPos()
     }
-    draw() {
+    draw = () => {
         ctx.fillStyle = this.fillStyle
         ctx.fillRect(this.absCnvPos.x, this.absCnvPos.y, this.absCnvPos.w, this.absCnvPos.h)
 
@@ -45,7 +45,7 @@ class Font {
      * @return {string}
      * @private
      */
-    static _getFont(size) {
+    static _getFont = (size) => {
         return Font.FONTS_SIZES[size] + 'px ' + Font.DEFAULT_FONT
     }
     static get small() {
@@ -88,7 +88,7 @@ class Text {
     get absCnvPos() {
         return this.ratioPos.toAbsCnvPos()
     }
-    draw() {
+    draw = () => {
         ctx.fillStyle = this.fillStyle
         ctx.font = this.font
         ctx.textAlign = 'center'
