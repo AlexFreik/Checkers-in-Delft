@@ -62,7 +62,6 @@ function joinGame(gameId) {
  * @param game {Game} game to start
  */
 function startGame(game) {
-    console.log('Game started: ' + game.gameId)
     game.start()
     stats.waitingForStartGamesNum -= 1
     stats.inProgressGamesNum += 1
@@ -105,7 +104,7 @@ function performMove(playerId, from, to) {
         game.switchSides()
         game.currentMovingPiece = undefined
         if (!isAnyMovePossible(game, false)) {
-            game.finish(game.getOpponentOf(playerId))
+            game.finish(Game.getOppositeSide(game.currentSideId))
         }
         sendGameState(game.players, game)
     } else {
@@ -118,6 +117,7 @@ function abandonGame(playerId) {
     if (!game || game.state !== Game.STATE_IN_PROGRESS) throw new ApiError('Game not in progress')
 
     game.finish(game.getOpponentOf(playerId))
+    sendGameState(game.players, game)
 }
 
 /**
