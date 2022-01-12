@@ -148,3 +148,4 @@ function AbsClientPos(x, y, w, h) {
     this.w = w
     this.h = h
 }
+new AbsClientPos()
