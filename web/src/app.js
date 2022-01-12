@@ -15,6 +15,7 @@ function createApp(port) {
     const app = express()
 
     app.set('port', port)
+    app.set('views', 'src/view')
 
     app.use(logger('dev'))
     app.use(express.json())
