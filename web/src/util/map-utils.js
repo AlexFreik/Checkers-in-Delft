@@ -3,7 +3,7 @@
  * @param map {Map}
  */
 function getOnlyKey(map) {
-    return getOnlyEntry(map)[0]
+    return getOnlyEntry(map)?.at(0)
 }
 
 /**

@@ -135,9 +135,10 @@ function performMove(playerId, from, to) {
  */
 function abandonGame(playerId) {
     const game = getGameByPlayer(playerId)
-    if (!game || game.state !== Game.STATE_IN_PROGRESS) throw new ApiError('Game not in progress')
+    if (!game) throw new ApiError('Game not found')
 
-    finishGame(game, Game.getOppositeSide(game.getPlayerSide(playerId)))
+    if (game.state === Game.STATE_IN_PROGRESS) finishGame(game, Game.getOppositeSide(game.getPlayerSide(playerId)))
+    else if (game.state === Game.STATE_WAITING_FOR_START) cleanWaitingGame(game)
 }
 
 /**
@@ -151,6 +152,19 @@ function finishGame(game, winnerSideId) {
 
     game.finish(winnerSideId)
     sendGameState(game.players, game)
+    kickOut(game.players)
+
+    games.delete(game.gameId)
+    game.players.forEach((playerId) => players.delete(playerId))
+}
+
+/**
+ * Removes a game in STATE_WAITING_FOR_START state
+ * @param game {Game}
+ */
+function cleanWaitingGame(game) {
+    stats.waitingForStartGamesNum -= 1
+
     kickOut(game.players)
 
     games.delete(game.gameId)
