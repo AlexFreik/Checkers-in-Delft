@@ -11,23 +11,8 @@ const joiningScreenElems = {
 }
 
 joiningScreenElems.fieldID.addEventListener('keydown', (event) => {
-    const gameId = getGameIdInputTxt()
-    let status
     if (event.key === 'Enter') {
-        fetch('/api/join-game', {
-            method: 'POST',
-            cache: 'no-cache',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ gameId: gameId }),
-        })
-            .then((res) => {
-                status = res.status
-                return res.json()
-            })
-            .then((res) => joinGame(status, res, gameId))
-            .catch((e) => console.log(e))
+        processJoinGameEvent(getGameIdInputTxt())
     }
 })
 joiningScreenElems.fieldID.addEventListener('resize', () => {
@@ -37,20 +22,3 @@ joiningScreenElems.fieldID.addEventListener('mousemove', () => {
     setGameInputPos(getGameIdElem(), joiningScreenElems.fieldID.absCnvPos.toAbsPagePos())
 })
 
-/**
- *
- * @param {number} status
- * @param {{playerId: string, message: string}} data
- * @param {string} gameId
- */
-function joinGame(status, data, gameId) {
-    if (status === 400) {
-        hideGameIdElem()
-        currScreenElems.alertMsg = new AlertMsg('Error', data.message, showGameIdElem)
-    } else if (status === 200) {
-        game = new Game(gameId, data.playerId)
-        websocket = initFrontendWS()
-        removeGameIdInput()
-    }
-    window.requestAnimationFrame(drawScreen)
-}
