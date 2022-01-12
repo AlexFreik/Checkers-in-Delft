@@ -120,15 +120,16 @@ class AlertMsg extends Elem {
      */
     constructor(titleTxt, bodyTxt, onaccept) {
         let ratioPos = new RatioCnvPos(0.25 * WIDTH_RATIO, 0.25, 0.5 * WIDTH_RATIO, 0.5)
-        super(ratioPos, [
+        let buttonRatioPos = new RatioCnvPos(0.4 * WIDTH_RATIO, 0.6, 0.2 * WIDTH_RATIO, 0.1)
+        super(buttonRatioPos, [
             new Rect(ratioPos, '#333333', 0.01, '#a9abad'),
-            getDefaultBtnElem(new RatioCnvPos(0.4 * WIDTH_RATIO, 0.6, 0.2 * WIDTH_RATIO, 0.1), 'OK'),
+            getDefaultBtnElem(buttonRatioPos, 'OK'),
             new Text(ratioPos.shift(0, -0.15), titleTxt, '#ddd', Font.Middle),
             new Text(ratioPos.shift(0, 0), bodyTxt, '#ddd', Font.Small),
         ])
         this.figs[1].addEventListener('click', () => {
-            onaccept()
             delete currScreenElems.alertMsg
+            onaccept()
         })
     }
 }
