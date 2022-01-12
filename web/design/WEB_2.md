@@ -8,8 +8,8 @@
    Legality of the move is checked via HTTP requests.
 
 ## 2.2 Use of design patterns
-- The basic constructor pattern (in the file `/public/javascripts/canvas/positions.js`)
-   We implemened `AbsClientPos` "class" using this pattern.
+- The basic constructor pattern (in the file `/public/javascripts/game_state.js`)
+   We implemened `Piece` "class" using this pattern.
 
 ## 3.3 WebSocket API
 
