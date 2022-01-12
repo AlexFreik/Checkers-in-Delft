@@ -16,7 +16,10 @@ const handlers = {
 }
 
 function handleConnection(ws) {
-    ws.connection = new Connection((message) => sendMessage(ws, message))
+    ws.connection = new Connection(
+        (message) => sendMessage(ws, message),
+        () => ws.close()
+    )
     ws.on('message', function (message) {
         handleRawMessage(ws, message)
     })

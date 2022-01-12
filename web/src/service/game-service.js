@@ -1,6 +1,6 @@
 const { v4: uuid } = require('uuid')
 const Game = require('../model/game')
-const { sendMessage } = require('../controller/connection-registry')
+const { sendMessage, kickOut } = require('../controller/connection-registry')
 const { createGameStateMessage, createMoveMessage, createWelcomeMessage } = require('../controller/messages')
 const ApiError = require('../util/api-error')
 const Stats = require('../model/stats')
@@ -9,8 +9,19 @@ const { getLegalMoves, canContinueAfterMove, isAnyMovePossible, isBecomingKing }
 const MAX_GAME_ID = 9999
 const MAX_GAMES = 10
 
+/**
+ * gameId -> Game
+ * @type {Map<string, Game>}
+ */
 const games = new Map()
+/**
+ * playerId -> gameId
+ * @type {Map<string, string>}
+ */
 const players = new Map()
+/**
+ * @type {Stats}
+ */
 const stats = new Stats()
 
 /**
@@ -30,6 +41,10 @@ function createGame(settings) {
     return gameId
 }
 
+/**
+ * Creates a new game id
+ * @returns {string}
+ */
 function createNewGameId() {
     const id = Math.floor(Math.random() * MAX_GAME_ID) + 1
     return games.has(id) ? createNewGameId() : id.toString()
@@ -84,7 +99,8 @@ function performMove(playerId, from, to) {
 
     const movingPiece = game.getPieceAt(from)
     if (!movingPiece || movingPiece.sideId !== playerSide) throw new ApiError('Invalid piece')
-    if (game.currentMovingPiece && movingPiece !== game.currentMovingPiece) throw new ApiError('Compound move in progress')
+    if (game.currentMovingPiece && movingPiece !== game.currentMovingPiece)
+        throw new ApiError('Compound move in progress')
 
     const mustEat = game.currentMovingPiece !== undefined || isAnyMovePossible(game, true)
     const legalMoves = getLegalMoves(game, movingPiece, mustEat)
@@ -104,20 +120,41 @@ function performMove(playerId, from, to) {
         game.switchSides()
         game.currentMovingPiece = undefined
         if (!isAnyMovePossible(game, false)) {
-            game.finish(Game.getOppositeSide(game.currentSideId))
+            finishGame(game, Game.getOppositeSide(game.currentSideId))
+        } else {
+            sendGameState(game.players, game)
         }
-        sendGameState(game.players, game)
     } else {
         game.currentMovingPiece = movingPiece
     }
 }
 
+/**
+ * Abandons the game. The opponent of the player that left wins
+ * @param playerId {string} player that left
+ */
 function abandonGame(playerId) {
     const game = getGameByPlayer(playerId)
     if (!game || game.state !== Game.STATE_IN_PROGRESS) throw new ApiError('Game not in progress')
 
-    game.finish(game.getOpponentOf(playerId))
+    finishGame(game, game.getOpponentOf(playerId))
+}
+
+/**
+ * Finishes the game and cleans up
+ * @param game {Game}
+ * @param winnerSideId {number}
+ */
+function finishGame(game, winnerSideId) {
+    stats.waitingForStartGamesNum -= 1
+    stats.inProgressGamesNum += 1
+
+    game.finish(winnerSideId)
     sendGameState(game.players, game)
+    kickOut(game.players)
+
+    games.delete(game.gameId)
+    game.players.forEach((playerId) => players.delete(playerId))
 }
 
 /**

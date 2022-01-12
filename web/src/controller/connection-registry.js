@@ -1,3 +1,6 @@
+/**
+ * @type {Map<string, Connection>}
+ */
 const connections = new Map()
 
 /**
@@ -32,4 +35,13 @@ function sendMessage(playerIds, message) {
     })
 }
 
-module.exports = { registerConnection, unregisterConnection, sendMessage }
+function kickOut(playerIds) {
+    playerIds.forEach((id) => {
+        const connection = connections.get(id)
+        if (!connection) return
+        connection.close()
+        connections.delete(id)
+    })
+}
+
+module.exports = { registerConnection, unregisterConnection, sendMessage, kickOut }

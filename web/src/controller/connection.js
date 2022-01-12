@@ -1,10 +1,12 @@
 class Connection {
     /**
      * Creates a new connection
-     * @param sendMessage {function(string)} function for sending messages
+     * @param sendMessage {function(object)} function for sending messages
+     * @param close {function()} function for closing the connection
      */
-    constructor(sendMessage) {
+    constructor(sendMessage, close) {
         this.sendMessage = sendMessage
+        this.close = close
         this.playerId = undefined
     }
 }
