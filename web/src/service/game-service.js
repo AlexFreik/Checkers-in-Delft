@@ -137,7 +137,7 @@ function abandonGame(playerId) {
     const game = getGameByPlayer(playerId)
     if (!game || game.state !== Game.STATE_IN_PROGRESS) throw new ApiError('Game not in progress')
 
-    finishGame(game, game.getOpponentOf(playerId))
+    finishGame(game, Game.getOppositeSide(game.getPlayerSide(playerId)))
 }
 
 /**
@@ -146,8 +146,8 @@ function abandonGame(playerId) {
  * @param winnerSideId {number}
  */
 function finishGame(game, winnerSideId) {
-    stats.waitingForStartGamesNum -= 1
-    stats.inProgressGamesNum += 1
+    stats.inProgressGamesNum -= 1
+    stats.finishedGamesNum += 1
 
     game.finish(winnerSideId)
     sendGameState(game.players, game)
