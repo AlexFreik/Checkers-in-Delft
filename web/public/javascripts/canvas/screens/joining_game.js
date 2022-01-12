@@ -21,4 +21,3 @@ joiningScreenElems.fieldID.addEventListener('resize', () => {
 joiningScreenElems.fieldID.addEventListener('mousemove', () => {
     setGameInputPos(getGameIdElem(), joiningScreenElems.fieldID.absCnvPos.toAbsPagePos())
 })
-

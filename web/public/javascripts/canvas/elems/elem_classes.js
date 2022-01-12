@@ -45,7 +45,7 @@ class Elem {
      * @param {string} type
      * @param {function} func
      */
-    addEventListener  (type, func)  {
+    addEventListener(type, func) {
         this.eventListeners[type].push(func)
     }
     _draw = () => {
@@ -53,7 +53,7 @@ class Elem {
             fig.draw()
         }
     }
-    drawDynamicTxt (id, txtVal)  {
+    drawDynamicTxt(id, txtVal) {
         this.figs[id].val = txtVal
         this._draw()
     }

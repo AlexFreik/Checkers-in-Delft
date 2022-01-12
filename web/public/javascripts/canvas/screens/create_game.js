@@ -21,4 +21,3 @@ const createGameScreenElems = {
 createGameScreenElems.startBtn.addEventListener('click', () => {
     processCreateGameEvent()
 })
-
