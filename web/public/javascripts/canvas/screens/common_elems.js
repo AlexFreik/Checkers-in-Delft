@@ -16,6 +16,7 @@ soundBtn.addEventListener('click', () => {
 })
 homeBtn.addEventListener('click', () => {
     removeGameIdInput()
+    delete currScreenElems.alertMsg
     closeWS()
     game = undefined
     currScreenElems = homeScreenElems
