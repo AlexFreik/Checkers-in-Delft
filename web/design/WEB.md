@@ -1,6 +1,3 @@
-Assignment 1
-
-
 # Web Assignment!!!
 
 ## Assignment 1

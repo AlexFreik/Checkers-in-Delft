@@ -1,35 +1,24 @@
-canvas.onmousemove = (event) => {
-    const mousePos = AbsCnvPos.constructFromEvent(event)
-    for (const [name, elem] of Object.entries(currScreenElems)) {
-        if (elem.state) {
-            if (elem.absCnvPos.isInside(mousePos.x, mousePos.y)) {
-                elem.state = 'ON'
-            } else {
-                elem.state = 'OFF'
-            }
-        }
-    }
-    window.requestAnimationFrame(drawScreen)
+/**
+ *
+ * @param {HTMLElement|Window} element
+ * @param {string} type
+ * @param {function(Event, Elem): boolean} condition
+ */
+function addListener(element, type, condition = () => true) {
+    element.addEventListener(type, (event) => {
+        for (const [name, elem] of Object.entries(currScreenElems))
+            if (condition(event, elem)) for (const listener of elem.eventListeners[type]) listener(event)
+        window.requestAnimationFrame(drawScreen)
+    })
 }
-canvas.onclick = (event) => {
+
+addListener(canvas, 'mousemove')
+addListener(canvas, 'click', (event, elem) => {
     const mousePos = AbsCnvPos.constructFromEvent(event)
-    for (const [name, elem] of Object.entries(currScreenElems)) {
-        if (elem.onclick && elem.absCnvPos.isInside(mousePos.x, mousePos.y)) {
-            elem.onclick(event)
-            for (const fig of elem.figs) {
-                if (fig.onclick) {
-                    fig.onclick(event)
-                }
-            }
-        }
-    }
-    window.requestAnimationFrame(drawScreen)
-}
-window.addEventListener('keydown', function (event) {
-    for (const [name, elem] of Object.entries(currScreenElems)) {
-        if (elem.onkeydown) {
-            elem.onkeydown(event)
-        }
-    }
-    window.requestAnimationFrame(drawScreen)
+    return elem.absCnvPos.isInside(mousePos.x, mousePos.y)
 })
+addListener(window, 'keydown')
+window.addEventListener('resize', () => {
+    resizeCanvas()
+})
+addListener(window, 'resize')

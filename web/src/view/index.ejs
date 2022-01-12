@@ -18,8 +18,6 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
-
-
 <header>
     <div id="logo">Checkers <span id="logo-box">in Delft</span></div>
     <hr />
@@ -43,25 +41,28 @@
                     <h3>HOW TO PLAY</h3>
                     <ul>
                         <li>
-                            Choose to play against the computer or with a friend
+                            Choose to play against the computer or with
+                            a friend
                         </li>
                         <li>
-                            Press on a piece to select it and then choose a move
-                            or jump, press it again to put it down
+                            Press on a piece to select it and then
+                            choose a move or jump, press it again to put
+                            it down
                         </li>
                         <li>
-                            Always keep your pieces doubled up diagonally to
-                            block your opponent's jumps
+                            Always keep your pieces doubled up
+                            diagonally to block your opponent's jumps
                         </li>
                         <li>
-                            Quickly get your pieces promoted to kings so they
-                            can move forward and backward across the board
+                            Quickly get your pieces promoted to kings so
+                            they can move forward and backward across
+                            the board
                         </li>
-                        Try to lure your opponent into a double or triple jump
-                        trap
+                        Try to lure your opponent into a double or
+                        triple jump trap
                         <li>
-                            Use the side of the board to prevent being jumped,
-                            but don't get stuck!
+                            Use the side of the board to prevent being
+                            jumped, but don't get stuck!
                         </li>
                     </ul>
                 </div>
@@ -69,8 +70,12 @@
                 <div class="double-row-row">
                     <h3>FEATURES</h3>
                     <ul>
-                        <li>Force Jumps option for tournament style play</li>
-                        <li>Play with your friends all over the world!</li>
+                        <li>
+                            Force Jumps option for tournament style play
+                        </li>
+                        <li>
+                            Play with your friends all over the world!
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -83,37 +88,38 @@
                 <div class="double-row-row">
                     <h3>RULES</h3>
                     <p>
-                        The goal of Checkers is to remove all your opponent's
-                        pieces from the board or prevent them from making a
-                        move.
+                        The goal of Checkers is to remove all your
+                        opponent's pieces from the board or prevent them
+                        from making a move.
                     </p>
 
                     <p>
-                        Pieces move diagonally, always staying on the dark
-                        squares. Pieces can "slide" to an adjacent open square
-                        or "jump" over an opponent's pieces, removing them from
-                        the board. Normal pieces move toward the opposite side
-                        of the board.
+                        Pieces move diagonally, always staying on the
+                        dark squares. Pieces can "slide" to an adjacent
+                        open square or "jump" over an opponent's pieces,
+                        removing them from the board. Normal pieces move
+                        toward the opposite side of the board.
                     </p>
 
                     <p>
-                        If the force jumps rule is in effect, the player must
-                        make a jump move when available. In the event of a
-                        double or triple jump opportunity, only the first jump
-                        is required.
+                        If the force jumps rule is in effect, the player
+                        must make a jump move when available. In the
+                        event of a double or triple jump opportunity,
+                        only the first jump is required.
                     </p>
 
                     <p>
-                        When a normal piece reaches the last row on the opposite
-                        side of the board it is promoted into a "King" piece.
-                        Promoted pieces may move towards either side of the
-                        board.
+                        When a normal piece reaches the last row on the
+                        opposite side of the board it is promoted into a
+                        "King" piece. Promoted pieces may move towards
+                        either side of the board.
                     </p>
 
                     <p>
-                        The game is over when one player has no remaining pieces
-                        or can't make any valid moves. You may also elect a draw
-                        if each team only has 1 king remaining.
+                        The game is over when one player has no
+                        remaining pieces or can't make any valid moves.
+                        You may also elect a draw if each team only has
+                        1 king remaining.
                     </p>
                 </div>
 
@@ -122,13 +128,15 @@
                     <p>Lorem ipsum dolor sit amet</p>
                     <p>
                         Checkers is a popular classic board game for two
-                        players. The earliest version of a checkers style game
-                        has been around for more than 5,000 years.
+                        players. The earliest version of a checkers
+                        style game has been around for more than 5,000
+                        years.
                     </p>
                     <p>
-                        There are many variations of checkers which change
-                        rules, board size, and number of pieces. Tabletop
-                        Checkers incorporates 3 versions of checkers:
+                        There are many variations of checkers which
+                        change rules, board size, and number of pieces.
+                        Tabletop Checkers incorporates 3 versions of
+                        checkers:
                     </p>
 
                     <ul>
@@ -139,10 +147,11 @@
 
                     <h3>DRAUGHTS</h3>
                     <p>
-                        Checkers is known by a few other names around the world,
-                        the most common of these is Draughts. Draughts is the
-                        common British English name while Checkers is the common
-                        name in American English.
+                        Checkers is known by a few other names around
+                        the world, the most common of these is Draughts.
+                        Draughts is the common British English name
+                        while Checkers is the common name in American
+                        English.
                     </p>
                 </div>
             </div>
@@ -154,21 +163,21 @@
         <p>
             (c) Copyright 2022
             <br />
-            Inspired by: https://gametable.org/games/checkers/
+            Inspired by: <a href="https://gametable.org/games/checkers/">this beautiful example</a>
         </p>
     </div>
 </footer>
 
-<script src="/javascripts/config.js"></script>
 <script src="/javascripts/messages.js"></script>
 <script src="/javascripts/websocket.js"></script>
-<script src="/javascripts/interactions.js"></script>
+<script src="/javascripts/http_handling.js"></script>
 
-<script src="/javascripts/canvas/canvas_consts.js"></script>
-<script src="/javascripts/canvas/game_state.js"></script>
-<script src="/javascripts/canvas/board.js"></script>
+<script src="/javascripts/canvas/canvas_globals.js"></script>
+<script src="/javascripts/game_state.js"></script>
 <script src="/javascripts/canvas/positions.js"></script>
-<script src="/javascripts/canvas/elem_classes.js"></script>
+<script src="/javascripts/canvas/elems/figs.js"></script>
+<script src="/javascripts/canvas/elems/elem_classes.js"></script>
+<script src="/javascripts/canvas/elems/board.js"></script>
 
 <script src="/javascripts/canvas/screens/common_elems.js"></script>
 <script src="/javascripts/canvas/screens/home.js"></script>
@@ -176,9 +185,8 @@
 <script src="/javascripts/canvas/screens/joining_game.js"></script>
 <script src="/javascripts/canvas/screens/playing_game.js"></script>
 
-<script src="/javascripts/canvas/input.js"></script>
+<script src="/javascripts/canvas/elems/input.js"></script>
 <script src="/javascripts/canvas/canvas.js"></script>
 <script src="/javascripts/canvas/events.js"></script>
-
 </body>
 </html>
