@@ -6,11 +6,12 @@ class Piece {
      * @param x {number}
      * @param y {number}
      * @param sideId {number}
+     * @param king {boolean}
      */
-    constructor(x, y, sideId) {
+    constructor(x, y, sideId, king = false) {
         this.pos = new Pos(x, y)
         this.sideId = sideId
-        this.king = false
+        this.king = king
     }
 
     /**
@@ -18,7 +19,7 @@ class Piece {
      * @param pos {Pos}
      * @return {Piece}
      */
-    withPos(pos) {
+    cloneWithNewPos(pos) {
         return {...this, pos: pos}
     }
 }

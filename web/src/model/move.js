@@ -4,7 +4,7 @@ class Move {
      * @param eating {Piece=}
      */
     constructor(pos, eating) {
-        this.pos = pos
+        this.target = pos
         this.eating = eating
     }
 }
