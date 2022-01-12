@@ -83,10 +83,10 @@ function performMove(playerId, from, to) {
 
     const mustEat = game.currentMovingPiece !== undefined || isAnyEatingPossible(game)
     const legalMoves = getLegalMoves(game, movingPiece, mustEat)
-    const foundMove = legalMoves.find((move) => move.pos.equals(to))
+    const foundMove = legalMoves.find((move) => move.target.equals(to))
     if (!foundMove) throw new ApiError('Illegal move')
 
-    movingPiece.pos = foundMove.pos
+    movingPiece.pos = foundMove.target
 
     const becomingKing = isBecomingKing(game, movingPiece, foundMove)
     if (becomingKing) movingPiece.king = true
