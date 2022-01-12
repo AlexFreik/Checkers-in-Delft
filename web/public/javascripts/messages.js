@@ -1,15 +1,25 @@
-;(function (exports) {
-
-    // From a player to server
-    exports.MOVE = {
-        type: 'MOVE',
-        from: {
-            x: -1,
-            y: -1,
-        },
-        to: {
-            x: -1,
-            y: -1,
-        },
+/**
+ *
+ * @param {Coords} from
+ * @param {Coords} to
+ * @return {{from: {col, row}, to: {col, row}, type: string}}
+ */
+function createMoveMsg(from, to) {
+    return {
+        type: 'move',
+        from: { col: from.col, row: from.row },
+        to: { col: to.col, row: to.row },
     }
-})(typeof exports === 'undefined' ? (this.Messages = {}) : exports)
+}
+
+/**
+ *
+ * @param {string} playerId
+ * @return {{type: string, playerId: string}}
+ */
+function createLoginMsg(playerId) {
+    return {
+        type: 'login',
+        playerId: playerId,
+    }
+}

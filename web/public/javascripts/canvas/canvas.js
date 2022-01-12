@@ -3,8 +3,7 @@
  * Because now one pixel have more than one real pixels inside
  * (window.devicePixelRatio^2 to be consise), we need to scale our canvas.
  */
-function setupCanvas(canvas) {
-    // Get the device pixel ratio, falling back to 1.
+function setupCanvas() {
     const dpr = window.devicePixelRatio || 1
     // Get the size of the canvas in CSS pixels.
     const rect = canvas.getBoundingClientRect()
@@ -12,11 +11,14 @@ function setupCanvas(canvas) {
     // size * the device pixel ratio.
     canvas.width = rect.width * dpr
     canvas.height = rect.height * dpr
-    const ctx = canvas.getContext('2d')
+}
+function setupContext() {
+    setupCanvas()
+    const dpr = window.devicePixelRatio || 1
+    ctx = canvas.getContext('2d')
     // Scale all drawing operations by the dpr, so you
     // don't have to worry about the difference.
     ctx.scale(dpr, dpr)
-    return ctx
 }
 
 function drawScreen() {
@@ -25,10 +27,18 @@ function drawScreen() {
     }
 }
 
+function resizeCanvas() {
+    const canvasDiv = document.getElementById('canvas-holder')
+    const rect = canvasDiv.getBoundingClientRect()
+    RatioCnvPos.unifiedSize = rect.width / WIDTH_RATIO - 30
+    RatioCnvPos.unifiedSize = Math.max(RatioCnvPos.unifiedSize, 500 / WIDTH_RATIO)
+    RatioCnvPos.unifiedSize = Math.min(RatioCnvPos.unifiedSize, 850 / WIDTH_RATIO)
+    canvas.style.width = Math.floor(RatioCnvPos.ratioToAbs(WIDTH_RATIO)) + 'px'
+    canvas.style.height = Math.floor(RatioCnvPos.ratioToAbs(1)) + 'px'
+
+    setupCanvas()
+    setupContext()
+}
+
 const canvas = document.getElementById('canvas-game')
-canvas.style.width = RatioCnvPos.ratioToAbs(WIDTH_RATIO) + 'px'
-canvas.style.height = RatioCnvPos.ratioToAbs(1) + 'px'
-
-const ctx = setupCanvas(canvas)
-
-drawScreen()
+let ctx = canvas.getContext('2d')

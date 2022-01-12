@@ -1,17 +1,30 @@
-const background = new Elem(
-    (ratioPos = new RatioCnvPos(0, 0, WIDTH_RATIO, 1)),
-    [new Rect(ratioPos, '#333333', 0.01, '#a9abad')]
-)
-const soundBtn = getCornerBtnElem('\uf028', { left: false, down: false })
-const homeBtn = getCornerBtnElem('\uf015', { left: true, down: false })
+const background = new Elem((ratioPos = new RatioCnvPos(0, 0, WIDTH_RATIO, 1)), [
+    new Rect(ratioPos, '#333333', 0.01, '#a9abad'),
+])
+const soundBtn = getCornerBtnElem(EMOJIS.SOUND, { left: false, down: false })
+const homeBtn = getCornerBtnElem(EMOJIS.HOME, { left: true, down: false })
 
-soundBtn.onclick = (event) => {
+soundBtn.addEventListener('click', () => {
     const emoji = currScreenElems.soundBtn.figs[1]
-    emoji.val = emoji.val === '\uf028' ? '\uf026' : '\uf028'
-}
-homeBtn.onclick = (event) => {
+    if (emoji.val === EMOJIS.SOUND) {
+        Button.mute()
+        emoji.val = EMOJIS.NO_SOUND
+    } else {
+        Button.unmute()
+        emoji.val = EMOJIS.SOUND
+    }
+})
+homeBtn.addEventListener('click', () => {
     removeGameIdInput()
+    closeWS()
+    game = undefined
     currScreenElems = homeScreenElems
+})
+function closeWS() {
+    if (currScreenElems === gameScreenElems) {
+        if (websocket) {
+            websocket.close()
+            websocket = undefined
+        }
+    }
 }
-clickSound = new Audio('../data/click.wav')
-clickSound.volume = 0.1;

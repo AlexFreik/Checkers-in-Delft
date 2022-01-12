@@ -3,44 +3,34 @@ const gameScreenElems = {
     soundBtn: soundBtn,
     homeBtn: homeBtn,
 
-    board: new Elem(
-        (ratioPos = new RatioCnvPos(
-            (WIDTH_RATIO - (1 - 0.1 * 2)) / 2,
-            0.1,
-            1 - 0.1 * 2,
-            1 - 0.1 * 2
-        )),
-        [new Board(ratioPos, 1, '#ddd')]
-    ),
-
+    board: new Board(new RatioCnvPos((WIDTH_RATIO - 0.8) / 2, 0.1, 0.8, 0.8), 1, '#ddd'),
     turn: new Elem(
         (ratioPos = new RatioCnvPos(0, 0, WIDTH_RATIO, 0.1)),
-        [new Text(ratioPos, '', '#ddd', '20px Arial')],
+        [new Text(ratioPos, '', '#ddd', Font.middle)],
         function () {
-            this.figs[0].val = 'Turn: ' + '"' + game.turn + '"'
-            this.figs[0].draw()
+            this.drawDynamicTxt(0, 'Turn: ' + game.turn)
         }
     ),
     eatenPiecesStat: new Elem(
-        (ratioPos = new RatioCnvPos(WIDTH_RATIO - 0.15, 0, 0.1, 1)),
+        (ratioPos = new RatioCnvPos(0, 0, (WIDTH_RATIO - 0.8) / 2, 1)),
         [
-            new Text(ratioPos, 'Eaten:', '#ddd', '20px Arial'),
-            new Text(ratioPos.shift(0, 0.05), '', '#ddd', '20px Arial'),
-            new Text(ratioPos.shift(0, 0.1), '', '#ddd', '20px Arial'),
+            new Text(ratioPos, 'Eaten:', '#ddd', Font.middle),
+            new Text(ratioPos.shift(0, 0.05), '', '#ddd', Font.middle),
+            new Text(ratioPos.shift(0, 0.1), '', '#ddd', Font.middle),
         ],
         function () {
-            this.figs[1].val = '"1" - ' + game.getEatenPiecesNum(Setup.PLAYER_0)
-            this.figs[2].val = '"2" - ' + game.getEatenPiecesNum(Setup.PLAYER_1)
-
-            this.figs[0].draw()
-            this.figs[1].draw()
-            this.figs[2].draw()
+            this.drawDynamicTxt(1, 'you - ' + game.getEatenPiecesNum(game.sideId))
+            this.drawDynamicTxt(2, 'opp - ' + game.getEatenPiecesNum(game.sideId === SIDE_ID_1 ? SIDE_ID_2 : SIDE_ID_1))
+        }
+    ),
+    gameId: new Elem(
+        (ratioPos = new RatioCnvPos(0, 0.9, WIDTH_RATIO, 0.1)),
+        [new Text(ratioPos, '', '#ddd', Font.middle)],
+        function () {
+            this.drawDynamicTxt(0, 'gameId: ' + game.gameId)
         }
     ),
 }
-
-const board = gameScreenElems.board.figs[0]
-
-gameScreenElems.board.onclick = (event) => {
-    board.processClick(AbsCnvPos.constructFromEvent(event))
-}
+gameScreenElems.board.addEventListener('click', (event) => {
+    gameScreenElems.board.processClick(AbsCnvPos.constructFromEvent(event))
+})
