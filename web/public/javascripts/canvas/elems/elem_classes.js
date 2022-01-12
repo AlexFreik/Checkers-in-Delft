@@ -3,7 +3,7 @@ class Elem {
      * Represents some drawable entity.
      * @param {RatioCnvPos} ratioPos
      * @param {array} figs -- array of drawable figures (rectangles, texts, etc)
-     * @param {function} draw
+     * @param {function=} draw
      */
     constructor(ratioPos, figs, draw) {
         this.ratioPos = ratioPos
