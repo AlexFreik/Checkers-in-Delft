@@ -19,41 +19,5 @@ const createGameScreenElems = {
 //     txt.val = txt.val === 'ON' ? 'OFF' : 'ON'
 // })
 createGameScreenElems.startBtn.addEventListener('click', () => {
-    let status
-    fetch('/api/create-game', {
-        method: 'POST',
-        cache: 'no-cache',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(getGameSettingsInput()),
-    })
-        .then((res) => {
-            status = res.status
-            return res.json()
-        })
-        .then((data) => createGame(status, data))
-        .catch((e) => console.log(e))
+    processCreateGameEvent()
 })
-
-/**
- *
- * @param {number} status
- * @param {{gameId: string, playerId: string}} data
- */
-function createGame(status, data) {
-    if (status === 200) {
-        game = new Game(data.gameId, data.playerId)
-        websocket = initFrontendWS()
-    }
-}
-
-/**
- *
- * @return {{forceJumps: boolean}}
- */
-function getGameSettingsInput() {
-    return {
-        //forceJumps: createGameScreenElems.forceJumpsChoseBtn.figs[1].val === 'ON',
-    }
-}

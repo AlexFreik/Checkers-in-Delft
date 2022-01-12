@@ -45,7 +45,7 @@ class Font {
      * @return {string}
      * @private
      */
-    static _getFont(size) {
+    static _getFont = (size) => {
         return Font.FONTS_SIZES[size] + 'px ' + Font.DEFAULT_FONT
     }
     static get small() {

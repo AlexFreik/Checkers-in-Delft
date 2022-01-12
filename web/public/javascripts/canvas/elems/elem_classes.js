@@ -3,7 +3,7 @@ class Elem {
      * Represents some drawable entity.
      * @param {RatioCnvPos} ratioPos
      * @param {array} figs -- array of drawable figures (rectangles, texts, etc)
-     * @param {function} draw
+     * @param {function=} draw
      */
     constructor(ratioPos, figs, draw) {
         this.ratioPos = ratioPos
@@ -57,7 +57,7 @@ class Elem {
         this.figs[id].val = txtVal
         this._draw()
     }
-    _listen(type, event) {
+    _listen = (type, event) => {
         for (const fig of this.figs) {
             if (fig.eventListeners) for (const listener of fig.eventListeners[type]) listener(event)
         }
@@ -120,15 +120,16 @@ class AlertMsg extends Elem {
      */
     constructor(titleTxt, bodyTxt, onaccept) {
         let ratioPos = new RatioCnvPos(0.25 * WIDTH_RATIO, 0.25, 0.5 * WIDTH_RATIO, 0.5)
-        super(ratioPos, [
+        let buttonRatioPos = new RatioCnvPos(0.4 * WIDTH_RATIO, 0.6, 0.2 * WIDTH_RATIO, 0.1)
+        super(buttonRatioPos, [
             new Rect(ratioPos, '#333333', 0.01, '#a9abad'),
-            getDefaultBtnElem(new RatioCnvPos(0.4 * WIDTH_RATIO, 0.6, 0.2 * WIDTH_RATIO, 0.1), 'OK'),
+            getDefaultBtnElem(buttonRatioPos, 'OK'),
             new Text(ratioPos.shift(0, -0.15), titleTxt, '#ddd', Font.Middle),
             new Text(ratioPos.shift(0, 0), bodyTxt, '#ddd', Font.Small),
         ])
         this.figs[1].addEventListener('click', () => {
-            onaccept()
             delete currScreenElems.alertMsg
+            onaccept()
         })
     }
 }

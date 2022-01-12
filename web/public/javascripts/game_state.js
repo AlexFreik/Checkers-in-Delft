@@ -1,28 +1,22 @@
-class Piece {
-    /**
-     *
-     * @param {number} col
-     * @param {number} row
-     * @param {number} sideId
-     */
-    constructor(col, row, sideId) {
-        this.coords = { col, row }
-        this.sideId = sideId
-        this.color = {}
-        this.color[SIDE_ID_1] = PIECE_COL_1
-        this.color[SIDE_ID_2] = PIECE_COL_2
-        this.isKing = false
-    }
-
-    /**
-     *
-     * @param {number} col
-     * @param {number} row
-     * @return {boolean}
-     */
-    coordsEqual({ col, row }) {
-        return this.coords.col === col && this.coords.row === row
-    }
+/**
+ *
+ * @param {number} col
+ * @param {number} row
+ * @param {number} sideId
+ */
+function Piece(col, row, sideId) {
+    this.coords = { col, row }
+    this.sideId = sideId
+    this.isKing = false
+}
+/**
+ *
+ * @param {number} col
+ * @param {number} row
+ * @return {boolean}
+ */
+Piece.prototype.coordsEqual = function ({ col, row }) {
+    return this.coords.col === col && this.coords.row === row
 }
 
 class Coords {

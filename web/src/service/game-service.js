@@ -3,16 +3,19 @@ const Game = require('../model/game')
 const { sendMessage } = require('../controller/connection-registry')
 const { createGameStateMessage, createMoveMessage, createWelcomeMessage } = require('../controller/messages')
 const ApiError = require('../util/api-error')
+const Stats = require('../model/stats')
+const { getLegalMoves, canContinueAfterMove, isAnyEatingPossible, isBecomingKing } = require('./logic-service')
 
 const MAX_GAME_ID = 9999
 const MAX_GAMES = 10
 
 const games = new Map()
 const players = new Map()
+const stats = new Stats()
 
 /**
  * Creates a new game
- * @param settings {object} game params
+ * @param settings {GameSettings} game params
  * @returns {string} id of the new game
  * @throws {Error} if game could not be created
  */
@@ -22,6 +25,7 @@ function createGame(settings) {
     const gameId = createNewGameId()
     const game = new Game(gameId, settings)
     games.set(gameId, game)
+    stats.waitingForStartGamesNum += 1
 
     return gameId
 }
@@ -60,6 +64,8 @@ function joinGame(gameId) {
 function startGame(game) {
     console.log('Game started: ' + game.gameId)
     game.start(Math.random() < 0.5 ? Game.SIDE_A : Game.SIDE_B)
+    stats.waitingForStartGamesNum -= 1
+    stats.inProgressGamesNum += 1
     sendGameState(game.players, game)
 }
 
@@ -72,10 +78,35 @@ function startGame(game) {
  */
 function performMove(playerId, from, to) {
     const game = getGameByPlayer(playerId)
+    const playerSide = game.getPlayerSide(playerId)
     if (!game || game.state !== Game.STATE_IN_PROGRESS) throw new ApiError('Game not in progress')
-    if (game.currentSideId !== game.getPlayerSide(playerId)) throw new ApiError('Move not possible now')
-    // TODO Implement move validation
-    sendMove(game.players, from, to)
+    if (game.currentSideId !== playerSide) throw new ApiError('Move not possible now')
+
+    const movingPiece = game.getPieceAt(from)
+    if (!movingPiece || movingPiece.sideId !== playerSide) throw new ApiError('Invalid piece')
+    if (game.currentMovingPiece && movingPiece !== game.currentMovingPiece) throw new ApiError('Compound move in progress')
+
+    const mustEat = game.currentMovingPiece !== undefined || isAnyEatingPossible(game)
+    const legalMoves = getLegalMoves(game, movingPiece, mustEat)
+    const foundMove = legalMoves.find((move) => move.target.equals(to))
+    if (!foundMove) throw new ApiError('Illegal move')
+
+    movingPiece.pos = foundMove.target
+
+    const becomingKing = isBecomingKing(game, movingPiece, foundMove)
+    if (becomingKing) movingPiece.king = true
+
+    if (foundMove.eating) game.removePiece(foundMove.eating)
+
+    sendMove(game.players, from, to, foundMove.eating?.pos, becomingKing)
+
+    if (!canContinueAfterMove(game, movingPiece, foundMove)) {
+        game.switchSides()
+        game.currentMovingPiece = undefined
+        sendGameState(game.players, game)
+    } else {
+        game.currentMovingPiece = movingPiece
+    }
 }
 
 /**
@@ -113,12 +144,14 @@ function sendGameState(playerIds, game) {
  * @param from {Pos}
  * @param to {Pos}
  * @param eaten {Pos=}
+ * @param becameKing {boolean}
  */
-function sendMove(playerIds, from, to, eaten) {
-    sendMessage(playerIds, createMoveMessage(from, to, eaten))
+function sendMove(playerIds, from, to, eaten, becameKing) {
+    sendMessage(playerIds, createMoveMessage(from, to, eaten, becameKing))
 }
 
 module.exports = {
+    stats,
     createGame,
     joinGame,
     performMove,
