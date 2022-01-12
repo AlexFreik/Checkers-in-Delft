@@ -1,5 +1,5 @@
 /**
- * @param settings {object}
+ * @param settings {GameSettings}
  * @param sideId {number}
  * @returns {object}
  */
@@ -26,9 +26,10 @@ const createGameStateMessage = (state, currentSideId, winnerSideId) => ({
  * @param from {Pos}
  * @param to {Pos}
  * @param eaten {Pos=}
+ * @param becameKing {boolean}
  * @returns {object}
  */
-const createMoveMessage = (from, to, eaten) => ({
+const createMoveMessage = (from, to, eaten, becameKing) => ({
     type: 'move',
     from: {
         col: from.x,
@@ -44,6 +45,7 @@ const createMoveMessage = (from, to, eaten) => ({
               row: eaten.y,
           }
         : undefined,
+    becameKing: becameKing,
 })
 
 /**

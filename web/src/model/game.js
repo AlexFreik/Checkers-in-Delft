@@ -8,13 +8,13 @@ class Game {
     static BOARD_SIZE = 8
     static PIECES_ROWS = 3
 
-    static SIDE_A = 0
-    static SIDE_B = 1
+    static SIDE_A = 0 // Bottom side
+    static SIDE_B = 1 // Top side
 
     /**
      * Creates a new game
      * @param gameId {string}
-     * @param settings {object}
+     * @param settings {GameSettings}
      */
     constructor(gameId, settings) {
         this.gameId = gameId
@@ -41,6 +41,19 @@ class Game {
         this.currentSideId = startingSideId
     }
 
+    switchSides() {
+        if (this.currentSideId === Game.SIDE_A) this.currentSideId = Game.SIDE_B
+        else if (this.currentSideId === Game.SIDE_B) this.currentSideId = Game.SIDE_A
+    }
+
+    /**
+     * Removes a piece from the board
+     * @param victim {Piece}
+     */
+    removePiece(victim) {
+        this.pieces = this.pieces.filter((piece) => piece !== victim)
+    }
+
     /**
      * Returns the side the player plays on
      * @param playerId {string}
@@ -48,6 +61,15 @@ class Game {
      */
     getPlayerSide(playerId) {
         return this.players.indexOf(playerId)
+    }
+
+    /**
+     * Returns a piece at a given position
+     * @param pos {Pos}
+     * @return {Piece | undefined}
+     */
+    getPieceAt(pos) {
+        return this.pieces.find(piece => piece.pos.equals(pos))
     }
 }
 
