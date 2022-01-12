@@ -62,7 +62,7 @@ function handleGameStateMsg(data) {
     if (data.state === 'finished') {
         currScreenElems.alertMsg = new AlertMsg(
             'GAME OVER',
-            'You' + (game.sideId === data.winnerSideId ? 'won!' : 'lost...'),
+            'You ' + (game.sideId === data.winnerSideId ? 'won!' : 'lost...'),
             function () {
                 game = undefined
                 currScreenElems = homeScreenElems
