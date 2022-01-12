@@ -1,10 +1,10 @@
 class Move {
     /**
-     * @param pos {Pos}
+     * @param target {Pos}
      * @param eating {Piece=}
      */
-    constructor(pos, eating) {
-        this.target = pos
+    constructor(target, eating) {
+        this.target = target
         this.eating = eating
     }
 }
