@@ -1,16 +1,27 @@
 const { v4: uuid } = require('uuid')
 const Game = require('../model/game')
-const { sendMessage } = require('../controller/connection-registry')
+const { sendMessage, kickOut } = require('../controller/connection-registry')
 const { createGameStateMessage, createMoveMessage, createWelcomeMessage } = require('../controller/messages')
 const ApiError = require('../util/api-error')
 const Stats = require('../model/stats')
-const { getLegalMoves, canContinueAfterMove, isAnyEatingPossible, isBecomingKing } = require('./logic-service')
+const { getLegalMoves, canContinueAfterMove, isAnyMovePossible, isBecomingKing } = require('./logic-service')
 
 const MAX_GAME_ID = 9999
 const MAX_GAMES = 10
 
+/**
+ * gameId -> Game
+ * @type {Map<string, Game>}
+ */
 const games = new Map()
+/**
+ * playerId -> gameId
+ * @type {Map<string, string>}
+ */
 const players = new Map()
+/**
+ * @type {Stats}
+ */
 const stats = new Stats()
 
 /**
@@ -30,6 +41,10 @@ function createGame(settings) {
     return gameId
 }
 
+/**
+ * Creates a new game id
+ * @returns {string}
+ */
 function createNewGameId() {
     const id = Math.floor(Math.random() * MAX_GAME_ID) + 1
     return games.has(id) ? createNewGameId() : id.toString()
@@ -52,7 +67,7 @@ function joinGame(gameId) {
 
     game.addPlayer(playerId)
 
-    if (game.players.length === 2) startGame(game)
+    if (game.playersCount === 2) startGame(game)
 
     return playerId
 }
@@ -62,8 +77,7 @@ function joinGame(gameId) {
  * @param game {Game} game to start
  */
 function startGame(game) {
-    console.log('Game started: ' + game.gameId)
-    game.start(Math.random() < 0.5 ? Game.SIDE_A : Game.SIDE_B)
+    game.start()
     stats.waitingForStartGamesNum -= 1
     stats.inProgressGamesNum += 1
     sendGameState(game.players, game)
@@ -78,15 +92,17 @@ function startGame(game) {
  */
 function performMove(playerId, from, to) {
     const game = getGameByPlayer(playerId)
-    const playerSide = game.getPlayerSide(playerId)
     if (!game || game.state !== Game.STATE_IN_PROGRESS) throw new ApiError('Game not in progress')
+
+    const playerSide = game.getPlayerSide(playerId)
     if (game.currentSideId !== playerSide) throw new ApiError('Move not possible now')
 
     const movingPiece = game.getPieceAt(from)
     if (!movingPiece || movingPiece.sideId !== playerSide) throw new ApiError('Invalid piece')
-    if (game.currentMovingPiece && movingPiece !== game.currentMovingPiece) throw new ApiError('Compound move in progress')
+    if (game.currentMovingPiece && movingPiece !== game.currentMovingPiece)
+        throw new ApiError('Compound move in progress')
 
-    const mustEat = game.currentMovingPiece !== undefined || isAnyEatingPossible(game)
+    const mustEat = game.currentMovingPiece !== undefined || isAnyMovePossible(game, true)
     const legalMoves = getLegalMoves(game, movingPiece, mustEat)
     const foundMove = legalMoves.find((move) => move.target.equals(to))
     if (!foundMove) throw new ApiError('Illegal move')
@@ -103,10 +119,56 @@ function performMove(playerId, from, to) {
     if (!canContinueAfterMove(game, movingPiece, foundMove)) {
         game.switchSides()
         game.currentMovingPiece = undefined
-        sendGameState(game.players, game)
+        if (!isAnyMovePossible(game, false)) {
+            finishGame(game, Game.getOppositeSide(game.currentSideId))
+        } else {
+            sendGameState(game.players, game)
+        }
     } else {
         game.currentMovingPiece = movingPiece
     }
+}
+
+/**
+ * Abandons the game. The opponent of the player that left wins
+ * @param playerId {string} player that left
+ */
+function abandonGame(playerId) {
+    const game = getGameByPlayer(playerId)
+    if (!game) throw new ApiError('Game not found')
+
+    if (game.state === Game.STATE_IN_PROGRESS) finishGame(game, Game.getOppositeSide(game.getPlayerSide(playerId)))
+    else if (game.state === Game.STATE_WAITING_FOR_START) cleanWaitingGame(game)
+}
+
+/**
+ * Finishes the game and cleans up
+ * @param game {Game}
+ * @param winnerSideId {number}
+ */
+function finishGame(game, winnerSideId) {
+    stats.inProgressGamesNum -= 1
+    stats.finishedGamesNum += 1
+
+    game.finish(winnerSideId)
+    sendGameState(game.players, game)
+    kickOut(game.players)
+
+    games.delete(game.gameId)
+    game.players.forEach((playerId) => players.delete(playerId))
+}
+
+/**
+ * Removes a game in STATE_WAITING_FOR_START state
+ * @param game {Game}
+ */
+function cleanWaitingGame(game) {
+    stats.waitingForStartGamesNum -= 1
+
+    kickOut(game.players)
+
+    games.delete(game.gameId)
+    game.players.forEach((playerId) => players.delete(playerId))
 }
 
 /**
@@ -155,6 +217,7 @@ module.exports = {
     createGame,
     joinGame,
     performMove,
+    abandonGame,
     getGameByPlayer,
     sendWelcome,
     sendGameState,

@@ -1,4 +1,5 @@
 const Piece = require('./piece')
+const { getOnlyKey } = require('../util/map-utils')
 
 class Game {
     static STATE_WAITING_FOR_START = 'waiting-for-start'
@@ -20,30 +21,44 @@ class Game {
         this.gameId = gameId
         this.settings = settings
         this.state = Game.STATE_WAITING_FOR_START
-        this.players = [] // TODO Use Map for higher flexibility of side management
+        this.playerMap = new Map()
         this.pieces = createPieces()
     }
 
     /**
-     * Adds player to the player list
-     * @param playerId {string}
+     * @return {string[]}
      */
-    addPlayer(playerId) {
-        this.players.push(playerId)
+    get players() {
+        return Array.from(this.playerMap.values())
     }
 
     /**
-     * Marks the game as started.
-     * @param startingSideId {number}
+     * @return {number}
      */
-    start(startingSideId) {
+    get playersCount() {
+        return this.playerMap.size
+    }
+
+    /**
+     * Adds player to the player list at random (or the remaining) side
+     * @param playerId {string}
+     */
+    addPlayer(playerId) {
+        const sideId =
+            this.playerMap.size === 1 ? Game.getOppositeSide(getOnlyKey(this.playerMap)) : Game.getRandomSide()
+        this.playerMap.set(sideId, playerId)
+    }
+
+    /**
+     * Marks the game as started
+     */
+    start() {
         this.state = Game.STATE_IN_PROGRESS
-        this.currentSideId = startingSideId
+        this.currentSideId = Game.SIDE_A
     }
 
     switchSides() {
-        if (this.currentSideId === Game.SIDE_A) this.currentSideId = Game.SIDE_B
-        else if (this.currentSideId === Game.SIDE_B) this.currentSideId = Game.SIDE_A
+        this.currentSideId = Game.getOppositeSide(this.currentSideId)
     }
 
     /**
@@ -55,12 +70,34 @@ class Game {
     }
 
     /**
+     * Marks the game as finished and won by given player
+     * @param winnerSideId {number}
+     */
+    finish(winnerSideId) {
+        this.state = Game.STATE_FINISHED
+        this.winnerSideId = winnerSideId
+    }
+
+    /**
      * Returns the side the player plays on
      * @param playerId {string}
-     * @return {number}
+     * @return {number | undefined}
      */
     getPlayerSide(playerId) {
-        return this.players.indexOf(playerId)
+        return Array.from(this.playerMap.entries())
+            .find(([, p]) => p === playerId)
+            ?.at(0)
+    }
+
+    /**
+     * Returns the id of the opponent of the player with given id
+     * @param playerId {string}
+     * @return {string | undefined}
+     */
+    getOpponentOf(playerId) {
+        const mySide = this.getPlayerSide(playerId)
+        if (mySide === undefined) return undefined
+        return this.playerMap.get(Game.getOppositeSide(mySide))
     }
 
     /**
@@ -69,7 +106,22 @@ class Game {
      * @return {Piece | undefined}
      */
     getPieceAt(pos) {
-        return this.pieces.find(piece => piece.pos.equals(pos))
+        return this.pieces.find((piece) => piece.pos.equals(pos))
+    }
+
+    /**
+     * @return {number}
+     */
+    static getRandomSide() {
+        return Math.random() < 0.5 ? Game.SIDE_A : Game.SIDE_B
+    }
+
+    /**
+     * @param sideId {number}
+     * @return {number}
+     */
+    static getOppositeSide(sideId) {
+        return sideId === this.SIDE_A ? Game.SIDE_B : Game.SIDE_A
     }
 }
 

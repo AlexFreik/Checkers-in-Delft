@@ -1,4 +1,5 @@
 const connectionRegistry = require('../controller/connection-registry')
+const gameService = require('../service/game-service')
 
 /**
  * @param connection {Connection}
@@ -9,7 +10,7 @@ function handleDisconnect(connection, message) {
     if (playerId === undefined) return
 
     connectionRegistry.unregisterConnection(playerId)
-    // TODO Abandon the game
+    gameService.abandonGame(playerId)
 }
 
 module.exports = handleDisconnect

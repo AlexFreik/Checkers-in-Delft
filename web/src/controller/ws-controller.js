@@ -16,7 +16,10 @@ const handlers = {
 }
 
 function handleConnection(ws) {
-    ws.connection = new Connection((message) => sendMessage(ws, message))
+    ws.connection = new Connection(
+        (message) => sendMessage(ws, message),
+        () => ws.close()
+    )
     ws.on('message', function (message) {
         handleRawMessage(ws, message)
     })
@@ -26,7 +29,6 @@ function handleConnection(ws) {
 }
 
 function handleRawMessage(ws, rawMessage) {
-    console.log('< ' + rawMessage)
     const message = tryParseJSON(rawMessage)
     if (message === undefined) return sendError(ws, 'Malformed JSON')
     handleMessage(ws, message)
@@ -34,6 +36,7 @@ function handleRawMessage(ws, rawMessage) {
 
 function handleMessage(ws, message) {
     try {
+        console.log('< ' + JSON.stringify(message))
         const handler = handlers[message.type]
         if (!handler) return sendError(ws, 'Invalid type')
         handler(ws.connection, message)

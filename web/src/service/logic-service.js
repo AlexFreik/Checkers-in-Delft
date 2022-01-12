@@ -5,11 +5,15 @@ const Move = require('../model/move')
 const DIRECTIONS = [new Pos(-1, -1), new Pos(1, -1), new Pos(-1, 1), new Pos(1, 1)]
 
 /**
- * Checks whether for a current player there is any eating move possible
+ * Returns whether any move is possible for the current player
  * @param game {Game}
+ * @param onlyEating {boolean}
+ * @return {boolean}
  */
-function isAnyEatingPossible(game) {
-    return game.pieces.some((piece) => getLegalMoves(game, piece, true).length !== 0)
+function isAnyMovePossible(game, onlyEating) {
+    return game.pieces
+        .filter((piece) => piece.sideId === game.currentSideId)
+        .some((piece) => getLegalMoves(game, piece, onlyEating).length !== 0)
 }
 
 /**
@@ -136,4 +140,4 @@ function isEnemy(piece, sideId) {
     return piece.sideId !== sideId
 }
 
-module.exports = { isAnyEatingPossible, getLegalMoves, isBecomingKing, canContinueAfterMove }
+module.exports = { isAnyMovePossible, getLegalMoves, isBecomingKing, canContinueAfterMove }
