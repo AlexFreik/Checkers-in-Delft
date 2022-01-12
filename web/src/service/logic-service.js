@@ -2,6 +2,8 @@ const Game = require('../model/game')
 const Pos = require('../model/pos')
 const Move = require('../model/move')
 
+const DIRECTIONS = [new Pos(-1, -1), new Pos(1, -1), new Pos(-1, 1), new Pos(1, 1)]
+
 /**
  * Checks whether for a current player there is any eating move possible
  * @param game {Game}
@@ -18,24 +20,10 @@ function isAnyEatingPossible(game) {
  * @return {Move[]}
  */
 function getLegalMoves(game, piece, onlyEating) {
-    let moves = []
-    if (!piece.king) {
-        moves.push(...getLegalOrdinaryMovesInDirection(game, piece, new Pos(-1, -1)))
-        moves.push(...getLegalOrdinaryMovesInDirection(game, piece, new Pos(1, -1)))
-        moves.push(...getLegalOrdinaryMovesInDirection(game, piece, new Pos(-1, 1)))
-        moves.push(...getLegalOrdinaryMovesInDirection(game, piece, new Pos(1, 1)))
-    } else {
-        moves.push(...getLegalKingMovesInDirection(game, piece, new Pos(-1, -1)))
-        moves.push(...getLegalKingMovesInDirection(game, piece, new Pos(1, -1)))
-        moves.push(...getLegalKingMovesInDirection(game, piece, new Pos(-1, 1)))
-        moves.push(...getLegalKingMovesInDirection(game, piece, new Pos(1, 1)))
-    }
+    const movesFunction = piece.king ? getLegalKingMovesInDirection : getLegalOrdinaryMovesInDirection
+    const moves = DIRECTIONS.flatMap((dir) => movesFunction(game, piece, dir))
 
-    if (onlyEating) {
-        moves = moves.filter((move) => move.eating)
-    }
-
-    return moves
+    return onlyEating ? moves.filter((move) => move.eating) : moves
 }
 
 /**
@@ -55,8 +43,7 @@ function getLegalOrdinaryMovesInDirection(game, piece, direction) {
     const nearPiece = game.getPieceAt(nearPos)
     if (nearPiece === undefined && !eatingOnly) {
         return [new Move(nearPos)]
-    }
-    else if (nearPiece !== undefined && isEnemy(nearPiece, ourSide)) {
+    } else if (nearPiece !== undefined && isEnemy(nearPiece, ourSide)) {
         const farPos = nearPos.plus(direction)
         if (!isInTheBoard(farPos)) return []
 
@@ -136,9 +123,7 @@ function isInTheBoard(pos) {
  * @returns {boolean}
  */
 function isMoveForward(piece, direction) {
-    return piece.sideId === Game.SIDE_A
-        ? direction.y > 0
-        : direction.y < 0
+    return piece.sideId === Game.SIDE_A ? direction.y > 0 : direction.y < 0
 }
 
 /**
