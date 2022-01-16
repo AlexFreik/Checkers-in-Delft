@@ -1,5 +1,7 @@
 # Assignment 2
 
+[TOC]
+
 ## 2.1 Game UI
 - Click on the mute button. It should turn on / off sounds in the game.
 - Click on the home button. Game ends and user is directed to the splash screen.
@@ -16,13 +18,12 @@
 The API can be found in the `/design/API.md` file.
 
 
-# API
 
-## Notes
+### Notes
 1. Coordinate system: `col: (0-7), row: (0-7)`.
    (0, 0) is the bottom-left corner of the board.
 
-## HTTP API
+### HTTP API
 
 - POST `/api/create-game` - creates a new game.
   Request body:
@@ -53,16 +54,16 @@ The API can be found in the `/design/API.md` file.
   }
   ```
 
-### General HTTP error response body
+#### General HTTP error response body
 ```json
 {
   "message": "<message>"
 }
 ```
 
-## Websocket API
+### Websocket API
 
-### Messages Client->Server
+#### Messages Client->Server
 
 - **Login** - must be sent by the client as the first message, lets the server know what game the client is in
   ```json
@@ -87,7 +88,7 @@ The API can be found in the `/design/API.md` file.
   }
   ```
 
-### Messages Server->Client
+#### Messages Server->Client
 
 - **Welcome** - sent as the response to the `Login` message
   ```json

@@ -12,9 +12,9 @@ Teams:
 `> ...` indicates a request.\
 `< ...` indicates a response.
 
-## 1
+## 1 HTTP request messages: GET/HEAD
 
-### 1.1
+### 1.1 
 ```
 telnet reddit.com 80
 > HEAD / HTTP/1.1
@@ -126,7 +126,7 @@ Accept-Encoding: gzip, deflate, br
 ```
 Supported encodings: `gzip`, `deflate`, `br`.
 
-## 2
+## 2 HTTP request messages: PUT
 ### 2.1
 
 We are not allowed to create a new resource, so the request fails with a 404 error.
@@ -168,7 +168,7 @@ When we changed `Content-length:12` to `Content-length:10` the server has read o
 
 When we tried to put bigger `Content-length:18` server was threatening new line inputs as just two bytes `\r\n`. We were required to enter new data until all 18 bytes were filled. Therefore request waits to the point when all `Content-length` bytes are filled.
 
-## 3
+## 3 Basic authentication
 ### 3.1
 Having initially provided the credentials, the subsequent page reloads do not cause the authentication pop-up to appear again.
 The reason for it is the browser remembers the provided username and password and sends it as a part of the subsequent
@@ -230,7 +230,7 @@ Again, the server responded with 401 because the request was missing the `Author
 Hence, it did not behave the same way as in the browser since it is the browser's and not the server's responsibility to remember
 the credentials. The server expects it to be provided every time.
 
-## 4
+## 4 Web programming project: board game app
 ### 4.1
 We will try to implement the standard Draughts game for 2 players. 
 
@@ -275,7 +275,7 @@ All three sites above share:
 
 Pros:
    - Design **does not make you think**.
-   - No **happily talk**.
+   - No **happy talk**.
    - Easy to distinguish **different parts of a site**.
    - No **noise & clutter**.
    - All buttons are either **self-evident or self-explanatory** if you click on them.
@@ -321,9 +321,9 @@ Splash screen: design can be found below
 
 ### 5.3
 Connection to the Delft Theme:
-   - Pieces design resembles a bike weel
-   - King Pieces design resembles the TU Library
-
+   - Page color scheme called "Sunset in Delft";
+   - The game name is in the Delft style;
+   - Pieces are in the form of a bike wheel — a symbol of the Delft.
 
 
 ## 6 Your own board game app: HTML
