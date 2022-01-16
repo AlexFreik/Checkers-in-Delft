@@ -35,6 +35,10 @@ function sendMessage(playerIds, message) {
     })
 }
 
+/**
+ * Removes the given players and closes their WS connections
+ * @param playerIds {string[]}
+ */
 function kickOut(playerIds) {
     playerIds.forEach((id) => {
         const connection = connections.get(id)
