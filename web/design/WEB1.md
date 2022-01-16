@@ -166,7 +166,7 @@ Hello World!
 
 When we changed `Content-length:12` to `Content-length:10` the server has read only the first 10 characters `Hello Worl`. The remaining part `d!`  was treated as a new request. Therefore request stops at the point when all `Content-length` bytes is filled.
 
-When we tried to put bigger `Content-length:18` server was threatening new line inputs as just two bytes `\r\n`. We were required to enter new data until all 18 bytes were filled. Therefore request waits to the point when all `Content-length` bytes are filled.
+When we tried to put bigger `Content-length:18` server was treating new line inputs as just two bytes `\r\n`. We were required to enter new data until all 18 bytes were filled. Therefore request waits to the point when all `Content-length` bytes are filled.
 
 ## 3 Basic authentication
 ### 3.1
