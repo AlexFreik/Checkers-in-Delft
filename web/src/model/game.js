@@ -57,6 +57,9 @@ class Game {
         this.currentSideId = Game.SIDE_A
     }
 
+    /**
+     * Changes the current turn
+     */
     switchSides() {
         this.currentSideId = Game.getOppositeSide(this.currentSideId)
     }
@@ -87,17 +90,6 @@ class Game {
         return Array.from(this.playerMap.entries())
             .find(([, p]) => p === playerId)
             ?.at(0)
-    }
-
-    /**
-     * Returns the id of the opponent of the player with given id
-     * @param playerId {string}
-     * @return {string | undefined}
-     */
-    getOpponentOf(playerId) {
-        const mySide = this.getPlayerSide(playerId)
-        if (mySide === undefined) return undefined
-        return this.playerMap.get(Game.getOppositeSide(mySide))
     }
 
     /**

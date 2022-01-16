@@ -3,7 +3,6 @@ const handleLogin = require('../handler/login-handler')
 const handleMove = require('../handler/move-handler')
 const handleDisconnect = require('../handler/disconnect-handler')
 const Connection = require('./connection')
-const ApiError = require('../util/api-error')
 
 const TYPE_LOGIN = 'login'
 const TYPE_MOVE = 'move'
@@ -41,7 +40,7 @@ function handleMessage(ws, message) {
         if (!handler) return sendError(ws, 'Invalid type')
         handler(ws.connection, message)
     } catch (e) {
-        if (!(e instanceof ApiError)) throw e // Should be commented out in production
+        // if (!(e instanceof ApiError)) throw e // Should be commented out in production
         sendError(ws, e.message)
     }
 }
