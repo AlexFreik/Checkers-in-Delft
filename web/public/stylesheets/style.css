@@ -1,10 +1,15 @@
-/*color-gamma: #444645, #CC9686, #E1B29E, #ECBEAD, #E7DCC5 */
-
 /* globals */
+:root {
+    --darkCol0: #444645;
+    --middleCol0: #cc9686;
+    --lightCol2: #e1b29e;
+    --lightCol1: #ecbead;
+    --lightCol0: #e7dcc5;
+}
 body {
     margin: 0;
-    background: #e7dcc5;
-    color: #e7dcc5;
+    background: var(--lightCol0);
+    color: var(--lightCol0);
     line-height: 1.6;
     min-width: 550px;
 }
@@ -20,26 +25,26 @@ a::before {
     content: '[Link] ';
 }
 a::after {
-    content: ' [click me!]';
+    content: '';
 }
 a:link {
-    color: #e7dcc5;
+    color: var(--lightCol0);
 }
 a:visited {
-    color: #ecbead;
+    color: var(--lightCol1);
 }
 a:hover {
-    color: #e1b29e;
+    color: var(--lightCol2);
 }
 a:active {
-    color: #444645;
-    background-color: #e7dcc5;
+    color: var(--darkCol0);
+    background-color: var(--lightCol0);
 }
 
 /* header */
 header,
 footer {
-    background: #444645;
+    background: var(--darkCol0);
     text-align: center;
 }
 
@@ -56,7 +61,7 @@ footer {
 }
 #logo-box {
     padding: 2px 4px;
-    border: 2px solid #e7dcc5;
+    border: 2px solid var(--lightCol0);
 }
 @keyframes logo {
     0% {
@@ -73,7 +78,7 @@ footer {
     text-align: center;
 }
 #canvas-holder {
-    background: #444645;
+    background: var(--darkCol0);
     border-bottom-left-radius: 100px;
     border-bottom-right-radius: 100px;
     padding: 30px 0 50px;
@@ -100,7 +105,7 @@ input {
     max-width: 1000px;
     text-align: center;
     padding-top: 030px;
-    background: #444645;
+    background: var(--darkCol0);
     border-radius: 50px;
     box-sizing: border-box;
 }
@@ -109,7 +114,7 @@ input {
 }
 #under-canvas h2,
 #under-canvas h3 {
-    color: #ecbead;
+    color: var(--lightCol1);
 }
 
 .row {
