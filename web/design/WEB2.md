@@ -8,8 +8,8 @@
    Legality of the move is checked via HTTP requests.
 
 ## 2.2 Use of design patterns
-- The basic constructor pattern (in the file `/public/javascripts/game_state.js`)
-   We implemented `Piece` "class" using this pattern.
+- We implemented `Piece` "class" using the "Design pattern 2: Prototype-based constructor". 
+   One can find it in the file `/public/javascripts/game_state.js`.
 
 ## 3.3 WebSocket API
 
