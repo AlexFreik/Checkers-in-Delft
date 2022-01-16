@@ -6,6 +6,7 @@ cd checkers-in-delft
 npm install
 npm start
 ```
+Game will run on the `localhost:3000`.
 
 ## Additional Info
 - The game is inspired by this example https://gametable.org/games/checkers/
