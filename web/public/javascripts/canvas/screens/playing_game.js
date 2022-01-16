@@ -14,20 +14,20 @@ const gameScreenElems = {
     eatenPiecesStat: new Elem(
         (ratioPos = new RatioCnvPos(0, 0, (WIDTH_RATIO - 0.8) / 2, 1)),
         [
-            new Text(ratioPos, 'Eaten:', '#ddd', Font.middle),
+            new Text(ratioPos, 'Ate:', '#ddd', Font.middle),
             new Text(ratioPos.shift(0, 0.05), '', '#ddd', Font.middle),
             new Text(ratioPos.shift(0, 0.1), '', '#ddd', Font.middle),
         ],
         function () {
-            this.drawDynamicTxt(1, 'you - ' + game.getEatenPiecesNum(game.sideId))
-            this.drawDynamicTxt(2, 'opp - ' + game.getEatenPiecesNum(game.sideId === SIDE_ID_1 ? SIDE_ID_2 : SIDE_ID_1))
+          this.drawDynamicTxt(1, 'you - ' + game.getEatenPiecesNum(game.sideId === SIDE_ID_1 ? SIDE_ID_2 : SIDE_ID_1))
+          this.drawDynamicTxt(2, 'opp - ' + game.getEatenPiecesNum(game.sideId))
         }
     ),
     gameId: new Elem(
         (ratioPos = new RatioCnvPos(0, 0.9, WIDTH_RATIO, 0.1)),
         [new Text(ratioPos, '', '#ddd', Font.middle)],
         function () {
-            this.drawDynamicTxt(0, 'gameId: ' + game.gameId)
+            this.drawDynamicTxt(0, 'game ID: ' + game.gameId)
         }
     ),
 }
