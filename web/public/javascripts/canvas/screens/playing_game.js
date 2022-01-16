@@ -14,7 +14,7 @@ const gameScreenElems = {
     eatenPiecesStat: new Elem(
         (ratioPos = new RatioCnvPos(0, 0, (WIDTH_RATIO - 0.8) / 2, 1)),
         [
-            new Text(ratioPos, 'Ate:', '#ddd', Font.middle),
+            new Text(ratioPos, 'Eaten:', '#ddd', Font.middle),
             new Text(ratioPos.shift(0, 0.05), '', '#ddd', Font.middle),
             new Text(ratioPos.shift(0, 0.1), '', '#ddd', Font.middle),
         ],
