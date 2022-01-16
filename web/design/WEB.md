@@ -1,6 +1,4 @@
-# Web Assignment!!!
-
-## Assignment 1
+# Assignment 1
 
 [TOC]
 
@@ -10,13 +8,13 @@ Teams:
 - Aleksandr Freik - 5470536 
 - Karol Jurski    - 5540429
 
-### Notation
+## Notation
 `> ...` indicates a request.\
 `< ...` indicates a response.
 
-### 1
+## 1
 
-#### 1.1
+### 1.1
 ```
 telnet reddit.com 80
 > HEAD / HTTP/1.1
@@ -103,10 +101,10 @@ openssl s_client -crlf -connect reddit.com:443
 <     var __firstPostLoaded = false;
 ```
 
-#### 1.2
+### 1.2
 Yes
 
-#### 1.3
+### 1.3
 `cache-control` from the response header
 
 ```
@@ -121,15 +119,15 @@ Explanation:
   it must be validated with the origin server before reuse.
 - `no-store` --- indicates that any caches of any kind (private or shared) should not store this response.
 
-#### 1.4
+### 1.4
 We can check it by looking at the `Accept-Encoding` request header.
 ```
 Accept-Encoding: gzip, deflate, br
 ```
 Supported encodings: `gzip`, `deflate`, `br`.
 
-### 2
-#### 2.1
+## 2
+### 2.1
 
 We are not allowed to create a new resource, so the request fails with a 404 error.
 
@@ -150,7 +148,7 @@ Access-Control-Allow-Credentials: true
 Connection closed by foreign host.
 ```
 
-#### 2.2
+### 2.2
 
 We tried to modify the request
 
@@ -170,8 +168,8 @@ When we changed `Content-length:12` to `Content-length:10` the server has read o
 
 When we tried to put bigger `Content-length:18` server was threatening new line inputs as just two bytes `\r\n`. We were required to enter new data until all 18 bytes were filled. Therefore request waits to the point when all `Content-length` bytes are filled.
 
-### 3
-#### 3.1
+## 3
+### 3.1
 Having initially provided the credentials, the subsequent page reloads do not cause the authentication pop-up to appear again.
 The reason for it is the browser remembers the provided username and password and sends it as a part of the subsequent
 requests to the same page as the `Authorization` header.
@@ -179,7 +177,7 @@ requests to the same page as the `Authorization` header.
 Authorization: Basic dXNlcjpwYXNzd2Q=
 ```
 
-#### 3.2
+### 3.2
 ```
 telnet httpbin.org 80
 > HEAD /basic-auth/user/passwd HTTP/1.1
@@ -232,12 +230,12 @@ Again, the server responded with 401 because the request was missing the `Author
 Hence, it did not behave the same way as in the browser since it is the browser's and not the server's responsibility to remember
 the credentials. The server expects it to be provided every time.
 
-### 4
-#### 4.1
+## 4
+### 4.1
 We will try to implement the standard Draughts game for 2 players. 
 
 
-#### 4.2
+### 4.2
 > Find three examples of your chosen board game (in 2D) that can be played online in a modern browser (laptop or desktop, not a mobile device). Consider the web application’s design (focus on the game screen) based on the web design principles covered in class: to what extent do they fulfill them? Record the game URLs.
 
 1. https://www.247checkers.com
@@ -286,7 +284,7 @@ Pros:
 Cons:
    - **Features**: no color-related customizations.
 
-#### 4.3
+### 4.3
 > Which game features in the game examples of 4.2) stand out positively and which stand out negatively (e.g. particular animations, sounds, the information conveyed about the game to the players …)? Why? Discuss three positive and three negative features.
 
 Positive:
@@ -306,26 +304,98 @@ Negative:
    - No TOC for the long text with a lot of information.  
    Why? -- because it makes it hard to navigate and search for necessary info. 
 
-### 5 Design your board game app
+## 5 Design your board game app
 
-#### 5.1
+### 5.1
 > Create a design for the splash screen (also known as entry page): think of a name for your application, a short description & a logo. Feel free to use media (images, sound) with a Creative Commons license. The noun project can be a useful resource for game pieces.
 
 Name: Checkers in Delft  
 Logo: Checkers `in Delft`  
 Splash screen: design can be found below
 
-#### 5.2
+### 5.2
 
 > Create a design for the game screen, keeping the requirements listed above in mind as well as your findings in Exercise 4.3). You have a lot of artistic freedom in designing the board and game information.
 
 ![image](img/game_draft.svg)
 
-#### 5.3
+### 5.3
 Connection to the Delft Theme:
    - Pieces design resembles a bike weel
    - King Pieces design resembles the TU Library
 
-### 6 Your own board game app: HTML
-- [Menu](html/menu.html)
-- [Game](html/game.html)
+
+
+## 6 Your own board game app: HTML
+
+### [menu.html](html/menu.html)
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkers in Delft</title>
+</head>
+<body>
+    <header>Checkers in Delft</header>
+    <main>
+        <h1>The best checkers in whole Delft!!!</h1>
+        <div class="button">Create new game</div>
+        <div class="button">Join existing game</div>
+        <section>
+            <h2>Checkers</h2>
+            <div>
+                <div>
+                    <h3>How to play</h3>
+                    <p>Lorem ipsum dolor sit amet</p>
+                </div>
+                <div>
+                    <h3>Features</h3>
+                    <p>Lorem ipsum dolor sit amet</p>
+                </div>
+            </div>
+        </section>
+        <section>
+            <h2>About checkers</h2>
+            <div>
+                <div>
+                    <h3>Rules</h3>
+                    <p>Lorem ipsum dolor sit amet</p>
+                </div>
+                <div>
+                    <h3>History</h3>
+                    <p>Lorem ipsum dolor sit amet</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+```
+### [game.html](html/game.html)
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkers in Delft</title>
+</head>
+<body>
+    <header>Checkers in Delft</header>
+    <main>
+        <div class="button-corner" id="button-list"></div>
+        <div class="button-corner" id="button-settings"></div>
+        <div class="button-corner" id="button-undo"></div>
+        <div class="button-corner" id="button-hint"></div>
+        <div class="panel-score">
+            <div class="panel-score-half">3</div>
+            <div class="panel-score-half">4</div>
+        </div>
+        <div class="timer">2:10</div>
+        <section>
+            <canvas id="canvas-game"></canvas>
+        </section>
+    </main>
+</body>
+</html>
+```
